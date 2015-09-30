@@ -6,7 +6,7 @@
 class StaticObject : public GameObject {
 
 public:
-	StaticObject();
-	virtual ~StaticObject();
+	inline StaticObject() {}
+	inline ~StaticObject() {}
 };
 #endif

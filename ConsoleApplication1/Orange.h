@@ -17,11 +17,13 @@ public:
 		glPushMatrix();
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
-			glTranslatef(-0.2,-0.4,0.0);
+
+			glTranslatef(-0.2, -0.35, 0.0);
+			glScalef(0.1, 0.1, 0.1);
 			glColor3f(1.0, 0.0, 0.0);
 			glRotatef(90.0, 1.0, 0.0, 0.0);
 			glRotatef(90.0, 0.0, 1.0, 0.0);
-			glScalef(0.1, 0.1, 0.1);
+			
 			// built-in (glut library) function , draw you a Torus.
 			glutSolidTorus(innerRaidus, outterRaidus, sides, rings);
 		glPopMatrix();

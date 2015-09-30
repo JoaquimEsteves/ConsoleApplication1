@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Car.h"
 #include "Orange.h"
+#include "Road.h"
 float xmin = -2., xmax = 2., ymin = -2., ymax = 2.;
 float xscale = (xmax - xmin) / 400, yscale = (ymax - ymin) / 400;
 
@@ -31,15 +32,16 @@ void myDisplay(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	Car  * c = new Car();
 	Orange * o = new Orange();
-	
-	c->draw();
-	o->draw();
+	Road * r = new Road();
+	r->draw();
+	//c->draw();
+	//o->draw();
 	glFlush();
 }
 
 void main(int argc, char** argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); /*glut_RGBA|glut_single?*/
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
 	glutInitWindowSize(400, 400);
 	glutInitWindowPosition(-1, -1);
 	glutCreateWindow("Teste");
