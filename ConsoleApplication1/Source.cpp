@@ -6,10 +6,7 @@
 #include "Orange.h"
 float xmin = -2., xmax = 2., ymin = -2., ymax = 2.;
 float xscale = (xmax - xmin) / 400, yscale = (ymax - ymin) / 400;
-GLdouble innerRaidus = 0.1;
-GLdouble outterRaidus = 1;
-GLint sides = 50;
-GLint rings = 50;
+
 
 void myReshape(int w, int h) {
 	//Game :: GameManager GM.Display();
@@ -28,37 +25,16 @@ void myReshape(int w, int h) {
 }
 
 
-/*void myDisplay(void) {
-glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-glClear(GL_COLOR_BUFFER_BIT);
-glColor3f(1.0f, 1.0f, 1.0f);
-glBegin(GL_POLYGON);
-glVertex3f(-1.0f, -1.0f, 0.0f);
-glVertex3f(1.0f, -1.0f, 0.0f);
-glVertex3f(1.0f, 1.0f, 0.0f);
-glVertex3f(-1.0f, 1.0f, 0.0f);
-glEnd();
-glFlush();
-}*/
-
 void myDisplay(void) {
-	//Game :: GameManager GM.Display();
+	//GameManager GM.Display();
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0f, 1.0f, 0.0f);
-	Car  * x = new Car();
+	Car  * c = new Car();
 	Orange * o = new Orange();
-	x->draw();
+	
+	c->draw();
 	o->draw();
 	glFlush();
-	//glPushMatrix();
-	/*glBegin(GL_POLYGON);
-		glVertex3f(-0.42857142857, -0.77777777777, 0.0);
-		glVertex3f(0.42857142857, -0.77777777777, 0.0);
-		glVertex3f(0.42857142857, 0.77777777777, 0.0);
-		glVertex3f(-0.42857142857, 0.77777777777, 0.0);
-	glEnd();
-	glPopMatrix();*/
 }
 
 void main(int argc, char** argv) {

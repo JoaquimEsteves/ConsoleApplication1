@@ -18,6 +18,7 @@ public:
 	void drawAllWheels();
 	inline void drawCarStructure() {
 		glPushMatrix();
+			glColor3f(0.0f, 1.0f, 0.0f);
 			glBegin(GL_POLYGON);
 			glVertex3f(-0.42857142857, -0.77777777777, 0.0);
 			glVertex3f(0.42857142857, -0.77777777777, 0.0);
