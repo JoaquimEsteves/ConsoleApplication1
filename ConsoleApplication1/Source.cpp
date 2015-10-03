@@ -8,11 +8,14 @@
 #include "Road.h"
 #include "Butter.h"
 
+#define UPDATE_TIME 10
+
 GameManager *gm;
 void display() { gm->display(); }
+void update(int i) { gm->update(); glutTimerFunc(UPDATE_TIME, update, UPDATE_TIME); }
 void reshape(int width, int height) { gm->reshape(width, height); }
-void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
-//void keyboardfunc_down(unsigned char key, int x, int y) { gm->keyPressed(key); }
+//void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
+void keyboardfunc_down(unsigned char key, int x, int y) { gm->keyPressed(key); }
 
 //FIX ME
 //void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
@@ -30,14 +33,14 @@ int main(int argc, char *argv[])
 	//glutInitWindowPosition(10,10);
 
 	glutCreateWindow("MicroMachines");
-
+	glutTimerFunc(UPDATE_TIME, update, UPDATE_TIME);
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display);
 
 	glClearColor(0, 0, 0, 0);
 
-	glutKeyboardUpFunc(keyboardfunc_up);
-	//glutKeyboardFunc(keyboardfunc_down);
+	//glutKeyboardUpFunc(keyboardfunc_up);
+	glutKeyboardFunc(keyboardfunc_down);
 	glutMainLoop();
 
 	return 0;

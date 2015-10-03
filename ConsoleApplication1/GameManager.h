@@ -30,10 +30,9 @@ public:
 	void setObjects(std::vector<GameObject *> v);
 	void setLightSources(std::vector<LightSource *> v);*/
 
-	void keyUp(unsigned char key) {
+	void keyPressed(unsigned char key) {
 		switch (key) {
-			case 'a': c->toggleWireSolid();
-			case 'A': c->toggleWireSolid();
+		case 'a': c->toggleWireSolid(); break;
 				//nothing to do yet
 		}
 	}
@@ -100,7 +99,10 @@ public:
 	void keyPressed();
 	void onTimer();
 	void idle();
-	void update();
+	inline void update() {
+		display();
+		glutPostRedisplay();
+	}
 	void init();
 };
 #endif
