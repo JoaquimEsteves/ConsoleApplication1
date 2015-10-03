@@ -12,15 +12,15 @@ class LightSource
 	Vector3 *_position;
 	Vector3 *_direction;
 
-	GameManager _1; //Was in xml with no sets or gets
+	//GameManager _1; //Was in xml with no sets or gets
 
 	double	_cut_off;
 	double	_exponent;
 	GLenum _num;
 	bool	_state;
 public:
-	LightSource(GLenum number);
-	~LightSource();
+	LightSource(GLenum number) {}
+	~LightSource() {}
 	bool getState();
 	bool setState(bool state); //SETS RETURNING STUFF; WHAT?!
 	GLenum getNum();

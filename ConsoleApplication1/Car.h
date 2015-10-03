@@ -11,12 +11,40 @@ public:
 	inline Car(){}
 	inline virtual ~Car(){}
 	inline void draw() {
-		drawCarStructure();
+		glColor3d(0, 0, 0); //wheels could be torus
+
+		glPushMatrix();
+		glTranslated(0.3, 2.3 + 4, 0);
+		glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0.3, 1.7 + 4, 0);
+		glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-0.3, 2.3 + 4, 0);
+		glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-0.3, 1.7 + 4, 0);
+		glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+
+		glColor3d(1, 0, 0);//car
+
+		glPushMatrix();
+		glTranslated(0.0, 2 + 4, 0);
+		glScaled(2, 1.5, 0.0);
+		glutSolidCube(0.5);
+		glPopMatrix();
 	}
-	void drawWheelRight();
-	void drawWheelLeft();
-	void drawAllWheels();
-	inline void drawCarStructure() {
+	//void drawWheelRight();
+	//void drawWheelLeft();
+	//void drawAllWheels();
+	/*inline void drawCarStructure() {
 		glPushMatrix();
 			glColor3f(0.0f, 1.0f, 0.0f);
 			glBegin(GL_POLYGON);
@@ -26,6 +54,6 @@ public:
 			glVertex3f(-0.4, 0.7, 0.0);
 			glEnd();
 		glPopMatrix();
-	}
+	}*/
 };
 #endif

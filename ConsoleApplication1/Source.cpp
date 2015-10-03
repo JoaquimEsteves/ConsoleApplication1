@@ -1,51 +1,41 @@
 #include <GL\glut.h> 
 #include "Vector3.h"
+#include "GameManager.h"
 #include "DynamicObject.h"
 #include "GameObject.h"
 #include "Car.h"
 #include "Orange.h"
 #include "Road.h"
-float xmin = -2., xmax = 2., ymin = -2., ymax = 2.;
-float xscale = (xmax - xmin) / 400, yscale = (ymax - ymin) / 400;
+#include "Butter.h"
 
+GameManager *gm;
+void display() { gm->display(); }
+void reshape(int width, int height) { gm->reshape(width, height); }
+//FIX ME
+//void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
+//void keyboardfunc_down(unsigned char key, int x, int y) { gm->keyPressed(key); }
 
-void myReshape(int w, int h) {
-	//Game :: GameManager GM.Display();
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	float c = (xmax + xmin) * .5;
-	xmax = c + xscale  *w *  .5;
-	xmin = c - xscale  *w *  .5;
-	c = (ymax + ymin) * .5;
-	ymax = c + yscale  *h *  .5;
-	ymin = c - yscale  *h *  .5;
-	gluOrtho2D(xmin, xmax, ymin, ymax);
-}
+/* Program entry point */
 
-
-void myDisplay(void) {
-	//GameManager GM.Display();
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	Car  * c = new Car();
-	Orange * o = new Orange();
-	Road * r = new Road();
-	r->draw();
-	//c->draw();
-	//o->draw();
-	glFlush();
-}
-
-void main(int argc, char** argv) {
+int main(int argc, char *argv[])
+{
+	gm = new GameManager();
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
-	glutInitWindowSize(400, 400);
-	glutInitWindowPosition(-1, -1);
-	glutCreateWindow("Teste");
-	glutDisplayFunc(myDisplay);
-	glutReshapeFunc(myReshape);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+
+	glutInitWindowSize(640, 640);
+	//glutInitWindowPosition(10,10);
+
+	glutCreateWindow("MicroMachines");
+
+	glutReshapeFunc(reshape);
+	glutDisplayFunc(display);
+
+	glClearColor(0, 0, 0, 0);
+
+	//glutKeyboardUpFunc(keyboardfunc_up);
+	//glutKeyboardFunc(keyboardfunc_down);
 	glutMainLoop();
+
+	return 0;
 }
