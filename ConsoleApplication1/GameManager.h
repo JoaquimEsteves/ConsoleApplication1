@@ -16,7 +16,8 @@ class GameManager {
 	//std::vector<Camera *> _cameras; //vectr ou list?
 	//std::vector<GameObject *> _game_objects;
 	//std::vector<LightSource *> _light_sources;
-
+	bool draw_wired = false;
+	Car *c;
 
 public:
 	inline GameManager() {}
@@ -29,6 +30,13 @@ public:
 	void setObjects(std::vector<GameObject *> v);
 	void setLightSources(std::vector<LightSource *> v);*/
 
+	void keyUp(unsigned char key) {
+		switch (key) {
+			case 'a': c->toggleWireSolid();
+			case 'A': c->toggleWireSolid();
+				//nothing to do yet
+		}
+	}
 	void display() {
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -71,7 +79,7 @@ public:
 			o->draw();
 			Butter * b = new Butter();
 			b->draw();
-			Car *c = new Car();
+			c = new Car();
 			c->draw();
 			Road *rs = new Road();
 			rs->draw();

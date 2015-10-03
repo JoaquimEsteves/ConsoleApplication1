@@ -11,6 +11,9 @@
 GameManager *gm;
 void display() { gm->display(); }
 void reshape(int width, int height) { gm->reshape(width, height); }
+void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
+//void keyboardfunc_down(unsigned char key, int x, int y) { gm->keyPressed(key); }
+
 //FIX ME
 //void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
 //void keyboardfunc_down(unsigned char key, int x, int y) { gm->keyPressed(key); }
@@ -33,7 +36,7 @@ int main(int argc, char *argv[])
 
 	glClearColor(0, 0, 0, 0);
 
-	//glutKeyboardUpFunc(keyboardfunc_up);
+	glutKeyboardUpFunc(keyboardfunc_up);
 	//glutKeyboardFunc(keyboardfunc_down);
 	glutMainLoop();
 
