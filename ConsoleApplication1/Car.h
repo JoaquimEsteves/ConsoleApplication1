@@ -6,7 +6,9 @@
 
 class Car : public DynamicObject {
 	Vector3 *carStruct;
-	bool draw_wired = false;
+	bool draw_wired;
+	double accelaration;
+	double maxSpeed;
 
 public:
 	inline void toggleWireSolid() { 

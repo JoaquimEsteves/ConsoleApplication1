@@ -32,12 +32,33 @@ public:
 
 	void keyPressed(unsigned char key) {
 		switch (key) {
-		case 'a': c->toggleWireSolid(); break;
+		case 'a': 
+			if (draw_wired) {
+				draw_wired = false;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else {
+				draw_wired = true;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			break;
+			
+		case 'A': 
+			if (draw_wired) {
+				draw_wired = false;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else {
+				draw_wired = true;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			break;
 				//nothing to do yet
+		
 		}
 	}
 	void display() {
-
+			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			//background -> table
 			for (int i = -10; i < 10; i++) {
@@ -100,7 +121,7 @@ public:
 	void onTimer();
 	void idle();
 	inline void update() {
-		display();
+		//display();
 		glutPostRedisplay();
 	}
 	void init();

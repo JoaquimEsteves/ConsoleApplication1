@@ -5,31 +5,28 @@
 #include "GL\glut.h"
 
 class Orange : public Obstacle {
-	GLdouble innerRaidus = 0.5;
-	GLdouble outterRaidus = 1;
-	GLint sides = 50;
-	GLint rings = 50; 
 
 public:
 	inline Orange() {}
 	inline virtual ~Orange() {}
 	inline void draw() {
-		glPushMatrix();
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
+		//orange
+		glColor3d(1.0, 0.5, 0);
 
-			glTranslatef(-0.2, -0.35, 0.0);
-			glScalef(0.1, 0.1, 0.1);
-			glColor3f(1.0, 0.0, 0.0);
-			glRotatef(90.0, 1.0, 0.0, 0.0);
-			glRotatef(90.0, 0.0, 1.0, 0.0);
-			
-			// built-in (glut library) function , draw you a Torus.
-			glutSolidTorus(innerRaidus, outterRaidus, sides, rings);
+		glPushMatrix();
+		glTranslated(-3, 7.5, 0);
+		glutSolidSphere(1, 50, 50);
 		glPopMatrix();
-	
-		// sawp buffers called because we are using double buffering. NOT SURE IF WE ARE ANYMORE
-		// glutSwapBuffers();
+
+		glPushMatrix();
+		glTranslated(7, 7.0, 0);
+		glutSolidSphere(1, 50, 50);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-8.5, -1.5, 0);
+		glutSolidSphere(1, 50, 50);
+		glPopMatrix();
 	}
 };
 #endif
