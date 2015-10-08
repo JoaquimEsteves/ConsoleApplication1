@@ -10,6 +10,8 @@
 #include "Road.h"
 #include "GL\glut.h"
 
+#define CARSPEED 10
+
 class GameManager {
 
 	/*Deviam ser ponteiros? Assumo que sim*/
@@ -54,7 +56,14 @@ public:
 			}
 			break;
 				//nothing to do yet
-		
+		case GLUT_KEY_UP:
+			c->setSpeed(0, 1 * CARSPEED, 0);
+		case GLUT_KEY_DOWN:
+			c->setSpeed(0, -1 * CARSPEED, 0);
+		case GLUT_KEY_LEFT:
+			c->setSpeed(1 * CARSPEED, 0, 0);
+		case GLUT_KEY_RIGHT:
+			c->setSpeed(-1 * CARSPEED, 0, 0);
 		}
 	}
 	void display() {

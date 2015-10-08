@@ -9,15 +9,25 @@ public:
 	inline Vector3() {}
 	inline Vector3(double x, double y, double z) {}
 	inline virtual ~Vector3() {}
-	double getX();
-	double getY();
-	double getZ();
-	void set(double x, double y, double z);
+	double getX() { return _x; }
+	double getY() { return _y; }
+	double getZ() { return _z; }
+	void set(double x, double y, double z) { _x = x; _y = y; _z = z; }
 	//void set(Vector3 *a);
-	Vector3 operator=(const Vector3 & vec); /*PORQUE NÃO UM *VECTOR? */
-	Vector3 operator*(double num);
-	Vector3 operator+(const Vector3 & vec);
-	Vector3 operator-(const Vector3 & vec);
+	Vector3 operator=(Vector3 *vec) {
+		_x = vec->getX();  _y = vec->getY(); _z = vec->getZ(); return *this;
+	}
+	Vector3 operator*(double num) { 
+		_x *= num; _y *= num; _z *= num; 
+		return *this;
+	}
+	Vector3 operator+(Vector3 vec) {
+		return Vector3(_x + vec.getX(), _y + vec.getY(), _z + vec.getZ()); 
+	}
+	Vector3 operator-(Vector3 *vec) {
+		_x -= vec->getX(); _y -= vec->getY(); _z -= vec->getZ();
+		return *this; 
+	}
 };
 
 #endif

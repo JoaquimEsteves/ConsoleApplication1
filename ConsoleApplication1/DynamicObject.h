@@ -4,14 +4,21 @@
 #include "GameObject.h"
 #include "Vector3.h"
 
+
 class DynamicObject : public GameObject {
-	Vector3 * _speed;
+	Vector3 _speed;
+
 public:
-	inline DynamicObject() {}
+	inline DynamicObject() { setSpeed(0, 0, 0); }
 	inline virtual ~DynamicObject() {}
 	//void update(double delta_t); //em x e Y, em vez de delta_t
-	void setSpeed(const Vector3 & speed);
-	void setSpeed(double x, double y, double z);
-	Vector3 * getSpeed();
+	void setSpeed(const Vector3 & speed) { _speed = speed; }
+	void setSpeed(double x, double y, double z) { _speed.set(x, y, z); }
+	Vector3  getSpeed() { return _speed; }
+	void update(double delta_t) {
+		setPosition(getPosition().getX() + getSpeed().getX() * delta_t,
+			getPosition().getY() + getSpeed().getY() * delta_t,
+			getPosition().getZ());
+	}
 };
 #endif

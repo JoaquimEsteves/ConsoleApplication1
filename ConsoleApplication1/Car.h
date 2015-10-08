@@ -5,59 +5,21 @@
 #include "GL\glut.h"
 
 class Car : public DynamicObject {
-	Vector3 *carStruct;
-	bool draw_wired;
+
 	double accelaration;
 	double maxSpeed;
 
 public:
-	inline void toggleWireSolid() { 
-		if (draw_wired == true)
-			draw_wired = false;
-		else
-			draw_wired = true;
-	}
+
 	inline Car(){}
 	inline virtual ~Car(){}
+
 	inline void draw() {
-		if (draw_wired)
-			drawWired();
-		else
-			drawSolid();
-	}
-	inline void drawWired() {
 		glColor3d(0, 0, 0); //wheels could be torus
 
 		glPushMatrix();
-			glTranslated(0.3, 2.3 + 4, 0);
-			glutWireSphere(0.2, 50, 50);
+			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ ());
 		glPopMatrix();
-
-		glPushMatrix();
-			glTranslated(0.3, 1.7 + 4, 0);
-			glutWireSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glPushMatrix();
-			glTranslated(-0.3, 2.3 + 4, 0);
-			glutWireSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glPushMatrix();
-			glTranslated(-0.3, 1.7 + 4, 0);
-			glutWireSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glColor3d(1, 0, 0);//car
-
-		glPushMatrix();
-			glTranslated(1.0, 1.0, 0);
-			glScaled(2, 1.5, 0.0);
-			glutWireCube(0.5);
-		glPopMatrix();
-	}
-	inline void drawSolid() {
-		glColor3d(0, 0, 0); //wheels could be torus
 
 		glPushMatrix();
 			glTranslated(0.3, 2.3 + 4, 0);
@@ -87,19 +49,11 @@ public:
 			glutSolidCube(0.5);
 		glPopMatrix();
 	}
-	//void drawWheelRight();
-	//void drawWheelLeft();
-	//void drawAllWheels();
-	/*inline void drawCarStructure() {
-		glPushMatrix();
-			glColor3f(0.0f, 1.0f, 0.0f);
-			glBegin(GL_POLYGON);
-			glVertex3f(-0.4, -0.7, 0.0);
-			glVertex3f(0.4, -0.7, 0.0);
-			glVertex3f(0.4, 0.7, 0.0);
-			glVertex3f(-0.4, 0.7, 0.0);
-			glEnd();
-		glPopMatrix();
-	}*/
+	void update(double delta_t) {
+		//Vector3 oldPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		setPosition(getPosition().getX() + getSpeed().getX() * delta_t,
+			getPosition().getY() + getSpeed().getY() * delta_t,
+				getPosition().getZ());
+	}
 };
 #endif
