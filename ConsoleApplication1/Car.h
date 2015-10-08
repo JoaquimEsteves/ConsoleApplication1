@@ -11,15 +11,19 @@ class Car : public DynamicObject {
 
 public:
 
-	inline Car(){}
+	inline Car(){
+		setPosition(0, 0, 0);
+	}
 	inline virtual ~Car(){}
 
 	inline void draw() {
 		glColor3d(0, 0, 0); //wheels could be torus
-
+		
 		glPushMatrix();
-			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ ());
-		glPopMatrix();
+
+
+		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ ());
+
 
 		glPushMatrix();
 			glTranslated(0.3, 2.3 + 4, 0);
@@ -48,6 +52,9 @@ public:
 			glScaled(2, 1.5, 0.0);
 			glutSolidCube(0.5);
 		glPopMatrix();
+
+		glPopMatrix();
+
 	}
 	void update(double delta_t) {
 		//Vector3 oldPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ());

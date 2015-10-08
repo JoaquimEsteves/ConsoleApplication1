@@ -14,7 +14,7 @@ public:
 	double getZ() { return _z; }
 	void set(double x, double y, double z) { _x = x; _y = y; _z = z; }
 	//void set(Vector3 *a);
-	Vector3 operator=(Vector3 *vec) {
+	/*Vector3 operator=(Vector3 *vec) {
 		_x = vec->getX();  _y = vec->getY(); _z = vec->getZ(); return *this;
 	}
 	Vector3 operator*(double num) { 
@@ -27,7 +27,7 @@ public:
 	Vector3 operator-(Vector3 *vec) {
 		_x -= vec->getX(); _y -= vec->getY(); _z -= vec->getZ();
 		return *this; 
-	}
+	}*/
 };
 
 #endif

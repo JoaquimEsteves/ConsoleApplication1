@@ -12,7 +12,7 @@
 
 GameManager *gm;
 void display() { gm->display(); }
-void update(int i) { gm->update(); glutTimerFunc(UPDATE_TIMER, update, UPDATE_TIMER); }
+void update(int i) { gm->onTimer(); glutTimerFunc(UPDATE_TIMER, update, UPDATE_TIMER); }
 void reshape(int width, int height) { gm->reshape(width, height); }
 //void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
 void keyboardfunc_down(unsigned char key, int x, int y) { gm->keyPressed(key); }

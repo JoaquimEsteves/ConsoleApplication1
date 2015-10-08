@@ -20,6 +20,8 @@ class GameManager {
 	//std::vector<LightSource *> _light_sources;
 	bool draw_wired = false;
 	Car *c;
+	int currentTime;
+	int lastTime = 0;
 
 public:
 	inline GameManager() {}
@@ -127,12 +129,16 @@ public:
 		glLoadIdentity();
 	}
 	void keyPressed();
-	void onTimer();
+	void onTimer(){
+		currentTime = glutGet(GLUT_ELAPSED_TIME);
+		update((currentTime - lastTime));
+		lastTime = currentTime;
+	}
 	void idle();
-	inline void update() {
-		//display();
+	inline void update(double delta_t) {
+		c->update(delta_t);
 		glutPostRedisplay();
 	}
-	void init();
+	//void init();
 };
 #endif
