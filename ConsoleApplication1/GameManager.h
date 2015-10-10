@@ -11,7 +11,7 @@
 #include "Road.h"
 #include "GL\glut.h"
 
-#define CARSPEED 1000
+#define CARSPEED 0.001
 
 class GameManager {
 
@@ -61,14 +61,17 @@ public:
 			}
 			break;
 				//nothing to do yet
-		case GLUT_KEY_UP:
-			c->setSpeed(0, 1 * CARSPEED, 0);
-		case GLUT_KEY_DOWN:
-			c->setSpeed(0, -1 * CARSPEED, 0);
-		case GLUT_KEY_LEFT:
-			c->setSpeed(-1 * CARSPEED, 0, 0);
-		case GLUT_KEY_RIGHT:
-			c->setSpeed(1 * CARSPEED, 0, 0);
+		case 't':
+			
+			c->setSpeed(0, -1 * CARSPEED, 0); break;
+
+		case 'g':
+			
+			c->setSpeed(0, 1 * CARSPEED, 0); break;
+		case 'f':
+			c->turnLeft(); break;
+		case 'h':
+			c->turnRight(); break;
 		}
 	}
 	void display() {
