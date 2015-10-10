@@ -2,11 +2,11 @@
 #define __VECTOR3__
 
 class Vector3 {
-	double _x;
-	double _y;
-	double _z;
+	double _x = 0;
+	double _y = 0;
+	double _z = 0;
 public:
-	inline Vector3() {}
+	inline Vector3() { _x = 0; _y = 0; _z = 0; }
 	inline Vector3(double x, double y, double z) {}
 	inline virtual ~Vector3() {}
 	double getX() { return _x; }

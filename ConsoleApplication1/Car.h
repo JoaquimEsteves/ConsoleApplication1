@@ -2,6 +2,9 @@
 #define __CAR__
 
 #include "DynamicObject.h"
+#include "Vector3.h"
+#include "Entity.h"
+#include "GameObject.h"
 #include "GL\glut.h"
 
 class Car : public DynamicObject {
@@ -12,7 +15,7 @@ class Car : public DynamicObject {
 public:
 
 	inline Car(){
-		setPosition(0, 0, 0);
+
 	}
 	inline virtual ~Car(){}
 
@@ -56,11 +59,13 @@ public:
 		glPopMatrix();
 
 	}
+
+
 	void update(double delta_t) {
-		//Vector3 oldPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-		setPosition(getPosition().getX() + getSpeed().getX() * delta_t,
-			getPosition().getY() + getSpeed().getY() * delta_t,
-				getPosition().getZ());
+		//Vector3  oldPosition = getPosition();//(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		setPosition(getPosition().getX() + getSpeed().getX() * delta_t ,
+			getPosition().getY() + getSpeed().getY() * delta_t ,
+				getPosition().getZ()) ;
 	}
 };
 #endif

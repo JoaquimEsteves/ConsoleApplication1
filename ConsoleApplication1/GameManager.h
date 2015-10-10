@@ -4,13 +4,14 @@
 #include "Camera.h"
 #include "Vector3.h"
 #include "GameObject.h"
+#include "DynamicObject.h"
 #include "Butter.h"
 #include "Car.h"
 #include "Orange.h"
 #include "Road.h"
 #include "GL\glut.h"
 
-#define CARSPEED 10
+#define CARSPEED 1000
 
 class GameManager {
 
@@ -19,12 +20,14 @@ class GameManager {
 	//std::vector<GameObject *> _game_objects;
 	//std::vector<LightSource *> _light_sources;
 	bool draw_wired = false;
-	Car *c;
+	Car  * c;
 	int currentTime;
 	int lastTime = 0;
 
 public:
-	inline GameManager() {}
+	inline GameManager() {
+		c = new Car();
+	}
 	inline ~GameManager() {}
 
 	/*std::vector<Camera *> getCameras();
@@ -63,9 +66,9 @@ public:
 		case GLUT_KEY_DOWN:
 			c->setSpeed(0, -1 * CARSPEED, 0);
 		case GLUT_KEY_LEFT:
-			c->setSpeed(1 * CARSPEED, 0, 0);
-		case GLUT_KEY_RIGHT:
 			c->setSpeed(-1 * CARSPEED, 0, 0);
+		case GLUT_KEY_RIGHT:
+			c->setSpeed(1 * CARSPEED, 0, 0);
 		}
 	}
 	void display() {
@@ -110,7 +113,6 @@ public:
 			o->draw();
 			Butter * b = new Butter();
 			b->draw();
-			c = new Car();
 			c->draw();
 			Road *rs = new Road();
 			rs->draw();
@@ -139,6 +141,8 @@ public:
 		c->update(delta_t);
 		glutPostRedisplay();
 	}
-	//void init();
+	void init() {
+		c = new Car();
+	}
 };
 #endif
