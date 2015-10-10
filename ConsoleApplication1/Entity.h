@@ -12,6 +12,8 @@ public:
 	void  setPosition(double x, double y, double z) {
 		_position.set(x, y, z);
 	}
+	void setPosition(const Vector3 & p) { _position = p; }
+
 	//Vector3 * setPosition(const Vector3 &);
 };
 

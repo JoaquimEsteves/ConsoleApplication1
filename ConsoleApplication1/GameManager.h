@@ -12,7 +12,9 @@
 #include "GL\glut.h"
 #include <math.h>
 
-#define CARSPEED 0.005
+#define PI 3.14159265
+
+#define CARSPEED 0.0005
 
 class GameManager {
 
@@ -62,19 +64,15 @@ public:
 			}
 			break;
 				//nothing to do yet
-		case 't':
-			c->setSpeed(c->getSpeed().getX() + 1 * CARSPEED, c->getSpeed().getY(), 0); break;
-			//c->setSpeed((1 + c->getDirection().getX()) * CARSPEED,
-			//			(1 + c->getDirection().getY()) * CARSPEED,
-			//			0); break;
-		case 'g':
-			c->setSpeed(c->getSpeed().getX() -1 * CARSPEED, c->getSpeed().getY(), 0); break;
-			//c->setSpeed(-(1 + c->getDirection().getX()) * CARSPEED,
-			//			 - ((1 + c->getDirection().getY())) * CARSPEED,
-			//			0); break;
-		case 'f':
+		case GLUT_KEY_UP:
+			//c->setSpecialSpeed(CARSPEED); break;
+			c->setSpeed(0, 1 * CARSPEED, 0); break;
+		case GLUT_KEY_DOWN:
+			//c->setSpecialSpeed(-CARSPEED); break;
+			c->setSpeed(0, -1 * CARSPEED, 0); break;
+		case GLUT_KEY_LEFT:
 			c->turnLeft(); break;
-		case 'h':
+		case GLUT_KEY_RIGHT:
 			c->turnRight(); break;
 		}
 	}
