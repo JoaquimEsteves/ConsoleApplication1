@@ -10,8 +10,9 @@
 #include "Orange.h"
 #include "Road.h"
 #include "GL\glut.h"
+#include <math.h>
 
-#define CARSPEED 0.001
+#define CARSPEED 0.005
 
 class GameManager {
 
@@ -62,12 +63,15 @@ public:
 			break;
 				//nothing to do yet
 		case 't':
-			
-			c->setSpeed(0, -1 * CARSPEED, 0); break;
-
+			c->setSpeed(c->getSpeed().getX() + 1 * CARSPEED, c->getSpeed().getY(), 0); break;
+			//c->setSpeed((1 + c->getDirection().getX()) * CARSPEED,
+			//			(1 + c->getDirection().getY()) * CARSPEED,
+			//			0); break;
 		case 'g':
-			
-			c->setSpeed(0, 1 * CARSPEED, 0); break;
+			c->setSpeed(c->getSpeed().getX() -1 * CARSPEED, c->getSpeed().getY(), 0); break;
+			//c->setSpeed(-(1 + c->getDirection().getX()) * CARSPEED,
+			//			 - ((1 + c->getDirection().getY())) * CARSPEED,
+			//			0); break;
 		case 'f':
 			c->turnLeft(); break;
 		case 'h':
