@@ -63,12 +63,12 @@ public:
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			}
 			break;
-				//nothing to do yet
+
 		case GLUT_KEY_UP:
 			if (c->getSpecialSpeed() <= 0)
-				c->setSpecialSpeed(1); 
+				c->setSpecialSpeed(10); 
 			else if(c->getSpecialSpeed() < c->getMaxSpeed()) {
-				c->setSpecialSpeed(c->getSpecialSpeed() + 1);
+				c->setSpecialSpeed(c->getSpecialSpeed() + 10);
 			}
 			//c->setSpeed(0, 1 * CARSPEED, 0); 
 			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
@@ -83,11 +83,11 @@ public:
 			break;
 
 		case GLUT_KEY_DOWN:
-			c->setSpecialSpeed(-1);
+			//c->setSpecialSpeed(-1);
 			if (c->getSpecialSpeed() >= 0)
-				c->setSpecialSpeed(-1);
+				c->setSpecialSpeed(-10);
 			else if (c->getSpecialSpeed() > (- c->getMaxSpeed())) {
-				c->setSpecialSpeed(c->getSpecialSpeed() - 1);
+				c->setSpecialSpeed(c->getSpecialSpeed() - 10);
 			}
 
 			//c->setSpeed(0, -1 * CARSPEED, 0); 
@@ -123,26 +123,26 @@ public:
 						if (j % 2 == 0)glColor3d(0.74902, 0.847059, 1.847059); //0.74902 green 0.847059 blue 0.847059
 						else glColor3d(1, 1, 1);
 						glPushMatrix();
-						glTranslated(i, j, 0);
-						glutSolidCube(1);
+							glTranslated(i, j, 0);
+							glutSolidCube(1);
 						glPopMatrix();
 
 						glPushMatrix();
-						glTranslated(-i - 2, -j, 0);
-						glutSolidCube(1);
+							glTranslated(-i - 2, -j, 0);
+							glutSolidCube(1);
 						glPopMatrix();
 					}
 					else {
 						if (j % 2 == 1)glColor3d(0.74902, 0.847059, 1.847059);
 						else glColor3d(1, 1, 1);
 						glPushMatrix();
-						glTranslated(i, j, 0);
-						glutSolidCube(1);
+							glTranslated(i, j, 0);
+							glutSolidCube(1);
 						glPopMatrix();
 
 						glPushMatrix();
-						glTranslated(-i, -j, 0);
-						glutSolidCube(1);
+							glTranslated(-i, -j, 0);
+							glutSolidCube(1);
 						glPopMatrix();
 					}
 				}

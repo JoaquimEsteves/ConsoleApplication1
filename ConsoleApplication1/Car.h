@@ -2,7 +2,7 @@
 #define __CAR__
 
 #define PI 3.14159265
-#define CARSPEED 0.002
+#define CARSPEED 0.0001
 
 #include "DynamicObject.h"
 #include "Vector3.h"
@@ -12,7 +12,7 @@
 #include <math.h>
 #include <stdio.h>
 class Car : public DynamicObject {
-	double maxSpeed = 3;
+	double maxSpeed = 50;
 	double specialSpeed = 0;
 	double turnAngle = 0;
 	double rotation = 0;
@@ -46,6 +46,15 @@ public:
 		double y = _direction.getX()*sin(turnAngle) /*+ _direction.getY()*cos(turnAngle)*/;
 		double z = 0;
 		_direction.set(x / sqrt(x*x + y*y + z*z), y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
+	}
+
+	void friction() {
+		if (specialSpeed == 0)
+			return;
+		if (specialSpeed > 0)
+			specialSpeed -= 1;
+		if (specialSpeed < 0)
+			specialSpeed += 1;
 	}
 
 	inline void draw() {
@@ -98,10 +107,8 @@ public:
 	void update(double delta_t) {
 		//using printf because visual studios does not like cout
 		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
+		friction();
 		setPosition(getPosition() + getDirection() * specialSpeed * CARSPEED * delta_t);
-		/*setPosition( oldPosition.getX() +  cos(turnAngle) + getSpeed().getX() * delta_t,
-			oldPosition.getY() * sin(turnAngle) + getSpeed().getX() * delta_t,
-			oldPosition.getZ()) ;*/
 	}
 };
 #endif
