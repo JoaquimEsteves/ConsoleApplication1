@@ -13,7 +13,6 @@
 #include <math.h>
 
 #define PI 3.14159265
-
 #define CARSPEED 0.0005
 
 class GameManager {
@@ -41,9 +40,9 @@ public:
 	void setLightSources(std::vector<LightSource *> v);*/
 
 	void keyPressed(unsigned char key) {
-		/*double rotationX;
+		double rotationX;
 		double rotationY;
-		double ANGLE = teta;*/
+		double ANGLE = 0.1;
 		switch (key) {
 		case 'a': 
 			if (draw_wired) {
@@ -69,8 +68,8 @@ public:
 				//nothing to do yet
 		case GLUT_KEY_UP:
 			//c->setSpecialSpeed(CARSPEED); break;
-			c->setSpeed(0, 1 * CARSPEED, 0); break;
-			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
+			//c->setSpeed(0, 1 * CARSPEED, 0); break;
+			if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
 				c->setSpeed(1*cos(ANGLE), 1*sin(ANGLE), 0);
 			}
 			if (c->getSpeed().getX() == 5 || c->getSpeed().getY() == 5) {
@@ -78,28 +77,30 @@ public:
 			}
 			else {
 				c->setSpeed((c->getSpeed().getX()+1)*cos(ANGLE), (c->getSpeed().getY()+1)*sin(ANGLE), 0);
-			}*/
+			}
+			break;
 
 		case GLUT_KEY_DOWN:
 			//c->setSpecialSpeed(-CARSPEED); break;
-			c->setSpeed(0, -1 * CARSPEED, 0); break;
-			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
+			//c->setSpeed(0, -1 * CARSPEED, 0); break;
+			if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
 				c->setSpeed(0, 0, 0);
 			}
 			else {
 				c->setSpeed((c->getSpeed().getX() -1)*cos(ANGLE), (c->getSpeed().getY() -1)*sin(ANGLE), 0);
-			}*/
+			}
+			break;
 
 		case GLUT_KEY_LEFT:
 			c->turnLeft(); break;
-			/*rotationX = cos(ANGLE) - sin(ANGLE) - (c->getPosition().getX()*cos(ANGLE)) + (c->getPosition().getY()*sin(ANGLE)) + c->getPosition().getX();
+			rotationX = cos(ANGLE) - sin(ANGLE) - (c->getPosition().getX()*cos(ANGLE)) + (c->getPosition().getY()*sin(ANGLE)) + c->getPosition().getX();
 			rotationY = sin(ANGLE) + cos(ANGLE) - (c->getPosition().getX()*sin(ANGLE)) - (c->getPosition().getY()*cos(ANGLE)) + c->getPosition().getY();
-			c->setPosition(rotationX, rotationY, 0);*/
+			c->setPosition(rotationX, rotationY, 0); break;
 		case GLUT_KEY_RIGHT:
-			/*c->turnRight(); break;
+			c->turnRight(); break;
 			rotationX = cos(-ANGLE) - sin(-ANGLE) - (c->getPosition().getX()*cos(-ANGLE)) + (c->getPosition().getY()*sin(-ANGLE)) + c->getPosition().getX();
 			rotationY = sin(-ANGLE) + cos(-ANGLE) - (c->getPosition().getX()*sin(-ANGLE)) - (c->getPosition().getY()*cos(-ANGLE)) + c->getPosition().getY();
-			c->setPosition(rotationX, rotationY, 0);*/
+			c->setPosition(rotationX, rotationY, 0); break;
 		}
 	}
 	void display() {

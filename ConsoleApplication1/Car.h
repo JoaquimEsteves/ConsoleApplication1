@@ -2,6 +2,7 @@
 #define __CAR__
 
 #define PI 3.14159265
+#define CARSPEED 0.0005
 
 #include "DynamicObject.h"
 #include "Vector3.h"
@@ -88,7 +89,7 @@ public:
 	}
 
 	void update(double delta_t) {
-		setPosition(getPosition() + (Vector3(cos(turnAngle),sin(turnAngle), 0) * getSpeed() * delta_t));
+		setPosition(getPosition() +  getSpeed() * CARSPEED * delta_t);
 		/*setPosition( oldPosition.getX() +  cos(turnAngle) + getSpeed().getX() * delta_t,
 			oldPosition.getY() * sin(turnAngle) + getSpeed().getX() * delta_t,
 			oldPosition.getZ()) ;*/
