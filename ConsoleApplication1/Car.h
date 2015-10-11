@@ -13,6 +13,8 @@
 #include <stdio.h>
 class Car : public DynamicObject {
 	double maxSpeed = 50;
+	double acceleration = 10;
+	double frictionVal = 1;
 	double specialSpeed = 0;
 	double turnAngle = 0;
 	double rotation = 0;
@@ -27,6 +29,7 @@ public:
 	}
 	inline virtual ~Car()			{}
 	double getMaxSpeed()			{ return maxSpeed; }
+	double getAcceleration()		{ return acceleration; }
 	double getTurnAngle()			{ return turnAngle;  }
 	void setSpecialSpeed(double d)	{ specialSpeed = d; }
 	double getSpecialSpeed()		{ return specialSpeed; }
@@ -41,20 +44,37 @@ public:
 		setDirectionSpeed();
 	}
 
+	/*void  setDirectionSpeed() {
+		double x = _direction.getX()*cos(turnAngle) ;
+		double y = _direction.getX()*sin(turnAngle);
+		double z = 0;
+		_direction.set(x / sqrt(x*x + y*y + z*z), y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
+	}*/
+
+	//HELLO
 	void  setDirectionSpeed() {
-		double x = _direction.getX()*cos(turnAngle) /*- _direction.getY()*sin(turnAngle)*/;
-		double y = _direction.getX()*sin(turnAngle) /*+ _direction.getY()*cos(turnAngle)*/;
+		double x, y;
+		if (_direction.getX() < 0) {
+			x = _direction.getX()*cos(PI + turnAngle) /*- direction.getY()*sin(turnAngle)*/;
+			y = _direction.getX()*sin(PI + turnAngle) /*+ direction.getY()*cos(turnAngle)*/;
+		}
+		else {
+			x = _direction.getX()*cos(turnAngle) /*- direction.getY()*sin(turnAngle)*/;
+			y = _direction.getX()*sin(turnAngle) /*+ direction.getY()*cos(turnAngle)*/;
+		}
 		double z = 0;
 		_direction.set(x / sqrt(x*x + y*y + z*z), y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
 	}
+	//GOODBYE
+
 
 	void friction() {
 		if (specialSpeed == 0)
 			return;
 		if (specialSpeed > 0)
-			specialSpeed -= 1;
+			specialSpeed -= frictionVal;
 		if (specialSpeed < 0)
-			specialSpeed += 1;
+			specialSpeed += frictionVal;
 	}
 
 	inline void draw() {

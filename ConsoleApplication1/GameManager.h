@@ -19,6 +19,7 @@ class GameManager {
 	//std::vector<Camera *> _cameras; //vectr ou list?
 	//std::vector<GameObject *> _game_objects;
 	//std::vector<LightSource *> _light_sources;
+	bool keys[256]; //a up down left right
 	bool draw_wired = false;
 	Car  * c;
 	int currentTime;
@@ -37,39 +38,58 @@ public:
 	void setObjects(std::vector<GameObject *> v);
 	void setLightSources(std::vector<LightSource *> v);*/
 
+	void keyA(unsigned char key) {
+		switch (key) {
+			case 'a':
+				keys['a'] = true;
+				if (draw_wired) {
+					draw_wired = false;
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				}
+				else {
+					draw_wired = true;
+					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				}
+				break;
+			case 'A':
+				keys['A'] = true;
+				if (draw_wired) {
+					draw_wired = false;
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				}
+				else {
+					draw_wired = true;
+					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				}
+				break;
+		}
+
+	}
+	void keyUp(unsigned char key) {
+		switch (key) {
+			case GLUT_KEY_UP:
+				keys[GLUT_KEY_UP] = false; break;
+			case GLUT_KEY_DOWN:
+				keys[GLUT_KEY_DOWN] = false; break;
+			case GLUT_KEY_LEFT:
+				keys[GLUT_KEY_LEFT] = false; break;
+			case GLUT_KEY_RIGHT:
+				keys[GLUT_KEY_RIGHT] = false; break;
+		}
+	}
 	void keyPressed(unsigned char key) {
 		//double rotationX;
 		//double rotationY;
 		//double ANGLE = 0.1;
 		switch (key) {
-		case 'a': 
-			if (draw_wired) {
-				draw_wired = false;
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			}
-			else {
-				draw_wired = true;
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			}
-			break;
-			
-		case 'A': 
-			if (draw_wired) {
-				draw_wired = false;
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			}
-			else {
-				draw_wired = true;
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			}
-			break;
 
 		case GLUT_KEY_UP:
-			if (c->getSpecialSpeed() <= 0)
-				c->setSpecialSpeed(10); 
+			keys[GLUT_KEY_UP] = true;
+			/*if (c->getSpecialSpeed() <= 0)
+				c->setSpecialSpeed(c->getAcceleration()); 
 			else if(c->getSpecialSpeed() < c->getMaxSpeed()) {
-				c->setSpecialSpeed(c->getSpecialSpeed() + 10);
-			}
+				c->setSpecialSpeed(c->getSpecialSpeed() + c->getAcceleration());
+			}*/
 			//c->setSpeed(0, 1 * CARSPEED, 0); 
 			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
 				c->setSpeed(1*cos(ANGLE), 1*sin(ANGLE), 0);
@@ -83,12 +103,13 @@ public:
 			break;
 
 		case GLUT_KEY_DOWN:
+			keys[GLUT_KEY_DOWN] = true;
 			//c->setSpecialSpeed(-1);
-			if (c->getSpecialSpeed() >= 0)
-				c->setSpecialSpeed(-10);
+			/*if (c->getSpecialSpeed() >= 0)
+				c->setSpecialSpeed(-c->getAcceleration());
 			else if (c->getSpecialSpeed() > (- c->getMaxSpeed())) {
-				c->setSpecialSpeed(c->getSpecialSpeed() - 10);
-			}
+				c->setSpecialSpeed(c->getSpecialSpeed() - c->getAcceleration());
+			}*/
 
 			//c->setSpeed(0, -1 * CARSPEED, 0); 
 			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
@@ -100,13 +121,15 @@ public:
 			break;
 
 		case GLUT_KEY_LEFT:
-			c->turnLeft(); 
+			keys[GLUT_KEY_LEFT] = true;
+			//c->turnLeft(); 
 			/*rotationX = cos(ANGLE) - sin(ANGLE) - (c->getPosition().getX()*cos(ANGLE)) + (c->getPosition().getY()*sin(ANGLE)) + c->getPosition().getX();
 			rotationY = sin(ANGLE) + cos(ANGLE) - (c->getPosition().getX()*sin(ANGLE)) - (c->getPosition().getY()*cos(ANGLE)) + c->getPosition().getY();
 			c->setPosition(rotationX, rotationY, 0);*/
 			break;
 		case GLUT_KEY_RIGHT:
-			c->turnRight(); 
+			keys[GLUT_KEY_RIGHT] = true;
+			//c->turnRight(); 
 			/*rotationX = cos(-ANGLE) - sin(-ANGLE) - (c->getPosition().getX()*cos(-ANGLE)) + (c->getPosition().getY()*sin(-ANGLE)) + c->getPosition().getX();
 			rotationY = sin(-ANGLE) + cos(-ANGLE) - (c->getPosition().getX()*sin(-ANGLE)) - (c->getPosition().getY()*cos(-ANGLE)) + c->getPosition().getY();
 			c->setPosition(rotationX, rotationY, 0); */
@@ -180,6 +203,25 @@ public:
 	}
 	void idle();
 	inline void update(double delta_t) {
+		if (keys[GLUT_KEY_UP]) {
+			if (c->getSpecialSpeed() <= 0)
+				c->setSpecialSpeed(c->getAcceleration());
+			else if (c->getSpecialSpeed() < c->getMaxSpeed()) {
+				c->setSpecialSpeed(c->getSpecialSpeed() + c->getAcceleration());
+			}
+		}
+		if (keys[GLUT_KEY_DOWN]) {
+			if (c->getSpecialSpeed() >= 0)
+				c->setSpecialSpeed(-c->getAcceleration());
+			else if (c->getSpecialSpeed() > (-c->getMaxSpeed())) {
+				c->setSpecialSpeed(c->getSpecialSpeed() - c->getAcceleration());
+			}
+		}
+		if (keys[GLUT_KEY_LEFT])
+			c->turnLeft();
+		if (keys[GLUT_KEY_RIGHT])
+			c->turnRight();
+
 		c->update(delta_t);
 		glutPostRedisplay();
 	}

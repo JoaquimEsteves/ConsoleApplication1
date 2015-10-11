@@ -16,8 +16,9 @@ GameManager *gm;
 void display() { gm->display(); }
 void update(int i) { gm->onTimer(); glutTimerFunc(UPDATE_TIMER, update, UPDATE_TIMER); }
 void reshape(int width, int height) { gm->reshape(width, height); }
-//void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
+void keyboardfunc_up(int key, int x, int y) { gm->keyUp(key); }
 void keyboardfunc_down(int key, int x, int y) { gm->keyPressed(key); }
+void keyA(unsigned char key, int x, int y) { gm->keyA(key); }
 
 //FIX ME
 //void keyboardfunc_up(unsigned char key, int x, int y) { gm->keyUp(key); }
@@ -41,8 +42,9 @@ int main(int argc, char *argv[])
 
 	glClearColor(0, 0, 0, 0);
 
-	//glutKeyboardUpFunc(keyboardfunc_up);
+	glutSpecialUpFunc(keyboardfunc_up);
 	glutSpecialFunc(keyboardfunc_down);
+	glutKeyboardFunc(keyA);
 	glutMainLoop();
 
 	return 0;
