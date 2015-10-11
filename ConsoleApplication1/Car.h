@@ -2,7 +2,7 @@
 #define __CAR__
 
 #define PI 3.14159265
-#define CARSPEED 0.0005
+#define CARSPEED 0.005
 
 #include "DynamicObject.h"
 #include "Vector3.h"
@@ -10,7 +10,7 @@
 #include "GameObject.h"
 #include "GL\glut.h"
 #include <math.h>
-
+#include <stdio.h>
 class Car : public DynamicObject {
 	double maxSpeed;
 	double specialSpeed = 0;
@@ -21,19 +21,22 @@ class Car : public DynamicObject {
 public:
 
 	inline Car(){
-		//_direction.set(1, 1, 0);
+		setPosition(0, 4, 0);
+		_direction.set(1, 0, 0);
 
 	}
-	inline virtual ~Car(){}
+	inline virtual ~Car() {}
 	double getTurnAngle() { return turnAngle;  }
 	void setSpecialSpeed(double d) { specialSpeed = d; }
 	Vector3 getDirection() { return _direction; }
 
 	void turnLeft() {
-		turnAngle =  turnAngle + 5;
+		turnAngle =  turnAngle + 0.1;
+		setDirectionSpeed();
 	}
 	void turnRight() {
-		turnAngle = turnAngle - 5;
+		turnAngle = turnAngle - 0.1;
+		setDirectionSpeed();
 	}
 
 	inline void draw() {
@@ -42,9 +45,10 @@ public:
 		glPushMatrix();
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 
-			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-			glRotated(turnAngle, 0, 0, 1);
-			glTranslated(-getPosition().getX(), -getPosition().getY(), -getPosition().getZ());
+
+
+			glRotated(turnAngle * 180 / PI, 0, 0, 1);
+	
 
 			glPushMatrix();
 				glTranslated(0.3, 0.3, 0);
@@ -77,8 +81,8 @@ public:
 		
 	}
 	void  setDirectionSpeed() { 
-		double x = _direction.getX()*cos(turnAngle)- _direction.getY()*sin(turnAngle);
-		double y = _direction.getX()*sin(turnAngle) - _direction.getY()*cos(turnAngle);
+		double x = _direction.getX()*cos(turnAngle) /*- _direction.getY()*sin(turnAngle)*/;
+		double y = _direction.getX()*sin(turnAngle) /*+ _direction.getY()*cos(turnAngle)*/;
 		double z = 0;
 		_direction.set(x, y, z);
 	}
@@ -89,7 +93,9 @@ public:
 	}
 
 	void update(double delta_t) {
-		setPosition(getPosition() +  getSpeed() * CARSPEED * delta_t);
+		//using printf because visual studios does not like cout
+		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
+		setPosition(getPosition() + getDirection() * specialSpeed * CARSPEED * delta_t);
 		/*setPosition( oldPosition.getX() +  cos(turnAngle) + getSpeed().getX() * delta_t,
 			oldPosition.getY() * sin(turnAngle) + getSpeed().getX() * delta_t,
 			oldPosition.getZ()) ;*/
