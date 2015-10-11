@@ -12,7 +12,6 @@
 #include "GL\glut.h"
 #include <math.h>
 
-#define PI 3.14159265
 
 class GameManager {
 
@@ -66,7 +65,11 @@ public:
 			break;
 				//nothing to do yet
 		case GLUT_KEY_UP:
-			c->setSpecialSpeed(1); 
+			if (c->getSpecialSpeed() <= 0)
+				c->setSpecialSpeed(1); 
+			else if(c->getSpecialSpeed() < c->getMaxSpeed()) {
+				c->setSpecialSpeed(c->getSpecialSpeed() + 1);
+			}
 			//c->setSpeed(0, 1 * CARSPEED, 0); 
 			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
 				c->setSpeed(1*cos(ANGLE), 1*sin(ANGLE), 0);
@@ -80,7 +83,13 @@ public:
 			break;
 
 		case GLUT_KEY_DOWN:
-			c->setSpecialSpeed(-1); 
+			c->setSpecialSpeed(-1);
+			if (c->getSpecialSpeed() >= 0)
+				c->setSpecialSpeed(-1);
+			else if (c->getSpecialSpeed() > (- c->getMaxSpeed())) {
+				c->setSpecialSpeed(c->getSpecialSpeed() - 1);
+			}
+
 			//c->setSpeed(0, -1 * CARSPEED, 0); 
 			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
 				c->setSpeed(0, 0, 0);

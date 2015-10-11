@@ -2,7 +2,7 @@
 #define __CAR__
 
 #define PI 3.14159265
-#define CARSPEED 0.005
+#define CARSPEED 0.002
 
 #include "DynamicObject.h"
 #include "Vector3.h"
@@ -12,7 +12,7 @@
 #include <math.h>
 #include <stdio.h>
 class Car : public DynamicObject {
-	double maxSpeed;
+	double maxSpeed = 3;
 	double specialSpeed = 0;
 	double turnAngle = 0;
 	double rotation = 0;
@@ -25,10 +25,12 @@ public:
 		_direction.set(1, 0, 0);
 
 	}
-	inline virtual ~Car() {}
-	double getTurnAngle() { return turnAngle;  }
-	void setSpecialSpeed(double d) { specialSpeed = d; }
-	Vector3 getDirection() { return _direction; }
+	inline virtual ~Car()			{}
+	double getMaxSpeed()			{ return maxSpeed; }
+	double getTurnAngle()			{ return turnAngle;  }
+	void setSpecialSpeed(double d)	{ specialSpeed = d; }
+	double getSpecialSpeed()		{ return specialSpeed; }
+	Vector3 getDirection()			{ return _direction; }
 
 	void turnLeft() {
 		turnAngle =  turnAngle + 0.1;
@@ -37,6 +39,13 @@ public:
 	void turnRight() {
 		turnAngle = turnAngle - 0.1;
 		setDirectionSpeed();
+	}
+
+	void  setDirectionSpeed() {
+		double x = _direction.getX()*cos(turnAngle) /*- _direction.getY()*sin(turnAngle)*/;
+		double y = _direction.getX()*sin(turnAngle) /*+ _direction.getY()*cos(turnAngle)*/;
+		double z = 0;
+		_direction.set(x / sqrt(x*x + y*y + z*z), y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
 	}
 
 	inline void draw() {
@@ -79,12 +88,6 @@ public:
 
 		glPopMatrix();
 		
-	}
-	void  setDirectionSpeed() { 
-		double x = _direction.getX()*cos(turnAngle) /*- _direction.getY()*sin(turnAngle)*/;
-		double y = _direction.getX()*sin(turnAngle) /*+ _direction.getY()*cos(turnAngle)*/;
-		double z = 0;
-		_direction.set(x / sqrt(x*x + y*y + z*z) , y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
 	}
 
 	void update_trivial(double delta_t) {
