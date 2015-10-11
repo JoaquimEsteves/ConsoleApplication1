@@ -84,7 +84,7 @@ public:
 		double x = _direction.getX()*cos(turnAngle) /*- _direction.getY()*sin(turnAngle)*/;
 		double y = _direction.getX()*sin(turnAngle) /*+ _direction.getY()*cos(turnAngle)*/;
 		double z = 0;
-		_direction.set(x, y, z);
+		_direction.set(x / sqrt(x*x + y*y + z*z) , y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
 	}
 
 	void update_trivial(double delta_t) {
