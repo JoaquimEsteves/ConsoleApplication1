@@ -12,12 +12,12 @@
 #include <math.h>
 #include <stdio.h>
 class Car : public DynamicObject {
-	double maxSpeed = 50;
-	double acceleration = 10;
-	double frictionVal = 1;
-	double specialSpeed = 0;
-	double turnAngle = 0;
-	double rotation = 0;
+	double _maxSpeed = 50;
+	double _acceleration = 10;
+	double _frictionVal = 1;
+	double _specialSpeed = 0;
+	double _turnAngle = 0;
+	//double _rotation = 0;
 	Vector3 _direction;
 
 public:
@@ -28,19 +28,19 @@ public:
 
 	}
 	inline virtual ~Car()			{}
-	double getMaxSpeed()			{ return maxSpeed; }
-	double getAcceleration()		{ return acceleration; }
-	double getTurnAngle()			{ return turnAngle;  }
-	void setSpecialSpeed(double d)	{ specialSpeed = d; }
-	double getSpecialSpeed()		{ return specialSpeed; }
+	double getMaxSpeed()			{ return _maxSpeed; }
+	double getAcceleration()		{ return _acceleration; }
+	double getTurnAngle()			{ return _turnAngle;  }
+	void setSpecialSpeed(double d)	{ _specialSpeed = d; }
+	double getSpecialSpeed()		{ return _specialSpeed; }
 	Vector3 getDirection()			{ return _direction; }
 
 	void turnLeft() {
-		turnAngle =  turnAngle + 0.1;
+		_turnAngle =  _turnAngle + 0.1;
 		setDirectionSpeed();
 	}
 	void turnRight() {
-		turnAngle = turnAngle - 0.1;
+		_turnAngle = _turnAngle - 0.1;
 		setDirectionSpeed();
 	}
 
@@ -55,12 +55,12 @@ public:
 	void  setDirectionSpeed() {
 		double x, y;
 		if (_direction.getX() < 0) {
-			x = _direction.getX()*cos(PI + turnAngle) /*- direction.getY()*sin(turnAngle)*/;
-			y = _direction.getX()*sin(PI + turnAngle) /*+ direction.getY()*cos(turnAngle)*/;
+			x = _direction.getX()*cos(PI + _turnAngle) /*- direction.getY()*sin(turnAngle)*/;
+			y = _direction.getX()*sin(PI + _turnAngle) /*+ direction.getY()*cos(turnAngle)*/;
 		}
 		else {
-			x = _direction.getX()*cos(turnAngle) /*- direction.getY()*sin(turnAngle)*/;
-			y = _direction.getX()*sin(turnAngle) /*+ direction.getY()*cos(turnAngle)*/;
+			x = _direction.getX()*cos(_turnAngle) /*- direction.getY()*sin(turnAngle)*/;
+			y = _direction.getX()*sin(_turnAngle) /*+ direction.getY()*cos(turnAngle)*/;
 		}
 		double z = 0;
 		_direction.set(x / sqrt(x*x + y*y + z*z), y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
@@ -69,12 +69,12 @@ public:
 
 
 	void friction() {
-		if (specialSpeed == 0)
+		if (_specialSpeed == 0)
 			return;
-		if (specialSpeed > 0)
-			specialSpeed -= frictionVal;
-		if (specialSpeed < 0)
-			specialSpeed += frictionVal;
+		if (_specialSpeed > 0)
+			_specialSpeed -= _frictionVal;
+		if (_specialSpeed < 0)
+			_specialSpeed += _frictionVal;
 	}
 
 	inline void draw() {
@@ -85,7 +85,7 @@ public:
 
 
 
-			glRotated(turnAngle * 180 / PI, 0, 0, 1);
+			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 	
 
 			glPushMatrix();
@@ -128,7 +128,7 @@ public:
 		//using printf because visual studios does not like cout
 		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
 		friction();
-		setPosition(getPosition() + getDirection() * specialSpeed * CARSPEED * delta_t);
+		setPosition(getPosition() + getDirection() * _specialSpeed * CARSPEED * delta_t);
 	}
 };
 #endif

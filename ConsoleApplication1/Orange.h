@@ -5,7 +5,7 @@
 #include "GL\glut.h"
 
 class Orange : public Obstacle {
-
+	int numberRings = 20;
 public:
 	inline Orange() {}
 	inline virtual ~Orange() {}
@@ -15,17 +15,17 @@ public:
 
 		glPushMatrix();
 		glTranslated(-3, 7.5, 0);
-		glutSolidSphere(1, 50, 50);
+		glutSolidSphere(1, numberRings, numberRings);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslated(7, 7.0, 0);
-		glutSolidSphere(1, 50, 50);
+		glutSolidSphere(1, numberRings, numberRings);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslated(-8.5, -1.5, 0);
-		glutSolidSphere(1, 50, 50);
+		glutSolidSphere(1, numberRings, numberRings);
 		glPopMatrix();
 	}
 };
