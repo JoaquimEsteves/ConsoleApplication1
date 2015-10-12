@@ -24,6 +24,8 @@ class GameManager {
 	Car  * c;
 	int currentTime;
 	int lastTime = 0;
+	float xmin = -5, xmax = 5, ymin = -5, ymax = 5;
+	float xscale = (xmax - xmin) / 600, yscale = (ymax - ymin) / 600;
 
 public:
 	inline GameManager() {
@@ -184,16 +186,19 @@ public:
 
 			glutSwapBuffers();
 	}
-	void reshape(int width, int height) {
-		const float ar = (float)width / (float)height;
-
-		glViewport(0, 0, width, height);
+	void reshape(int w, int h) {
+		glViewport(0, 0, w, h);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		//glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0); 
-		glOrtho(-12.0f*ar, 12.0f*ar, -12.0f, 12.0f*ar, -5.0f*ar, 5.0f*ar);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		float c = (xmax + xmin);
+		xmax = c + xscale * w;
+		xmin = c - xscale * w;
+		c = (ymax + ymin);
+		ymax = c + yscale * h;
+		ymin = c - yscale * h;
+		gluOrtho2D(xmin, xmax, ymin, ymax);
 	}
 	void keyPressed();
 	void onTimer(){
