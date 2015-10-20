@@ -5,43 +5,32 @@
 #include "GL\glut.h"
 
 class Butter : public Obstacle {
+	Vector3 _scale;
 
 public:
-	inline Butter() {}
+	/*
+	initial positions set as:
+		-6, 2, 0
+		4, 7.7, 0
+		0, 0, 0
+		7, -7, 0
+		-4, -1, 0
+	*/
+	inline Butter(double x, double y, double z) {
+		setPosition(x, y, z);
+		_scale = new Vector3(1.5, 1, 0.0);
+	}
 	inline virtual ~Butter() {}
 	inline void draw() {
 		//butter
 		glColor3d(1.0, 1.5, 0);
 
 		glPushMatrix();
-		glTranslated(-6, 2, 0);
+		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 		glScaled(1.5, 1, 0.0);
 		glutSolidCube(1.5);
 		glPopMatrix();
 
-		glPushMatrix();
-		glTranslated(4, 7.7, 0);
-		glScaled(1.5, 1, 0.0);
-		glutSolidCube(1.5);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(0, 0, 0);
-		glScaled(1.5, 1, 0.0);
-		glutSolidCube(1.5);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(7, -7, 0);
-		glScaled(1.5, 1, 0.0);
-		glutSolidCube(1.5);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-4, -1, 0);
-		glScaled(1.5, 1, 0.0);
-		glutSolidCube(1.5);
-		glPopMatrix();
 	}
 };
 #endif

@@ -1,5 +1,8 @@
 #ifndef _GAMEMANAGER_H_
 #define _GAMEMANAGER_H_
+#define ORANGE_NUMBERS 3
+#define BUTTER_NUMBERS 5
+
 
 #include "Camera.h"
 #include "Vector3.h"
@@ -9,9 +12,10 @@
 #include "Car.h"
 #include "Orange.h"
 #include "Road.h"
+#include "Cheerio.h"
 #include "GL\glut.h"
 #include <math.h>
-
+#include <stdio.h>
 
 class GameManager {
 
@@ -26,10 +30,25 @@ class GameManager {
 	float xmin = -5, xmax = 5, ymin = -5, ymax = 5;
 	float xscale = (xmax - xmin) / 600, yscale = (ymax - ymin) / 600;
 	Car  * c;
+	Orange * Oranges[ORANGE_NUMBERS];
+	Butter * Butters[BUTTER_NUMBERS];
 
 public:
 	inline GameManager() {
 		c = new Car();
+		//Inicialization of objects here
+		// Orange Initial position set here. 
+		Oranges[0] = new Orange(-3, 7.5, 0);
+		Oranges[1] = new Orange(7, 7, 0);
+		Oranges[2] = new Orange(-8.5, -1.5, 0);
+		// Butter Initial position set here.
+		Butters[0] = new Butter(-6, 2, 0);
+		Butters[1] = new Butter(4, 7.7, 0);
+		Butters[2] = new Butter(0, 0, 0);
+		Butters[3] = new Butter(7, -7, 0);
+		Butters[4] = new Butter(-4, -1, 0);
+
+
 	}
 	inline ~GameManager() {}
 
@@ -176,10 +195,12 @@ public:
 
 			//draw stuff
 
-			Orange *o = new Orange();
-			o->draw();
-			Butter * b = new Butter();
-			b->draw();
+			for (int i = 0; i < ORANGE_NUMBERS; i++) {
+				Oranges[i]->draw();
+			}
+			for (int i = 0; i < BUTTER_NUMBERS; i++) {
+				Butters[i]->draw();
+			}
 			c->draw();
 			Road *rs = new Road();
 			rs->draw();

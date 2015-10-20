@@ -7,7 +7,7 @@ class Vector3 {
 	double _z = 0;
 public:
 	inline Vector3() { _x = 0; _y = 0; _z = 0; }
-	inline Vector3(double x, double y, double z) {}
+	inline Vector3(double x, double y, double z) { set(x, y, z); }
 	inline virtual ~Vector3() {}
 	double getX() { return _x; }
 	double getY() { return _y; }

@@ -153,6 +153,7 @@
     <ClInclude Include="Butter.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Car.h" />
+    <ClInclude Include="Cheerio.h" />
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameManager.h" />
