@@ -22,17 +22,17 @@ public:
 		_bottom = b;
 		_top = t;
 	}
-	virtual ~OrthogonalCamera();
+	virtual ~OrthogonalCamera() {}
 	void update(GLsizei width, GLsizei height) {
 		_ratio = (_right - _left) / (_top - _bottom);
 		_aspect = (float) width / height;
 		if (_ratio < _aspect) {
 			float temp = ((_top - _bottom) * _aspect - (_right - _left)) / 2;
-			glOrtho(_left - temp, _right + temp, _bottom, _top, getNear(), getFar());
+			gluOrtho2D(_left - temp, _right + temp, _bottom, _top/*, getNear(), getFar()*/);
 			return;
 		}
 		float temp = ((_right - _left) / _aspect - (_top - _bottom)) / 2;
-		glOrtho(_left, _right, _bottom - temp, _top + temp, getNear(), getFar());
+		gluOrtho2D(_left, _right, _bottom - temp, _top + temp/*, getNear(), getFar()*/);
 
 	}
 	void computeProjectionMatrix() {

@@ -36,11 +36,11 @@ public:
 	Vector3 getDirection()			{ return _direction; }
 
 	void turnLeft() {
-		_turnAngle =  _turnAngle + 0.1;
+		_turnAngle =  _turnAngle + 0.065;
 		setDirectionSpeed();
 	}
 	void turnRight() {
-		_turnAngle = _turnAngle - 0.1;
+		_turnAngle = _turnAngle - 0.065;
 		setDirectionSpeed();
 	}
 

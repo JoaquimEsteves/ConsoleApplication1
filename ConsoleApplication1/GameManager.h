@@ -2,7 +2,7 @@
 #define _GAMEMANAGER_H_
 #define ORANGE_NUMBERS 3
 #define BUTTER_NUMBERS 5
-
+#define CAMERA_NUMBER 3
 
 #include "Camera.h"
 #include "Vector3.h"
@@ -13,6 +13,9 @@
 #include "Orange.h"
 #include "Road.h"
 #include "Cheerio.h"
+#include "Camera.h"
+#include "OrthogonalCamera.h"
+#include "PerspectiveCamera.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
@@ -20,18 +23,22 @@
 class GameManager {
 
 	/*Deviam ser ponteiros? Assumo que sim*/
-	//std::vector<Camera *> _cameras; //vectr ou list?
+	 //vectr ou list?
 	//std::vector<GameObject *> _game_objects;
 	//std::vector<LightSource *> _light_sources;
 	bool _keys[256]; 
 	bool _draw_wired = false;
+	double _width = 640;
+	double _height = 640;
 	int _currentTime;
 	int _lastTime = 0;
 	float xmin = -5, xmax = 5, ymin = -5, ymax = 5;
 	float xscale = (xmax - xmin) / 600, yscale = (ymax - ymin) / 600;
 	Car  * c;
+	Camera * _currentCamera;
 	Orange * Oranges[ORANGE_NUMBERS];
 	Butter * Butters[BUTTER_NUMBERS];
+	Camera * Cameras[CAMERA_NUMBER];
 
 public:
 	inline GameManager() {
@@ -47,7 +54,16 @@ public:
 		Butters[2] = new Butter(0, 0, 0);
 		Butters[3] = new Butter(7, -7, 0);
 		Butters[4] = new Butter(-4, -1, 0);
-
+		/*Initiala camera*/
+		float c = (xmax + xmin);
+		xmax = c + xscale * _width;
+		xmin = c - xscale * _height;
+		c = (ymax + ymin);
+		ymax = c + yscale * _height;
+		ymin = c - yscale * _height;
+		gluOrtho2D(xmin, xmax, ymin, ymax);
+		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -100, 100);
+		_currentCamera = Cameras[0];
 
 	}
 	inline ~GameManager() {}
@@ -160,6 +176,10 @@ public:
 	void display() {
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//glViewport(0, 0, _width, _height);
+			_currentCamera->computeProjectionMatrix();
+			_currentCamera->update( _width, _height);
+			_currentCamera->computeVisualizationMatrix();
 			//background -> table
 			for (int i = -10; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
@@ -192,7 +212,6 @@ public:
 				}
 
 			}
-
 			//draw stuff
 
 			for (int i = 0; i < ORANGE_NUMBERS; i++) {
@@ -206,10 +225,14 @@ public:
 			rs->draw();
 
 			glutSwapBuffers();
+			glFlush();
 	}
 	void reshape(int w, int h) {
 		glViewport(0, 0, w, h);
-		glMatrixMode(GL_PROJECTION);
+		_width = w;
+		_height = h;
+		//camera original
+		/*glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -219,7 +242,7 @@ public:
 		c = (ymax + ymin);
 		ymax = c + yscale * h;
 		ymin = c - yscale * h;
-		gluOrtho2D(xmin, xmax, ymin, ymax);
+		gluOrtho2D(xmin, xmax, ymin, ymax);*/
 	}
 	void keyPressed();
 
@@ -251,6 +274,12 @@ public:
 			c->turnRight();
 
 		c->update(delta_t);
+		/*
+		if(_currentCamera = Cameras[1]){
+			_currentCamera->setAt(c->getPosition().getX(), c->getPosition().getY() - 20, c->getPosition().getZ() + 20);
+			_currentCamera->setUp(0,2,5);
+		}
+		*/
 
 	}
 	void init() {
