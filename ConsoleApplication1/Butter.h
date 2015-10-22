@@ -18,7 +18,7 @@ public:
 	*/
 	inline Butter(double x, double y, double z) {
 		setPosition(x, y, z);
-		_scale = new Vector3(1.5, 1, 0.0);
+		_scale = new Vector3(1.5, 1, 1);
 	}
 	inline virtual ~Butter() {}
 	inline void draw() {
@@ -27,7 +27,7 @@ public:
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-		glScaled(1.5, 1, 0.0);
+		glScaled(1.5, 1, 1);
 		glutSolidCube(1.5);
 		glPopMatrix();
 

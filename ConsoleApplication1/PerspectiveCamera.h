@@ -6,8 +6,7 @@
 #include "Car.h"
 
 //GameManager gives me these.
-extern int y;
-extern int z;
+
 
 
 class PerspectiveCamera : public Camera {
@@ -27,34 +26,42 @@ public:
 	PerspectiveCamera(double fovy, double aspect, double zNear, double zFar) :Camera(zNear, zFar) {
 		_fovy = fovy;
 		_aspect = aspect;
+		//setAt(0, 100000, 0);
+		setUp(0, 0, 1);
 	}
 	PerspectiveCamera(double fovy, double aspect, double zNear, double zFar, Car * c) :Camera(zNear, zFar) {
 		_fovy = fovy;
 		_aspect = aspect;
 		/*FOLLOW THAT CAR*/
 		_myCar = c;
+		setAt(c->getPosition().getX(), c->getPosition().getY() - 20, c->getPosition().getZ() + 20);
+		setUp(0, 2, 5); //slightly tipped back camera
 	}
-	virtual ~PerspectiveCamera();
+	virtual ~PerspectiveCamera() {}
 	void update(GLsizei width, GLsizei height) {
-		_aspect = (double)width / height;
+		//glutInitWindowSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+		//My vein attempts at fixing reshapes...
+		//glViewport(0, 0, width, height);
+		_aspect = (float)width / height;
 		_ratio = (_xmax - _xmin) / (_ymax - _ymin);
-		if (_ratio < _aspect) {
+		if (_ratio < _aspect)
 			glScalef(_ratio / _aspect, 1, 1);
-			return;
-		}
-		glScalef(1, _aspect / _ratio, 1);
+		else 
+			glScalef(1, _aspect / _ratio, 1);
 	}
 	void computeProjectionMatrix() {
+		//vec 3 up = get up, vec3 at and vec3 center are also gets
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		gluPerspective(_fovy, _aspect, getNear(), getFar());
+		//chama logo aqui o look at
 	}
 	void computeVisualizationMatrix() {
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
 			Vector3 To(getAt().getX() + getUp().getX(), getAt().getY() + getUp().getZ(), getAt().getZ() - getUp().getY());
 			gluLookAt(getAt().getX(), getAt().getY(), getAt().getZ(),					
-				To.getX(), To.getY(), To.getZ(),								
+				0, 0, 0,								
 					getUp().getX(), getUp().getY(), getUp().getZ());				
 		
 	}

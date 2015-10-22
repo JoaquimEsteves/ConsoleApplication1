@@ -34,7 +34,7 @@ class GameManager {
 	int _lastTime = 0;
 	float xmin = -5, xmax = 5, ymin = -5, ymax = 5;
 	float xscale = (xmax - xmin) / 600, yscale = (ymax - ymin) / 600;
-	Car  * c;
+	Car  * myCar;
 	Camera * _currentCamera;
 	Orange * Oranges[ORANGE_NUMBERS];
 	Butter * Butters[BUTTER_NUMBERS];
@@ -42,7 +42,7 @@ class GameManager {
 
 public:
 	inline GameManager() {
-		c = new Car();
+		myCar = new Car();
 		//Inicialization of objects here
 		// Orange Initial position set here. 
 		Oranges[0] = new Orange(-3, 7.5, 0);
@@ -63,6 +63,8 @@ public:
 		ymin = c - yscale * _height;
 		gluOrtho2D(xmin, xmax, ymin, ymax);
 		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -100, 100);
+		Cameras[1] = new PerspectiveCamera(90, 1, 5, -0.1);
+		Cameras[2] = new PerspectiveCamera(90, 1, 5, -0.1, myCar);
 		_currentCamera = Cameras[0];
 
 	}
@@ -77,6 +79,15 @@ public:
 
 	void keyA(unsigned char key) {
 		switch (key) {
+			case '1':
+				_currentCamera = Cameras[0];
+				break;
+			case '2':
+				_currentCamera = Cameras[1];
+				break;
+			case '3':
+				_currentCamera = Cameras[2];
+				break;
 			case 'a':
 				_keys['a'] = true;
 				if (_draw_wired) {
@@ -188,11 +199,13 @@ public:
 						else glColor3d(1, 1, 1);
 						glPushMatrix();
 							glTranslated(i, j, 0);
+							glScaled(1, 1, 0);
 							glutSolidCube(1);
 						glPopMatrix();
 
 						glPushMatrix();
 							glTranslated(-i - 2, -j, 0);
+							glScaled(1, 1, 0);
 							glutSolidCube(1);
 						glPopMatrix();
 					}
@@ -201,11 +214,13 @@ public:
 						else glColor3d(1, 1, 1);
 						glPushMatrix();
 							glTranslated(i, j, 0);
+							glScaled(1, 1, 0);
 							glutSolidCube(1);
 						glPopMatrix();
 
 						glPushMatrix();
 							glTranslated(-i, -j, 0);
+							glScaled(1, 1, 0);
 							glutSolidCube(1);
 						glPopMatrix();
 					}
@@ -220,7 +235,7 @@ public:
 			for (int i = 0; i < BUTTER_NUMBERS; i++) {
 				Butters[i]->draw();
 			}
-			c->draw();
+			myCar->draw();
 			Road *rs = new Road();
 			rs->draw();
 
@@ -228,6 +243,7 @@ public:
 			glFlush();
 	}
 	void reshape(int w, int h) {
+		glutReshapeWindow(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 		glViewport(0, 0, w, h);
 		_width = w;
 		_height = h;
@@ -255,35 +271,35 @@ public:
 	void idle();
 	inline void update(double delta_t) {
 		if (_keys[GLUT_KEY_UP]) {
-			if (c->getSpecialSpeed() <= 0)
-				c->setSpecialSpeed(c->getAcceleration());
-			else if (c->getSpecialSpeed() < c->getMaxSpeed()) {
-				c->setSpecialSpeed(c->getSpecialSpeed() + c->getAcceleration());
+			if (myCar->getSpecialSpeed() <= 0)
+				myCar->setSpecialSpeed(myCar->getAcceleration());
+			else if (myCar->getSpecialSpeed() < myCar->getMaxSpeed()) {
+				myCar->setSpecialSpeed(myCar->getSpecialSpeed() + myCar->getAcceleration());
 			}
 		}
 		if (_keys[GLUT_KEY_DOWN]) {
-			if (c->getSpecialSpeed() >= 0)
-				c->setSpecialSpeed(-c->getAcceleration());
-			else if (c->getSpecialSpeed() > (-c->getMaxSpeed())) {
-				c->setSpecialSpeed(c->getSpecialSpeed() - c->getAcceleration());
+			if (myCar->getSpecialSpeed() >= 0)
+				myCar->setSpecialSpeed(-myCar->getAcceleration());
+			else if (myCar->getSpecialSpeed() > (-myCar->getMaxSpeed())) {
+				myCar->setSpecialSpeed(myCar->getSpecialSpeed() - myCar->getAcceleration());
 			}
 		}
 		if (_keys[GLUT_KEY_LEFT])
-			c->turnLeft();
+			myCar->turnLeft();
 		if (_keys[GLUT_KEY_RIGHT])
-			c->turnRight();
+			myCar->turnRight();
 
-		c->update(delta_t);
-		/*
-		if(_currentCamera = Cameras[1]){
-			_currentCamera->setAt(c->getPosition().getX(), c->getPosition().getY() - 20, c->getPosition().getZ() + 20);
-			_currentCamera->setUp(0,2,5);
+		myCar->update(delta_t);
+		
+		if(_currentCamera == Cameras[2]){
+			_currentCamera->setAt(myCar->getPosition().getX()/* - COS(GETROTATION)*/, myCar->getPosition().getY() - 20/*MENOS SIN R*/, myCar->getPosition().getZ() + 20/*some number to represent the car size*/);
+			/*set center as carx + cos R; cary + sinR, car Z*/
+			_currentCamera->setUp(0,0,1);
 		}
-		*/
 
 	}
 	void init() {
-		c = new Car();
+		myCar = new Car();
 	}
 };
 #endif

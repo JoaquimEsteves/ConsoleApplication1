@@ -12,6 +12,7 @@ class OrthogonalCamera : public Camera {
 	/* Used only in update, so NO GETTERS OR SETTERS*/
 	float _aspect;
 	float _ratio;
+	/*No need for zNear or zFar thanks to good ol' gluOrtho2D, they are initialized as -1 and 1 respectively*/
 	
 
 public:
