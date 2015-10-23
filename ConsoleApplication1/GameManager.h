@@ -64,7 +64,7 @@ public:
 		gluOrtho2D(xmin, xmax, ymin, ymax);
 		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -100, 100);
 		Cameras[1] = new PerspectiveCamera(90, 1, 5, -0.1);
-		Cameras[2] = new PerspectiveCamera(90, 1, 5, -0.1, myCar);
+		Cameras[2] = new PerspectiveCamera(90, 1, 0, -0.2, myCar);
 		_currentCamera = Cameras[0];
 
 	}
@@ -292,7 +292,15 @@ public:
 		myCar->update(delta_t);
 		
 		if(_currentCamera == Cameras[2]){
-			_currentCamera->setAt(myCar->getPosition().getX()/* - COS(GETROTATION)*/, myCar->getPosition().getY() - 20/*MENOS SIN R*/, myCar->getPosition().getZ() + 20/*some number to represent the car size*/);
+			//if (myCar->getDirection().getX() < 0) {
+			//	_currentCamera->setAt(myCar->getPosition().getX() + cos(PI * myCar->getTurnAngle()), myCar->getPosition().getY() - sin(PI * myCar->getTurnAngle()), myCar->getPosition().getZ() + 2/*some number to represent the car size*/);
+			//}
+			//else
+			_currentCamera->setAt(myCar->getPosition().getX() + cos(myCar->getTurnAngle()), myCar->getPosition().getY() + sin(myCar->getTurnAngle()), myCar->getPosition().getZ() +.5/*some number to represent the car size*/);
+			//_currentCamera->getAt().invert();
+			_currentCamera->setCenter(myCar->getPosition());
+			//_currentCamera->getCenter().invert();
+
 			/*set center as carx + cos R; cary + sinR, car Z*/
 			_currentCamera->setUp(0,0,1);
 		}

@@ -79,6 +79,7 @@ public:
 
 	inline void draw() {
 		glColor3d(0, 0, 0); //wheels could be torus
+		//RODAS DA DIREITA ESTAO UM BOCADINHO MAL DESENHADAS, HELP JESSICA
 
 		glPushMatrix();
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
@@ -116,7 +117,7 @@ public:
 			glColor3d(1, 0, 0);//car
 
 			glPushMatrix();
-				glScaled(2, 1.5, 1);
+				glScaled(2, 1.5, 0.5);
 				glutSolidCube(0.5);
 			glPopMatrix();
 

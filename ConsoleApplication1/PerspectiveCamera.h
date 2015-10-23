@@ -28,6 +28,7 @@ public:
 		_aspect = aspect;
 		//setAt(0, 100000, 0);
 		setUp(0, 0, 1);
+		getCenter().set(0, -2, 0);
 	}
 	PerspectiveCamera(double fovy, double aspect, double zNear, double zFar, Car * c) :Camera(zNear, zFar) {
 		_fovy = fovy;
@@ -36,6 +37,7 @@ public:
 		_myCar = c;
 		setAt(c->getPosition().getX(), c->getPosition().getY() - 20, c->getPosition().getZ() + 20);
 		setUp(0, 2, 5); //slightly tipped back camera
+		getCenter().set(_myCar->getPosition());
 	}
 	virtual ~PerspectiveCamera() {}
 	void update(GLsizei width, GLsizei height) {
@@ -59,9 +61,9 @@ public:
 	void computeVisualizationMatrix() {
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
-			Vector3 To(getAt().getX() + getUp().getX(), getAt().getY() + getUp().getZ(), getAt().getZ() - getUp().getY());
+			//Vector3 To(getAt().getX() + getUp().getX(), getAt().getY() + getUp().getZ(), getAt().getZ() - getUp().getY());
 			gluLookAt(getAt().getX(), getAt().getY(), getAt().getZ(),					
-				0, 0, 0,								
+				getCenter().getX(), getCenter().getY(), getCenter().getZ(),
 					getUp().getX(), getUp().getY(), getUp().getZ());				
 		
 	}

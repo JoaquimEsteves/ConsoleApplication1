@@ -8,7 +8,7 @@ class Camera : public Entity {
 	double _near;
 	double _far;
 	Vector3  _up;
-	//Vector3  _center;
+	Vector3  _center;
 	Vector3  _at;
 	//Vector3 * _1; //??????
 
@@ -24,6 +24,9 @@ public:
 	double getFar()		{ return _far; }
 	Vector3 getUp()		{ return _up; }
 	Vector3 getAt()		{ return _at; }
+	Vector3 getCenter() { return _center; }
+	void setCenter(Vector3 c) { _center = c; }
+	void setCenter(double x, double y, double z) { _center.set(x, y, z); }
 	void setAt(double x, double y, double z) { _at.set(x, y, z); }
 	void setUp(double x, double y, double z) { _up.set(x, y, z); }
 	virtual void update(GLsizei w, GLsizei h) = 0;
