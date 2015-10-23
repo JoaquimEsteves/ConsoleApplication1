@@ -296,7 +296,7 @@ public:
 			//	_currentCamera->setAt(myCar->getPosition().getX() + cos(PI * myCar->getTurnAngle()), myCar->getPosition().getY() - sin(PI * myCar->getTurnAngle()), myCar->getPosition().getZ() + 2/*some number to represent the car size*/);
 			//}
 			//else
-			_currentCamera->setAt(myCar->getPosition().getX() + cos(myCar->getTurnAngle()), myCar->getPosition().getY() + sin(myCar->getTurnAngle()), myCar->getPosition().getZ() +.5/*some number to represent the car size*/);
+			_currentCamera->setAt(myCar->getPosition().getX() + cos(myCar->getTurnAngle()), myCar->getPosition().getY() + sin(myCar->getTurnAngle()), myCar->getPosition().getZ() +.625/*some number to represent the car size*/);
 			//_currentCamera->getAt().invert();
 			_currentCamera->setCenter(myCar->getPosition());
 			//_currentCamera->getCenter().invert();

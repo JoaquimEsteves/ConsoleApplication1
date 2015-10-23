@@ -90,26 +90,29 @@ public:
 	
 
 			glPushMatrix();
-				glTranslated(0.3, 0.3, 0);
-				glRotated(45 * 180 / PI, 1, 0, 0);
+				glTranslated(0.25, 0.4, 0);
+				glRotated(80 * 180 / PI, 1, 0, 0);
 				glutSolidTorus(0.075, 0.15, 10, 10);
+				//glutSolidSphere(0.2, 50, 50);
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslated(0.3, -0.3, 0);
-				glRotated(45 * 180 / PI, 1, 0, 0);
+				glTranslated(0.25, -0.4, 0);
+				glRotated(80 * 180 / PI, 1, 0, 0);
 				glutSolidTorus(0.075, 0.15, 10, 10);
+				//glutSolidSphere(0.2, 50, 50);
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslated(-0.3, 0.3, 0);
-				glRotated(45 * 180 / PI, 1, 0, 0);
+				glTranslated(-0.25, 0.35, 0);
+				glRotated(80 * 180 / PI, 1, 0, 0);
 				glutSolidTorus(0.075, 0.15, 10, 10);
+				//glutSolidSphere(0.2, 50, 50);
 			glPopMatrix();
 
 			glPushMatrix();
-				glTranslated(-0.3, -0.3, 0);
-				glRotated(45 * 180 / PI, 1, 0, 0);
+				glTranslated(-0.25, -0.35, 0);
+				glRotated(80 * 180 / PI, 1, 0, 0);
 				glutSolidTorus(0.075, 0.15, 10, 10);
 				//glutSolidSphere(0.2, 50, 50);
 			glPopMatrix();
@@ -117,7 +120,8 @@ public:
 			glColor3d(1, 0, 0);//car
 
 			glPushMatrix();
-				glScaled(2, 1.5, 0.5);
+				glTranslated(0, 0, .10);
+				glScaled(2, 1.5, 0.75);
 				glutSolidCube(0.5);
 			glPopMatrix();
 
