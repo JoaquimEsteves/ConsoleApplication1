@@ -78,8 +78,8 @@ public:
 	}
 
 	inline void draw() {
-		glColor3d(0, 0, 0); //wheels could be torus
-		//RODAS DA DIREITA ESTAO UM BOCADINHO MAL DESENHADAS, HELP JESSICA
+		glColor3d(1, 1, 1); //wheels could be torus
+		//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 
 		glPushMatrix();
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
@@ -98,8 +98,11 @@ public:
 
 			glPushMatrix();
 				glTranslated(0.25, -0.4, 0);
-				glRotated(80 * 180 / PI, 1, 0, 0);
+				
+				glRotated(96 * 180 / PI, 1, 0, 0);
+				
 				glutSolidTorus(0.075, 0.15, 10, 10);
+
 				//glutSolidSphere(0.2, 50, 50);
 			glPopMatrix();
 
