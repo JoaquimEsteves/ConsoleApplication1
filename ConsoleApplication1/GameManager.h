@@ -293,12 +293,12 @@ public:
 			myCar->turnRight();
 
 		myCar->update(delta_t);
-		if (myCar->HasColision(Oranges[0]))
-			myCar->setPosition(0, 4, 0);
+		/*if (myCar->HasColision(Oranges[0]))
+			myCar->setPosition(0, 4, 0);*/
 		
-		for (int i = 0; i < ORANGE_NUMBERS; i++) {
+		for (int i = 0; i < 1; i++) {
 			if (myCar->HasColision(Oranges[i])) {
-				Oranges[i]->setSpeed(0,0,0);
+				//Oranges[i]->setSpeed(0,0,0);
 				myCar->setSpeed(0, 0, 0);
 				myCar->setPosition(0, 4, 0);//initial position
 			}
