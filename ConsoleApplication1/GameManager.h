@@ -298,7 +298,6 @@ public:
 				myCar->setPosition(0, 4, 0);//initial position
 			}
 			Oranges[i]->update(delta_t);
-			positionbeforecolission = myCar->getPosition();
 
 		}
 		
