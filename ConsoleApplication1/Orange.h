@@ -22,7 +22,7 @@ public:
 	inline  Orange(double x, double y, double z) {
 		setPosition(x, y, z);
 		setRadius(1);
-		setSize(0.2, 0.2, 0.2);
+		setSize(1, 1, 1);
 		double randonm_speed = (rand() % _maxSpeed) + 1;
 		if ((int)randonm_speed % 2 == 0) {
 			randonm_speed *= 0.00001;

@@ -25,7 +25,7 @@ public:
 	inline Car(){
 		setPosition(0, 4, 0);
 		_direction.set(1, 0, 0);
-		setSize(0.1,0.1,0.1); 
+		setSize(1,1, 1);
 
 	}
 	inline virtual ~Car()			{}
