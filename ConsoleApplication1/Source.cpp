@@ -1,3 +1,4 @@
+#include <stdlib.h> 
 #include <GL\glut.h> 
 #include "Vector3.h"
 #include "GameManager.h"
