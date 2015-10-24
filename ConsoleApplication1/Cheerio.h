@@ -6,7 +6,7 @@
 
 class Cheerio : public Obstacle {
 	double _torusScale[4] = { 0.05, 0.1, 10, 10 };
-
+	bool _hidden = false;
 public:
 	/*
 	initial positions set as:
@@ -19,15 +19,17 @@ public:
 	inline Cheerio(double x, double y, double z) {
 		setPosition(x, y, z);
 	}
+	void setHidden(bool b) { _hidden = b; }
 	inline virtual ~Cheerio() {}
 	inline void draw() {
 		//butter
 		//glColor3d(1.0, 1.5, 0);
-
-		glPushMatrix();
+		if (!_hidden) {
+			glPushMatrix();
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 			glutSolidTorus(_torusScale[0], _torusScale[1], _torusScale[2], _torusScale[3]);
-		glPopMatrix();
+			glPopMatrix();
+		}
 
 	}
 };

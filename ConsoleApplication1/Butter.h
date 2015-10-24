@@ -27,7 +27,7 @@ public:
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-		glScaled(1.5, 1, 1);
+		glScaled(1.5, 1, .5);
 		glutSolidCube(1.5);
 		glPopMatrix();
 

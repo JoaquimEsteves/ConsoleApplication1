@@ -8,9 +8,11 @@
 #include "Vector3.h"
 #include "Entity.h"
 #include "GameObject.h"
+#include "GameManager.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
+#include <iostream>
 class Car : public DynamicObject {
 	double _maxSpeed = 50;
 	double _acceleration = 10;
@@ -19,6 +21,7 @@ class Car : public DynamicObject {
 	double _turnAngle = 0;
 	//double _rotation = 0;
 	Vector3 _direction;
+	
 
 public:
 
@@ -28,6 +31,7 @@ public:
 		setSize(.45,.3375, 0.375);
 
 	}
+
 	inline virtual ~Car()			{}
 	double getMaxSpeed()			{ return _maxSpeed; }
 	double getAcceleration()		{ return _acceleration; }

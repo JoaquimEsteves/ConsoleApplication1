@@ -45,18 +45,19 @@ class GameManager {
 public:
 	inline GameManager() {
 		myCar = new Car();
+		//myCar->setGM(this);
 		//Inicialization of objects here
 		// Orange Initial position set here. 
 		srand(time(NULL));
-		Oranges[0] = new Orange(rand() % 10 -9,0, 0);
-		Oranges[1] = new Orange(rand() % 5 -5, 0, 0);
-		Oranges[2] = new Orange(rand() % 10 + 1, 0, 0);
+		Oranges[0] = new Orange(rand() % 10 -9,0, 1);
+		Oranges[1] = new Orange(rand() % 5 -5, 0, 1);
+		Oranges[2] = new Orange(rand() % 10 + 1, 0, 1);
 		// Butter Initial position set here.
-		Butters[0] = new Butter(-6, 2, 0);
-		Butters[1] = new Butter(4, 7.7, 0);
-		Butters[2] = new Butter(0, 0, 0);
-		Butters[3] = new Butter(7, -7, 0);
-		Butters[4] = new Butter(-4, -1, 0);
+		Butters[0] = new Butter(-6, 2, .5);
+		Butters[1] = new Butter(4, 7.7, 0.5);
+		Butters[2] = new Butter(0, 0, 0.5);
+		Butters[3] = new Butter(7, -7, 0.5);
+		Butters[4] = new Butter(-4, -1, 0.5);
 		/*Initiala camera*/
 		float c = (xmax + xmin);
 		xmax = c + xscale * _width;
@@ -79,7 +80,7 @@ public:
 	void setCameras(std::vector<Camera *> v);
 	void setObjects(std::vector<GameObject *> v);
 	void setLightSources(std::vector<LightSource *> v);*/
-
+	Orange * getOranges() { return Oranges[ORANGE_NUMBERS]; }
 	void keyA(unsigned char key) {
 		switch (key) {
 			case '1':
@@ -232,7 +233,7 @@ public:
 			}
 			//draw stuff
 
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < ORANGE_NUMBERS; i++) {
 				Oranges[i]->draw();
 			}
 			for (int i = 0; i < BUTTER_NUMBERS; i++) {
@@ -296,7 +297,7 @@ public:
 		/*if (myCar->HasColision(Oranges[0]))
 			myCar->setPosition(0, 4, 0);*/
 		
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			if (myCar->HasColision(Oranges[i])) {
 				//Oranges[i]->setSpeed(0,0,0);
 				myCar->setSpeed(0, 0, 0);
