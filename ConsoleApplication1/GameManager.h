@@ -291,8 +291,15 @@ public:
 
 		myCar->update(delta_t);
 		
-		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			Butters[i]->update();
+		for (int i = 0; i < ORANGE_NUMBERS; i++) {
+			if (myCar->HasColision(Oranges[i])) {
+				Oranges[i]->setSpeed(0,0,0);
+				myCar->setSpeed(0, 0, 0);
+				myCar->setPosition(0, 4, 0);//initial position
+			}
+			Oranges[i]->update(delta_t);
+			positionbeforecolission = myCar->getPosition();
+
 		}
 		
 		if(_currentCamera == Cameras[2]){
