@@ -3,10 +3,12 @@
 
 #include "GameObject.h"
 #include "Vector3.h"
+#include <math.h>
 
 
 class DynamicObject : public GameObject {
 	Vector3 _speed;
+	double distance;
 
 public:
 	inline DynamicObject() { setSpeed(0, 0, 0); }
@@ -20,5 +22,15 @@ public:
 			getPosition().getY() + getSpeed().getY() * delta_t,
 			getPosition().getZ());*/
 	}
+
+	bool HasColision(GameObject *a) {
+		 distance = sqrt(exp2(getPosition().getX() - (a->getPosition().getX())) +
+				 exp2(getPosition().getY() - (a->getPosition().getY())));
+		if (distance < (getRadius() + a->getRadius())){
+			return 1;
+		}
+		return 0;
+	}
 };
 #endif
+
