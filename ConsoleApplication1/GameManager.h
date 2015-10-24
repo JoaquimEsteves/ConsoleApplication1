@@ -291,6 +291,10 @@ public:
 
 		myCar->update(delta_t);
 		
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			Butters[i]->update();
+		}
+		
 		if(_currentCamera == Cameras[2]){
 			//if (myCar->getDirection().getX() < 0) {
 			//	_currentCamera->setAt(myCar->getPosition().getX() + cos(PI * myCar->getTurnAngle()), myCar->getPosition().getY() - sin(PI * myCar->getTurnAngle()), myCar->getPosition().getZ() + 2/*some number to represent the car size*/);
