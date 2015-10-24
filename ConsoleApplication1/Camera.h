@@ -16,7 +16,7 @@ public:
 	Camera(double near, double far) {
 		_near = near;
 		_far = far;
-		_at.set(0, -6, 12); //FIX THESE VALUES
+		_at.set(0, -6, 13.5); //FIX THESE VALUES
 		_up.set(0, 0 , 1); //FIX THESE VALUES
 	}
 	virtual ~Camera() {}

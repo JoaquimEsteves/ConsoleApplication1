@@ -24,12 +24,24 @@ public:
 	}
 
 	bool HasColision(GameObject *a) {
-		 distance = sqrt(exp2(getPosition().getX() - (a->getPosition().getX())) +
+		if ((getPosition().getX() + getSize().getX()) > (a->getPosition().getX() - a->getSize().getX()) &&
+			(getPosition().getX() - getSize().getX()) < (a->getPosition().getX() + a->getSize().getX()) &&
+
+			(getPosition().getY() + getSize().getY()) > (a->getPosition().getY() - a->getSize().getY()) &&
+			(getPosition().getY() - getSize().getY()) < (a->getPosition().getY() + a->getSize().getY()) &&
+
+			(getPosition().getZ() + getSize().getZ()) > (a->getPosition().getZ() - a->getSize().getZ()) &&
+			(getPosition().getZ() - getSize().getZ()) < (a->getPosition().getZ() + a->getSize().getZ()))
+		{
+			return 1;
+		}
+		return 0;
+		/* distance = sqrt(exp2(getPosition().getX() - (a->getPosition().getX())) +
 				 exp2(getPosition().getY() - (a->getPosition().getY())));
 		if (distance < (getRadius() + a->getRadius())){
 			return 1;
 		}
-		return 0;
+		return 0;*/
 	}
 };
 #endif

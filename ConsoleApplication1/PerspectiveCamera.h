@@ -23,6 +23,7 @@ class PerspectiveCamera : public Camera {
 public:
 	//No sets and gets asked for, none given
 	PerspectiveCamera() :Camera(0, 200) { _myCar = NULL; }
+	/*Standart perspective*/
 	PerspectiveCamera(double fovy, double aspect, double zNear, double zFar) :Camera(zNear, zFar) {
 		_fovy = fovy;
 		_aspect = aspect;
@@ -30,6 +31,7 @@ public:
 		setUp(0, 0, 1);
 		getCenter().set(0, -2, 0);
 	}
+	/*Camera that follows the car*/
 	PerspectiveCamera(double fovy, double aspect, double zNear, double zFar, Car * c) :Camera(zNear, zFar) {
 		_fovy = fovy;
 		_aspect = aspect;

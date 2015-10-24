@@ -25,6 +25,7 @@ public:
 	inline Car(){
 		setPosition(0, 4, 0);
 		_direction.set(1, 0, 0);
+		setSize(0.1,0.1,0.1); 
 
 	}
 	inline virtual ~Car()			{}
@@ -78,7 +79,7 @@ public:
 	}
 
 	inline void draw() {
-		glColor3d(1, 1, 1); //wheels could be torus
+		glColor3d(0, 0, 0); //wheels could be torus
 		//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 
 		glPushMatrix();

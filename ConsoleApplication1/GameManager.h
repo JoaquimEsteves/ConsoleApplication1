@@ -19,6 +19,8 @@
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
+#include <time.h> 
+#include <stdlib.h>
 
 class GameManager {
 
@@ -45,9 +47,10 @@ public:
 		myCar = new Car();
 		//Inicialization of objects here
 		// Orange Initial position set here. 
-		Oranges[0] = new Orange(-3, 7.5, 0);
-		Oranges[1] = new Orange(7, 7, 0);
-		Oranges[2] = new Orange(-8.5, -1.5, 0);
+		srand(time(NULL));
+		Oranges[0] = new Orange(rand() % 10 -9,0, 0);
+		Oranges[1] = new Orange(rand() % 5 -5, 0, 0);
+		Oranges[2] = new Orange(rand() % 10 + 1, 0, 0);
 		// Butter Initial position set here.
 		Butters[0] = new Butter(-6, 2, 0);
 		Butters[1] = new Butter(4, 7.7, 0);
@@ -229,7 +232,7 @@ public:
 			}
 			//draw stuff
 
-			for (int i = 0; i < ORANGE_NUMBERS; i++) {
+			for (int i = 0; i < 1; i++) {
 				Oranges[i]->draw();
 			}
 			for (int i = 0; i < BUTTER_NUMBERS; i++) {
@@ -290,6 +293,8 @@ public:
 			myCar->turnRight();
 
 		myCar->update(delta_t);
+		if (myCar->HasColision(Oranges[0]))
+			myCar->setPosition(0, 4, 0);
 		
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			if (myCar->HasColision(Oranges[i])) {

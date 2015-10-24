@@ -3,6 +3,8 @@
 
 #include "Obstacle.h"                             
 #include "GL\glut.h"
+#include <time.h> 
+#include <stdlib.h>
   
 
 class Orange : public Obstacle {
@@ -20,6 +22,7 @@ public:
 	inline  Orange(double x, double y, double z) {
 		setPosition(x, y, z);
 		setRadius(1);
+		setSize(0.2, 0.2, 0.2);
 		double randonm_speed = (rand() % _maxSpeed) + 1;
 		if ((int)randonm_speed % 2 == 0) {
 			randonm_speed *= 0.00001;

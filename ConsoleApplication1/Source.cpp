@@ -1,4 +1,5 @@
 #include <stdlib.h> 
+#include <time.h>
 #include <GL\glut.h> 
 #include "Vector3.h"
 #include "GameManager.h"
@@ -9,7 +10,7 @@
 #include "Road.h"
 #include "Butter.h"
 
-
+ 
 
 #define UPDATE_TIMER 1
 
@@ -29,6 +30,7 @@ void keyA(unsigned char key, int x, int y) { gm->keyA(key); }
 
 int main(int argc, char *argv[])
 {
+	srand(time(NULL));
 	gm = new GameManager();
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
