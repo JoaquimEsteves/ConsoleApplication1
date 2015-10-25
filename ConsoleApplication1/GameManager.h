@@ -70,19 +70,19 @@ public:
 			counter_delta_t = actual_delta_t + 10;
 			speeder *= 2;
 		}
-		if (i % 2 == 0) {
-		Oranges[i] = new Orange(rand() % 18 - 18/2 , 9, 1);
+		//if (i % 2 == 0) {
+		Oranges[i] = new Orange(rand() % 18 - 18/2 , 9, .5);
 		Oranges[i]->setSpeed(0, (rand() % 5 + 5)*0.0003*speeder, 0);
 		Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
-		}
-		else {
+		//}
+		/*else {
 		Oranges[i] = new Orange(9, rand() % 18 - 18 / 2, 1);
 		Oranges[i]->setSpeed((rand() % 5 + 5)*0.0003*speeder, 0, 0);
 		Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
-		}
+		}*/
 	}
 	void randOranges() {
-		srand(time(NULL));
+		
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			HelloOrange(i);
 		}
@@ -214,10 +214,7 @@ public:
 		}
 
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
-			if (i % 2 == 0) {
-				Oranges[i]->draw1();
-			}
-			else Oranges[i]->draw2();
+			Oranges[i]->draw();
 		}
 
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
@@ -294,11 +291,11 @@ public:
 				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
 				Oranges[i]->setPosition(0, 0, 100);
 				Oranges[i]->setSpeed(0, 0, 0);
-				counter = delta_t + rand() % 20 + 1;
+				Oranges[i]->setCounter(delta_t + rand() % 20 + 5);
 				LostOranges[i] = -1;
 
 			}
-			if (counter <= delta_t) {
+			if (Oranges[i]->getCounter() <= delta_t) {
 				for (int i = 0; i < ORANGE_NUMBERS; i++) {
 					if (LostOranges[i] == -1) {
 						LostOranges[i] = 0;
@@ -377,6 +374,7 @@ public:
 
 	}
 	void init() {
+		srand(time(NULL));
 		myCar = new Car();
 		int currentCheerio = 0;
 
@@ -418,7 +416,7 @@ public:
 		ymax = c + yscale * _height;
 		ymin = c - yscale * _height;
 		gluOrtho2D(xmin, xmax, ymin, ymax);
-		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -100, 100);
+		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -110, 110);
 		Cameras[1] = new PerspectiveCamera(90, 1, 5, -0.1);
 		Cameras[2] = new PerspectiveCamera(90, 1, 0, -0.2, myCar);
 		_currentCamera = Cameras[0];
