@@ -8,17 +8,10 @@ class Butter : public Obstacle {
 	Vector3 _scale;
 
 public:
-	/*
-	initial positions set as:
-		-6, 2, 0
-		4, 7.7, 0
-		0, 0, 0
-		7, -7, 0
-		-4, -1, 0
-	*/
+
 	inline Butter(double x, double y, double z) {
 		setPosition(x, y, z);
-		_scale = new Vector3(1.5, 1, 1);
+		setSize(1.125, 0.75, 0.75);
 	}
 	inline virtual ~Butter() {}
 	inline void draw() {
@@ -27,10 +20,13 @@ public:
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-		glScaled(1.5, 1, .5);
+		glScaled(1.5, 1, 1);
 		glutSolidCube(1.5);
 		glPopMatrix();
 
+	}
+	void update(double delta_t) {
+		setPosition(getPosition() + getSpeed() * delta_t);
 	}
 };
 #endif
