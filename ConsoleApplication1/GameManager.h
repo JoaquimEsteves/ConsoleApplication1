@@ -40,15 +40,18 @@ class GameManager {
 	Car  * myCar;
 	Camera * _currentCamera;
 	Orange * Oranges[ORANGE_NUMBERS];
-	int LostOranges[ORANGE_NUMBERS] = {0};
+	int LostOranges[ORANGE_NUMBERS] = { 0 };
 	Butter * Butters[BUTTER_NUMBERS];
 	Camera * Cameras[CAMERA_NUMBER];
 	Cheerio * Cheerios[CHEERIOS_NUMBER];
-	double counter=0;
+	double counter = 0;
 	int lostOrange;
 	Vector3 positionBeforeCollision;
 	int forward;
-	
+	double counter_delta_t=10;
+	double speeder = 1;
+	double actual_delta_t;
+
 
 
 public:
@@ -58,66 +61,25 @@ public:
 	std::list<DynamicObject *> getInteractableObjects(void) { return _interactable_game_objects; }
 	//END OF DANGEROUS HACK
 	inline GameManager() {
-		myCar = new Car();
-		int currentCheerio = 0;
-		
-		//32 cheerios
-		for (int i = -8; i < 8; i++) { //exterior horizontal
-			Cheerios[currentCheerio++] = new Cheerio(i, 8, 0);
-			Cheerios[currentCheerio++] = new Cheerio(i, -8, 0);
-		}
-		//20
-		for (int i = -5; i < 5; i++) { // interior horizontal
-			Cheerios[currentCheerio++] = new Cheerio(i, 5, 0);
-			Cheerios[currentCheerio++] = new Cheerio(i, -5, 0);
-		}
-		//30
-		for (int i = -7; i < 8; i++) { //exterior vertical
-			Cheerios[currentCheerio++] = new Cheerio(-9, i, 0);
-			Cheerios[currentCheerio++] = new Cheerio(8, i, 0);
-		}
-		//18
-
-		for (int i = -4; i < 5; i++) { //interior vertical
-			Cheerios[currentCheerio++] = new Cheerio(-6, i, 0);
-			Cheerios[currentCheerio++] = new Cheerio(5, i, 0);
-		}
-		//Inicialization of objects here
-		// Orange Initial position set here. 
-		
-		randOranges();
-		// Butter Initial position set here.
-		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			Butters[i]=new Butter(rand() % 20 - 10, rand() % 20 - 10, 0);
-		}
-		
-		/*Initiala camera*/
-		float c = (xmax + xmin);
-		xmax = c + xscale * _width;
-		xmin = c - xscale * _height;
-		c = (ymax + ymin);
-		ymax = c + yscale * _height;
-		ymin = c - yscale * _height;
-		gluOrtho2D(xmin, xmax, ymin, ymax);
-		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -100, 100);
-		Cameras[1] = new PerspectiveCamera(90, 1, 5, -0.1);
-		Cameras[2] = new PerspectiveCamera(90, 1, 0, -0.2, myCar);
-		_currentCamera = Cameras[0];
-
+		init();
 	}
 	inline ~GameManager() {}
 
 	void HelloOrange(int i) {
-		//if (i % 2 == 0) {
-			Oranges[i] = new Orange(rand() % (10) - (5), 7.5, 1);
-			Oranges[i]->setSpeed(0, (rand() % 5 + 1)*0.0005, 0);
-			Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
-		//}
-		/*else {
-			Oranges[i] = new Orange(rand() % (10) - (5), rand() % (10) - (5), 1);
-			Oranges[i]->setSpeed((rand() % 10 + 5)*0.0005, 0, 0);
-			Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
-		}*/
+		if (counter_delta_t <= actual_delta_t) {
+			counter_delta_t = actual_delta_t + 10;
+			speeder *= 2;
+		}
+		if (i % 2 == 0) {
+		Oranges[i] = new Orange((rand() % 18)/2 , 9, 1);
+		Oranges[i]->setSpeed(0, (rand() % 5 + 5)*0.0001*speeder, 0);
+		Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
+		}
+		else {
+		Oranges[i] = new Orange(9, (rand() % 18)/2, 1);
+		Oranges[i]->setSpeed((rand() % 5 + 5)*0.0001*speeder, 0, 0);
+		Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
+		}
 	}
 	void randOranges() {
 		srand(time(NULL));
@@ -191,7 +153,7 @@ public:
 		case GLUT_KEY_DOWN:
 
 			_keys[GLUT_KEY_DOWN] = true;
-	
+
 			break;
 		case GLUT_KEY_LEFT:
 			_keys[GLUT_KEY_LEFT] = true;
@@ -247,7 +209,7 @@ public:
 		//draw stuff
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			if(Cheerios[i] != NULL)
+			if (Cheerios[i] != NULL)
 				Cheerios[i]->draw();
 		}
 
@@ -294,6 +256,7 @@ public:
 	}
 	void idle();
 	inline void update(double delta_t) {
+		actual_delta_t = delta_t;
 		if (_keys[GLUT_KEY_UP] && !myCar->getForceStart()) {
 			forward = 1;
 			if (myCar->getSpecialSpeed() <= 0)
@@ -315,25 +278,25 @@ public:
 		if (_keys[GLUT_KEY_RIGHT])
 			myCar->turnRight();
 
-		
+
 		if (myCar->getPosition().getX() >= 9.5 || myCar->getPosition().getX() <= -10 ||
 			myCar->getPosition().getY() >= 9.5 || myCar->getPosition().getY() <= -9.5) {
 			myCar = new Car();
 		}
 		myCar->update(delta_t);
-		
 
+		
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			if (myCar->HasColision(Oranges[i])) {
-				myCar= new Car();
+				myCar = new Car();
 			}
-			if (Oranges[i]->getPosition().getX() >= 9.5|| Oranges[i]->getPosition().getX() <= -10 ||
+			if (Oranges[i]->getPosition().getX() >= 9.5 || Oranges[i]->getPosition().getX() <= -10 ||
 				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
 				Oranges[i]->setPosition(0, 0, 100);
 				Oranges[i]->setSpeed(0, 0, 0);
-				counter= delta_t+5;
+				counter = delta_t + 5;
 				LostOranges[i] = -1;
-				
+
 			}
 			if (counter <= delta_t) {
 				for (int i = 0; i < ORANGE_NUMBERS; i++) {
@@ -349,10 +312,11 @@ public:
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			if (myCar->HasColision(Butters[i])) {
 				myCar->setForceStart(true);
-				myCar->setSpecialSpeed(0);
 				myCar->setPosition(positionBeforeCollision);
-				Butters[i]->setSpeed(myCar->getDirection()*0.005*forward);
+				Butters[i]->setSpeed(myCar->getDirection()*forward*0.005);
 				
+				myCar->setSpecialSpeed(0);
+
 			}
 			if (Butters[i]->getPosition().getX() >= 9.5 || Butters[i]->getPosition().getX() <= -10 ||
 				Butters[i]->getPosition().getY() >= 9.5 || Butters[i]->getPosition().getY() <= -9.5) {
@@ -364,8 +328,8 @@ public:
 		}
 
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			if (Butters[i]->getSpeed().getX()!=0 || Butters[i]->getSpeed().getX() != 0) {
-				Butters[i]->setSpeed(Butters[i]->getSpeed()*0.95);
+			if (Butters[i]->getSpeed().getX() != 0 || Butters[i]->getSpeed().getY() != 0) {
+				Butters[i]->setSpeed(Butters[i]->getSpeed()*0.9);
 
 			}
 			Butters[i]->update(delta_t);
@@ -376,8 +340,9 @@ public:
 				if (myCar->HasColision(Cheerios[i])) {
 					myCar->setPosition(positionBeforeCollision);
 					myCar->setForceStart(true);
+					Cheerios[i]->setSpeed(myCar->getDirection()*forward*0.005);
+					
 					myCar->setSpecialSpeed(0);
-					Cheerios[i]->setSpeed(myCar->getDirection()*0.005*forward);
 				}
 				if (Cheerios[i]->getPosition().getX() >= 9.5 || Cheerios[i]->getPosition().getX() <= -10 ||
 					Cheerios[i]->getPosition().getY() >= 9.5 || Cheerios[i]->getPosition().getY() <= -9.5) {
@@ -396,7 +361,7 @@ public:
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
 			if (Cheerios[i] != NULL) {
-				if (Cheerios[i]->getSpeed().getX() != 0 || Cheerios[i]->getSpeed().getX() != 0) {
+				if (Cheerios[i]->getSpeed().getX() != 0 || Cheerios[i]->getSpeed().getY() != 0) {
 					Cheerios[i]->setSpeed(Cheerios[i]->getSpeed()*0.9);
 
 				}
@@ -413,6 +378,50 @@ public:
 	}
 	void init() {
 		myCar = new Car();
+		int currentCheerio = 0;
+
+		//32 cheerios
+		for (int i = -8; i < 8; i++) { //exterior horizontal
+			Cheerios[currentCheerio++] = new Cheerio(i, 8, 0);
+			Cheerios[currentCheerio++] = new Cheerio(i, -8, 0);
+		}
+		//20
+		for (int i = -5; i < 5; i++) { // interior horizontal
+			Cheerios[currentCheerio++] = new Cheerio(i, 5, 0);
+			Cheerios[currentCheerio++] = new Cheerio(i, -5, 0);
+		}
+		//30
+		for (int i = -7; i < 8; i++) { //exterior vertical
+			Cheerios[currentCheerio++] = new Cheerio(-9, i, 0);
+			Cheerios[currentCheerio++] = new Cheerio(8, i, 0);
+		}
+		//18
+
+		for (int i = -4; i < 5; i++) { //interior vertical
+			Cheerios[currentCheerio++] = new Cheerio(-6, i, 0);
+			Cheerios[currentCheerio++] = new Cheerio(5, i, 0);
+		}
+		//Inicialization of objects here
+		// Orange Initial position set here. 
+
+		randOranges();
+		// Butter Initial position set here.
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			Butters[i] = new Butter(rand() % 20 - 10, rand() % 20 - 10, 0);
+		}
+
+		/*Initiala camera*/
+		float c = (xmax + xmin);
+		xmax = c + xscale * _width;
+		xmin = c - xscale * _height;
+		c = (ymax + ymin);
+		ymax = c + yscale * _height;
+		ymin = c - yscale * _height;
+		gluOrtho2D(xmin, xmax, ymin, ymax);
+		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -100, 100);
+		Cameras[1] = new PerspectiveCamera(90, 1, 5, -0.1);
+		Cameras[2] = new PerspectiveCamera(90, 1, 0, -0.2, myCar);
+		_currentCamera = Cameras[0];
 	}
 };
 #endif
