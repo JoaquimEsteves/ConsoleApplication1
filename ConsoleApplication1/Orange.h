@@ -3,50 +3,57 @@
 
 #include "Obstacle.h"                             
 #include "GL\glut.h"
-#include <time.h> 
-#include <stdlib.h>
+#include <time.h>
   
 
 class Orange : public Obstacle {
 	int numberRings = 20;
 	int _maxSpeed = 10;
+	double _turnAngle = 0;
 public:
-	/*
-	initial positions set as:
-	-3,7.5,0
-	7, 7, 0
-	-8.5, -1.5, 0
-	*/
+	
 	inline  Orange() {
 	}
 	inline  Orange(double x, double y, double z) {
 		setPosition(x, y, z);
-		setRadius(1);
-		setSize(1, 1, 1);
-		double randonm_speed = (rand() % _maxSpeed) + 1;
-		if ((int)randonm_speed % 2 == 0) {
-			randonm_speed *= 0.00001;
-			setSpeed(randonm_speed, 0, 0);
-		}
-		else{
-			randonm_speed *= 0.0001;
-			setSpeed(0, randonm_speed, 0);
-		}
+		setSize(1,1,1);
+		
 	}
 
 	inline virtual ~Orange() {}
-	inline void draw() {
+
+	double getTurnAngle() { return _turnAngle; }
+	void setTurnAngle(double turnAngle) { _turnAngle = turnAngle; }
+
+	inline void draw1() {
 		//orange
 		glColor3d(1.0, 0.5, 0);
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 
+		glRotated(_turnAngle * 180 / PI, 1, 0, 0);
+
 		glutSolidSphere(1, numberRings, numberRings);
 		glPopMatrix();
 
 	}
+	inline void draw2() {
+		//orange
+		glColor3d(1.0, 0.5, 0);
+
+		glPushMatrix();
+		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+
+		glRotated(_turnAngle * 180 / PI, 0, 1, 0);
+
+		glutSolidSphere(1, numberRings, numberRings);
+		glPopMatrix();
+
+	}
+
 	void update(double delta_t) {
+		setTurnAngle(getTurnAngle()+ 0.05);
 		setPosition(getPosition() + getSpeed() * delta_t);
 	}
 };
