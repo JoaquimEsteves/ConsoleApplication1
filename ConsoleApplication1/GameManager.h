@@ -3,6 +3,7 @@
 #define ORANGE_NUMBERS 3
 #define BUTTER_NUMBERS 5
 #define CAMERA_NUMBER 3
+#define CHEERIOS_NUMBER 100
 
 #include "Camera.h"
 #include "Vector3.h"
@@ -24,11 +25,7 @@
 
 class GameManager {
 
-	/*Deviam ser ponteiros? Assumo que sim*/
-	 //vectr ou list?
-	//std::vector<GameObject *> _game_objects;
-	//std::vector<LightSource *> _light_sources;
-	bool _keys[256]; 
+	bool _keys[256];
 	bool _draw_wired = false;
 	double _width = 640;
 	double _height = 640;
@@ -39,25 +36,50 @@ class GameManager {
 	Car  * myCar;
 	Camera * _currentCamera;
 	Orange * Oranges[ORANGE_NUMBERS];
+	int LostOranges[ORANGE_NUMBERS] = {0};
 	Butter * Butters[BUTTER_NUMBERS];
 	Camera * Cameras[CAMERA_NUMBER];
+	Cheerio * Cheerios[CHEERIOS_NUMBER];
+	double counter=0;
+	int lostOrange;
+	Vector3 positionBeforeCollision;
+	int forward;
 
 public:
 	inline GameManager() {
 		myCar = new Car();
-		//myCar->setGM(this);
+		int currentCheerio = 0;
+		
+		//32 cheerios
+		for (int i = -8; i < 8; i++) { //exterior horizontal
+			Cheerios[currentCheerio++] = new Cheerio(i, 8, 0);
+			Cheerios[currentCheerio++] = new Cheerio(i, -8, 0);
+		}
+		//20
+		for (int i = -5; i < 5; i++) { // interior horizontal
+			Cheerios[currentCheerio++] = new Cheerio(i, 5, 0);
+			Cheerios[currentCheerio++] = new Cheerio(i, -5, 0);
+		}
+		//30
+		for (int i = -7; i < 8; i++) { //exterior vertical
+			Cheerios[currentCheerio++] = new Cheerio(-9, i, 0);
+			Cheerios[currentCheerio++] = new Cheerio(8, i, 0);
+		}
+		//18
+
+		for (int i = -4; i < 5; i++) { //interior vertical
+			Cheerios[currentCheerio++] = new Cheerio(-6, i, 0);
+			Cheerios[currentCheerio++] = new Cheerio(5, i, 0);
+		}
 		//Inicialization of objects here
 		// Orange Initial position set here. 
-		srand(time(NULL));
-		Oranges[0] = new Orange(rand() % 10 -9,0, 1);
-		Oranges[1] = new Orange(rand() % 5 -5, 0, 1);
-		Oranges[2] = new Orange(rand() % 10 + 1, 0, 1);
+		
+		randOranges();
 		// Butter Initial position set here.
-		Butters[0] = new Butter(-6, 2, .5);
-		Butters[1] = new Butter(4, 7.7, 0.5);
-		Butters[2] = new Butter(0, 0, 0.5);
-		Butters[3] = new Butter(7, -7, 0.5);
-		Butters[4] = new Butter(-4, -1, 0.5);
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			Butters[i]=new Butter(rand() % 20 - 10, rand() % 20 - 10, 0);
+		}
+		
 		/*Initiala camera*/
 		float c = (xmax + xmin);
 		xmax = c + xscale * _width;
@@ -74,177 +96,161 @@ public:
 	}
 	inline ~GameManager() {}
 
+	void HelloOrange(int i) {
+		if (i % 2 == 0) {
+			Oranges[i] = new Orange(rand() % 10, 9, 0);
+			Oranges[i]->setSpeed(0, (rand() % 5 + 1)*0.0005, 0);
+			Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
+		}
+		else {
+			Oranges[i] = new Orange(9, rand() % 10, 0);
+			Oranges[i]->setSpeed((rand() % 5 + 1)*0.0005, 0, 0);
+			Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
+		}
+	}
+	void randOranges() {
+		srand(time(NULL));
+		for (int i = 0; i < ORANGE_NUMBERS; i++) {
+			HelloOrange(i);
+		}
+	}
 	/*std::vector<Camera *> getCameras();
 	std::vector<GameObject *> getObjects();
 	std::vector<LightSource *> getLightSources();
 	void setCameras(std::vector<Camera *> v);
 	void setObjects(std::vector<GameObject *> v);
 	void setLightSources(std::vector<LightSource *> v);*/
-	Orange * getOranges() { return Oranges[ORANGE_NUMBERS]; }
+
 	void keyA(unsigned char key) {
 		switch (key) {
-			case '1':
-				_currentCamera = Cameras[0];
-				break;
-			case '2':
-				_currentCamera = Cameras[1];
-				break;
-			case '3':
-				_currentCamera = Cameras[2];
-				break;
-			case 'a':
-				_keys['a'] = true;
-				if (_draw_wired) {
-					_draw_wired = false;
-					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				}
-				else {
-					_draw_wired = true;
-					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-				}
-				break;
-			case 'A':
-				_keys['A'] = true;
-				if (_draw_wired) {
-					_draw_wired = false;
-					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				}
-				else {
-					_draw_wired = true;
-					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-				}
-				break;
+		case '1':
+			_currentCamera = Cameras[0];
+			break;
+		case '2':
+			_currentCamera = Cameras[1];
+			break;
+		case '3':
+			_currentCamera = Cameras[2];
+			break;
+		case 'a':
+			_keys['a'] = true;
+			if (_draw_wired) {
+				_draw_wired = false;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else {
+				_draw_wired = true;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			break;
+		case 'A':
+			_keys['A'] = true;
+			if (_draw_wired) {
+				_draw_wired = false;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else {
+				_draw_wired = true;
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			break;
 		}
 
 	}
 	void keyUp(unsigned char key) {
 		switch (key) {
-			case GLUT_KEY_UP:
-				_keys[GLUT_KEY_UP] = false; break;
-			case GLUT_KEY_DOWN:
-				_keys[GLUT_KEY_DOWN] = false; break;
-			case GLUT_KEY_LEFT:
-				_keys[GLUT_KEY_LEFT] = false; break;
-			case GLUT_KEY_RIGHT:
-				_keys[GLUT_KEY_RIGHT] = false; break;
+		case GLUT_KEY_UP:
+			_keys[GLUT_KEY_UP] = false; break;
+		case GLUT_KEY_DOWN:
+			_keys[GLUT_KEY_DOWN] = false; break;
+		case GLUT_KEY_LEFT:
+			_keys[GLUT_KEY_LEFT] = false; break;
+		case GLUT_KEY_RIGHT:
+			_keys[GLUT_KEY_RIGHT] = false; break;
 		}
 	}
 	void keyPressed(unsigned char key) {
-		//double rotationX;
-		//double rotationY;
-		//double ANGLE = 0.1;
+
 		switch (key) {
 
 		case GLUT_KEY_UP:
 			_keys[GLUT_KEY_UP] = true;
-			/*if (c->getSpecialSpeed() <= 0)
-				c->setSpecialSpeed(c->getAcceleration()); 
-			else if(c->getSpecialSpeed() < c->getMaxSpeed()) {
-				c->setSpecialSpeed(c->getSpecialSpeed() + c->getAcceleration());
-			}*/
-			//c->setSpeed(0, 1 * CARSPEED, 0); 
-			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
-				c->setSpeed(1*cos(ANGLE), 1*sin(ANGLE), 0);
-			}
-			if (c->getSpeed().getX() == 5 || c->getSpeed().getY() == 5) {
-				c->setSpeed(5*cos(ANGLE), 5*sin(ANGLE), 0);
-			}
-			else {
-				c->setSpeed((c->getSpeed().getX()+1)*cos(ANGLE), (c->getSpeed().getY()+1)*sin(ANGLE), 0);
-			} */
 			break;
-
 		case GLUT_KEY_DOWN:
 			_keys[GLUT_KEY_DOWN] = true;
-			//c->setSpecialSpeed(-1);
-			/*if (c->getSpecialSpeed() >= 0)
-				c->setSpecialSpeed(-c->getAcceleration());
-			else if (c->getSpecialSpeed() > (- c->getMaxSpeed())) {
-				c->setSpecialSpeed(c->getSpecialSpeed() - c->getAcceleration());
-			}*/
-
-			//c->setSpeed(0, -1 * CARSPEED, 0); 
-			/*if (c->getSpeed().getX() == 0 || c->getSpeed().getY() == 0) {
-				c->setSpeed(0, 0, 0);
-			}
-			else {
-				c->setSpeed((c->getSpeed().getX() -1)*cos(ANGLE), (c->getSpeed().getY() -1)*sin(ANGLE), 0);
-			}*/
 			break;
-
 		case GLUT_KEY_LEFT:
 			_keys[GLUT_KEY_LEFT] = true;
-			//c->turnLeft(); 
-			/*rotationX = cos(ANGLE) - sin(ANGLE) - (c->getPosition().getX()*cos(ANGLE)) + (c->getPosition().getY()*sin(ANGLE)) + c->getPosition().getX();
-			rotationY = sin(ANGLE) + cos(ANGLE) - (c->getPosition().getX()*sin(ANGLE)) - (c->getPosition().getY()*cos(ANGLE)) + c->getPosition().getY();
-			c->setPosition(rotationX, rotationY, 0);*/
 			break;
 		case GLUT_KEY_RIGHT:
 			_keys[GLUT_KEY_RIGHT] = true;
-			//c->turnRight(); 
-			/*rotationX = cos(-ANGLE) - sin(-ANGLE) - (c->getPosition().getX()*cos(-ANGLE)) + (c->getPosition().getY()*sin(-ANGLE)) + c->getPosition().getX();
-			rotationY = sin(-ANGLE) + cos(-ANGLE) - (c->getPosition().getX()*sin(-ANGLE)) - (c->getPosition().getY()*cos(-ANGLE)) + c->getPosition().getY();
-			c->setPosition(rotationX, rotationY, 0); */
 			break;
 		}
 	}
 	void display() {
-			
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			//glViewport(0, 0, _width, _height);
-			_currentCamera->computeProjectionMatrix();
-			_currentCamera->update( _width, _height);
-			_currentCamera->computeVisualizationMatrix();
-			//background -> table
-			for (int i = -10; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (i % 2 == 0) {
-						if (j % 2 == 0)glColor3d(0.74902, 0.847059, 1.847059); //0.74902 green 0.847059 blue 0.847059
-						else glColor3d(1, 1, 1);
-						glPushMatrix();
-							glTranslated(i, j, 0);
-							glScaled(1, 1, 0);
-							glutSolidCube(1);
-						glPopMatrix();
 
-						glPushMatrix();
-							glTranslated(-i - 2, -j, 0);
-							glScaled(1, 1, 0);
-							glutSolidCube(1);
-						glPopMatrix();
-					}
-					else {
-						if (j % 2 == 1)glColor3d(0.74902, 0.847059, 1.847059);
-						else glColor3d(1, 1, 1);
-						glPushMatrix();
-							glTranslated(i, j, 0);
-							glScaled(1, 1, 0);
-							glutSolidCube(1);
-						glPopMatrix();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glViewport(0, 0, _width, _height);
+		_currentCamera->computeProjectionMatrix();
+		_currentCamera->update(_width, _height);
+		_currentCamera->computeVisualizationMatrix();
+		//background -> table
+		for (int i = -10; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (i % 2 == 0) {
+					if (j % 2 == 0)glColor3d(0.74902, 0.847059, 1.847059); //0.74902 green 0.847059 blue 0.847059
+					else glColor3d(1, 1, 1);
+					glPushMatrix();
+					glTranslated(i, j, 0);
+					glScaled(1, 1, 0);
+					glutSolidCube(1);
+					glPopMatrix();
 
-						glPushMatrix();
-							glTranslated(-i, -j, 0);
-							glScaled(1, 1, 0);
-							glutSolidCube(1);
-						glPopMatrix();
-					}
+					glPushMatrix();
+					glTranslated(-i - 2, -j, 0);
+					glScaled(1, 1, 0);
+					glutSolidCube(1);
+					glPopMatrix();
 				}
+				else {
+					if (j % 2 == 1)glColor3d(0.74902, 0.847059, 1.847059);
+					else glColor3d(1, 1, 1);
+					glPushMatrix();
+					glTranslated(i, j, 0);
+					glScaled(1, 1, 0);
+					glutSolidCube(1);
+					glPopMatrix();
 
+					glPushMatrix();
+					glTranslated(-i, -j, 0);
+					glScaled(1, 1, 0);
+					glutSolidCube(1);
+					glPopMatrix();
+				}
 			}
-			//draw stuff
 
-			for (int i = 0; i < ORANGE_NUMBERS; i++) {
-				Oranges[i]->draw();
-			}
-			for (int i = 0; i < BUTTER_NUMBERS; i++) {
-				Butters[i]->draw();
-			}
-			myCar->draw();
-			Road *rs = new Road();
-			rs->draw();
+		}
+		//draw stuff
 
-			glutSwapBuffers();
-			glFlush();
+		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
+			Cheerios[i]->draw();
+		}
+
+		for (int i = 0; i < ORANGE_NUMBERS; i++) {
+			if (i % 2 == 0) {
+				Oranges[i]->draw1();
+			}
+			else Oranges[i]->draw2();
+		}
+
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			Butters[i]->draw();
+		}
+
+		myCar->draw();
+
+		glutSwapBuffers();
+		glFlush();
 	}
 	void reshape(int w, int h) {
 		glutReshapeWindow(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
@@ -264,9 +270,8 @@ public:
 		ymin = c - yscale * h;
 		gluOrtho2D(xmin, xmax, ymin, ymax);*/
 	}
-	void keyPressed();
 
-	void onTimer(){
+	void onTimer() {
 		_currentTime = glutGet(GLUT_ELAPSED_TIME);
 		update((_currentTime - _lastTime));
 		_lastTime = _currentTime;
@@ -275,6 +280,7 @@ public:
 	void idle();
 	inline void update(double delta_t) {
 		if (_keys[GLUT_KEY_UP]) {
+			forward = 1;
 			if (myCar->getSpecialSpeed() <= 0)
 				myCar->setSpecialSpeed(myCar->getAcceleration());
 			else if (myCar->getSpecialSpeed() < myCar->getMaxSpeed()) {
@@ -282,6 +288,7 @@ public:
 			}
 		}
 		if (_keys[GLUT_KEY_DOWN]) {
+			forward = -1;
 			if (myCar->getSpecialSpeed() >= 0)
 				myCar->setSpecialSpeed(-myCar->getAcceleration());
 			else if (myCar->getSpecialSpeed() > (-myCar->getMaxSpeed())) {
@@ -293,32 +300,88 @@ public:
 		if (_keys[GLUT_KEY_RIGHT])
 			myCar->turnRight();
 
-		myCar->update(delta_t);
-		/*if (myCar->HasColision(Oranges[0]))
-			myCar->setPosition(0, 4, 0);*/
 		
+		if (myCar->getPosition().getX() >= 10 || myCar->getPosition().getX() <= -10 ||
+			myCar->getPosition().getY() >= 10 || myCar->getPosition().getY() <= -10) {
+			myCar = new Car();
+		}
+		myCar->update(delta_t);
+		
+
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			if (myCar->HasColision(Oranges[i])) {
-				//Oranges[i]->setSpeed(0,0,0);
-				myCar->setSpeed(0, 0, 0);
-				myCar->setPosition(0, 4, 0);//initial position
+				myCar= new Car();
+			}
+			if (Oranges[i]->getPosition().getX() >= 9.5|| Oranges[i]->getPosition().getX() <= -9.5 ||
+				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
+				Oranges[i]->setPosition(0, 0, 100);
+				Oranges[i]->setSpeed(0, 0, 0);
+				counter= delta_t+5;
+				LostOranges[i] = -1;
+				
+			}
+			if (counter <= delta_t) {
+				for (int i = 0; i < ORANGE_NUMBERS; i++) {
+					if (LostOranges[i] == -1) {
+						LostOranges[i] = 0;
+						HelloOrange(i);
+					}
+				}
 			}
 			Oranges[i]->update(delta_t);
-
 		}
-		
-		if(_currentCamera == Cameras[2]){
-			//if (myCar->getDirection().getX() < 0) {
-			//	_currentCamera->setAt(myCar->getPosition().getX() + cos(PI * myCar->getTurnAngle()), myCar->getPosition().getY() - sin(PI * myCar->getTurnAngle()), myCar->getPosition().getZ() + 2/*some number to represent the car size*/);
-			//}
-			//else
-			_currentCamera->setAt(myCar->getPosition().getX() + cos(myCar->getTurnAngle()), myCar->getPosition().getY() + sin(myCar->getTurnAngle()), myCar->getPosition().getZ() +.625/*some number to represent the car size*/);
-			//_currentCamera->getAt().invert();
-			_currentCamera->setCenter(myCar->getPosition());
-			//_currentCamera->getCenter().invert();
 
-			/*set center as carx + cos R; cary + sinR, car Z*/
-			_currentCamera->setUp(0,0,1);
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			if (myCar->HasColision(Butters[i])) {
+				myCar->setSpeed(0, 0, 0);
+				myCar->setPosition(positionBeforeCollision);
+				Butters[i]->setSpeed(myCar->getDirection()*0.01*forward);
+				
+			}
+			if (Butters[i]->getPosition().getX() >= 10 || Butters[i]->getPosition().getX() <= -10 ||
+				Butters[i]->getPosition().getY() >= 10 || Butters[i]->getPosition().getY() <= -10) {
+				Butters[i]->setPosition(0, 0, 100);
+				Butters[i]->setSpeed(0, 0, 0);
+			}
+			Butters[i]->update(delta_t);
+			positionBeforeCollision = myCar->getPosition();
+		}
+
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			if (Butters[i]->getSpeed().getX()!=0 || Butters[i]->getSpeed().getX() != 0) {
+				Butters[i]->setSpeed(Butters[i]->getSpeed()*0.95);
+
+			}
+			Butters[i]->update(delta_t);
+		}
+
+		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
+			if (myCar->HasColision(Cheerios[i])) {
+				myCar->setPosition(positionBeforeCollision);
+				Cheerios[i]->setSpeed(myCar->getDirection()*0.01*forward);
+			}
+			if (Cheerios[i]->getPosition().getX() >= 10 || Cheerios[i]->getPosition().getX() <= -10 ||
+				Cheerios[i]->getPosition().getY() >= 10 || Cheerios[i]->getPosition().getY() <= -10) {
+				Cheerios[i]->setPosition(0, 0, 100);
+				Cheerios[i]->setSpeed(0, 0, 0);
+			}
+			Cheerios[i]->update(delta_t);
+			positionBeforeCollision = myCar->getPosition();
+		}
+
+
+		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
+			if (Cheerios[i]->getSpeed().getX() != 0 || Cheerios[i]->getSpeed().getX() != 0) {
+				Cheerios[i]->setSpeed(Cheerios[i]->getSpeed()*0.9);
+
+			}
+			Cheerios[i]->update(delta_t);
+		}
+
+		if (_currentCamera == Cameras[2]) {
+			_currentCamera->setAt(myCar->getPosition().getX() + cos(myCar->getTurnAngle()), myCar->getPosition().getY() + sin(myCar->getTurnAngle()), myCar->getPosition().getZ() + .625/*some number to represent the car size*/);
+			_currentCamera->setCenter(myCar->getPosition());
+			_currentCamera->setUp(0, 0, 1);
 		}
 
 	}
