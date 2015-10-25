@@ -291,17 +291,17 @@ public:
 				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
 				Oranges[i]->setPosition(0, 0, 100);
 				Oranges[i]->setSpeed(0, 0, 0);
-				Oranges[i]->setCounter(delta_t + rand() % 20 + 5);
+				Oranges[i]->setCounter(delta_t + rand() % 20 + 2);
 				LostOranges[i] = -1;
 
 			}
 			if (Oranges[i]->getCounter() <= delta_t) {
-				for (int i = 0; i < ORANGE_NUMBERS; i++) {
+				
 					if (LostOranges[i] == -1) {
 						LostOranges[i] = 0;
 						HelloOrange(i);
 					}
-				}
+				
 			}
 			Oranges[i]->update(delta_t);
 		}

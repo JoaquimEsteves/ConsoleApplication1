@@ -29,8 +29,6 @@ public:
 
 	inline void draw() {
 		//orange
-		
-
 		glPushMatrix();
 		glColor3d(1.0, 0.5, 0);
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
