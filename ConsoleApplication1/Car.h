@@ -8,11 +8,9 @@
 #include "Vector3.h"
 #include "Entity.h"
 #include "GameObject.h"
-#include "GameManager.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
-#include <iostream>
 class Car : public DynamicObject {
 	double _maxSpeed = 50;
 	double _acceleration = 10;
@@ -21,40 +19,32 @@ class Car : public DynamicObject {
 	double _turnAngle = 0;
 	//double _rotation = 0;
 	Vector3 _direction;
-	
 
 public:
 
-	inline Car(){
-		setPosition(0, 4, 0);
+	inline Car() {
+		setPosition(0, -6.5, 0);
 		_direction.set(1, 0, 0);
-		setSize(.45,.3375, 0.375);
+		setSize(.5, .375, 0.1875);
 
 	}
-
-	inline virtual ~Car()			{}
-	double getMaxSpeed()			{ return _maxSpeed; }
-	double getAcceleration()		{ return _acceleration; }
-	double getTurnAngle()			{ return _turnAngle;  }
-	void setSpecialSpeed(double d)	{ _specialSpeed = d; }
-	double getSpecialSpeed()		{ return _specialSpeed; }
-	Vector3 getDirection()			{ return _direction; }
+	inline virtual ~Car() {}
+	double getMaxSpeed() { return _maxSpeed; }
+	double getAcceleration() { return _acceleration; }
+	double getTurnAngle() { return _turnAngle; }
+	void setSpecialSpeed(double d) { _specialSpeed = d; }
+	double getSpecialSpeed() { return _specialSpeed; }
+	Vector3 getDirection() { return _direction; }
+	void setDirection(Vector3 direction) { _direction=direction; }
 
 	void turnLeft() {
-		_turnAngle =  _turnAngle + 0.065;
+		_turnAngle = _turnAngle + 0.015;
 		setDirectionSpeed();
 	}
 	void turnRight() {
-		_turnAngle = _turnAngle - 0.065;
+		_turnAngle = _turnAngle - 0.015;
 		setDirectionSpeed();
 	}
-
-	/*void  setDirectionSpeed() {
-		double x = _direction.getX()*cos(turnAngle) ;
-		double y = _direction.getX()*sin(turnAngle);
-		double z = 0;
-		_direction.set(x / sqrt(x*x + y*y + z*z), y / sqrt(x*x + y*y + z*z), z / sqrt(x*x + y*y + z*z));
-	}*/
 
 	//HELLO
 	void  setDirectionSpeed() {
@@ -84,57 +74,57 @@ public:
 
 	inline void draw() {
 		glColor3d(0, 0, 0); //wheels could be torus
-		//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
+							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 
 		glPushMatrix();
-			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 
 
 
-			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
-	
+		glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 
-			glPushMatrix();
-				glTranslated(0.25, 0.4, 0);
-				glRotated(80 * 180 / PI, 1, 0, 0);
-				glutSolidTorus(0.075, 0.15, 10, 10);
-				//glutSolidSphere(0.2, 50, 50);
-			glPopMatrix();
 
-			glPushMatrix();
-				glTranslated(0.25, -0.4, 0);
-				
-				glRotated(96 * 180 / PI, 1, 0, 0);
-				
-				glutSolidTorus(0.075, 0.15, 10, 10);
+		glPushMatrix();
+		glTranslated(0.25, 0.4, 0);
+		glRotated(80 * 180 / PI, 1, 0, 0);
+		glutSolidTorus(0.075, 0.15, 10, 10);
+		//glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
 
-				//glutSolidSphere(0.2, 50, 50);
-			glPopMatrix();
+		glPushMatrix();
+		glTranslated(0.25, -0.4, 0);
 
-			glPushMatrix();
-				glTranslated(-0.25, 0.35, 0);
-				glRotated(80 * 180 / PI, 1, 0, 0);
-				glutSolidTorus(0.075, 0.15, 10, 10);
-				//glutSolidSphere(0.2, 50, 50);
-			glPopMatrix();
+		glRotated(96 * 180 / PI, 1, 0, 0);
 
-			glPushMatrix();
-				glTranslated(-0.25, -0.35, 0);
-				glRotated(80 * 180 / PI, 1, 0, 0);
-				glutSolidTorus(0.075, 0.15, 10, 10);
-				//glutSolidSphere(0.2, 50, 50);
-			glPopMatrix();
+		glutSolidTorus(0.075, 0.15, 10, 10);
 
-			glColor3d(1, 0, 0);//car
+		//glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
 
-			glPushMatrix();
-				glTranslated(0, 0, .10);
-				glScaled(2, 1.5, 0.75);
-				glutSolidCube(0.5);
-			glPopMatrix();
+		glPushMatrix();
+		glTranslated(-0.25, 0.35, 0);
+		glRotated(80 * 180 / PI, 1, 0, 0);
+		glutSolidTorus(0.075, 0.15, 10, 10);
+		//glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-0.25, -0.35, 0);
+		glRotated(80 * 180 / PI, 1, 0, 0);
+		glutSolidTorus(0.075, 0.15, 10, 10);
+		//glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+
+		glColor3d(1, 0, 0);//car
+
+		glPushMatrix();
+		glTranslated(0, 0, .10);
+		glScaled(2, 1.5, 0.75);
+		glutSolidCube(0.5);
+		glPopMatrix();
 
 		glPopMatrix();
-		
+
 	}
 
 	void update_trivial(double delta_t) {
