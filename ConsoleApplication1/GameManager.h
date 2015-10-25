@@ -71,13 +71,13 @@ public:
 			speeder *= 2;
 		}
 		if (i % 2 == 0) {
-		Oranges[i] = new Orange((rand() % 18)/2 , 9, 1);
-		Oranges[i]->setSpeed(0, (rand() % 5 + 5)*0.0001*speeder, 0);
+		Oranges[i] = new Orange(rand() % 18 - 18/2 , 9, 1);
+		Oranges[i]->setSpeed(0, (rand() % 5 + 5)*0.0003*speeder, 0);
 		Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
 		}
 		else {
-		Oranges[i] = new Orange(9, (rand() % 18)/2, 1);
-		Oranges[i]->setSpeed((rand() % 5 + 5)*0.0001*speeder, 0, 0);
+		Oranges[i] = new Orange(9, rand() % 18 - 18 / 2, 1);
+		Oranges[i]->setSpeed((rand() % 5 + 5)*0.0003*speeder, 0, 0);
 		Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
 		}
 	}
@@ -294,7 +294,7 @@ public:
 				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
 				Oranges[i]->setPosition(0, 0, 100);
 				Oranges[i]->setSpeed(0, 0, 0);
-				counter = delta_t + 5;
+				counter = delta_t + rand() % 20 + 1;
 				LostOranges[i] = -1;
 
 			}
@@ -407,7 +407,7 @@ public:
 		randOranges();
 		// Butter Initial position set here.
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			Butters[i] = new Butter(rand() % 20 - 10, rand() % 20 - 10, 0);
+			Butters[i] = new Butter(rand() % 17 - 8, rand() % 17 - 8, .5);
 		}
 
 		/*Initiala camera*/
