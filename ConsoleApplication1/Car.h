@@ -5,12 +5,20 @@
 #define CARSPEED 0.0001
 
 #include "DynamicObject.h"
+#include "GameManager.h"
 #include "Vector3.h"
 #include "Entity.h"
 #include "GameObject.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
+#include <list>
+#include <iostream>
+#include <vector>
+#include <map>
+
+
+extern std::list<DynamicObject *> _interactable_game_objects;
 class Car : public DynamicObject {
 	double _maxSpeed = 50;
 	double _acceleration = 10;
@@ -19,6 +27,7 @@ class Car : public DynamicObject {
 	double _turnAngle = 0;
 	//double _rotation = 0;
 	Vector3 _direction;
+	bool _forceStart = false;
 
 public:
 
@@ -29,20 +38,22 @@ public:
 
 	}
 	inline virtual ~Car() {}
-	double getMaxSpeed() { return _maxSpeed; }
-	double getAcceleration() { return _acceleration; }
-	double getTurnAngle() { return _turnAngle; }
-	void setSpecialSpeed(double d) { _specialSpeed = d; }
-	double getSpecialSpeed() { return _specialSpeed; }
-	Vector3 getDirection() { return _direction; }
-	void setDirection(Vector3 direction) { _direction=direction; }
+	double getMaxSpeed()					{return _maxSpeed; }
+	double getAcceleration()				{ return _acceleration; }
+	double getTurnAngle()					{ return _turnAngle; }
+	void setSpecialSpeed(double d)			{ _specialSpeed = d; }
+	double getSpecialSpeed()				{ return _specialSpeed; }
+	bool getForceStart()					{ return _forceStart; }
+	void setForceStart(bool b)				{ _forceStart = b; }
+	Vector3 getDirection()					{ return _direction; }
+	void setDirection(Vector3 direction)	{ _direction=direction; }
 
 	void turnLeft() {
-		_turnAngle = _turnAngle + 0.015;
+		_turnAngle = _turnAngle + 0.030;
 		setDirectionSpeed();
 	}
 	void turnRight() {
-		_turnAngle = _turnAngle - 0.015;
+		_turnAngle = _turnAngle - 0.030;
 		setDirectionSpeed();
 	}
 
@@ -137,6 +148,7 @@ public:
 		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
 		friction();
 		setPosition(getPosition() + getDirection() * _specialSpeed * CARSPEED * delta_t);
+		//printf("car Y position %d \n", getPosition().getY());
 	}
 };
 #endif

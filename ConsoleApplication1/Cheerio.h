@@ -7,15 +7,22 @@
 
 class Cheerio : public Obstacle {
 	double _torusScale[4] = { 0.05, 0.1, 10, 10 };
+	Vector3 _initialPosition;
 
 public:
 	
 	inline Cheerio(double x, double y, double z) {
 		setPosition(x, y, z);
+		_initialPosition.set(x, y, z);
+		setSize(0.1, 0.1, 0.1);
+	}
+	inline Cheerio(Vector3 pos) {
+		setPosition(pos);
+		_initialPosition.set(pos);
 		setSize(0.1, 0.1, 0.1);
 	}
 	inline virtual ~Cheerio() {}
-
+	Vector3 getInitialPosition() { return _initialPosition; }
 	inline void draw() {
 		//butter
 		glColor3d(0.5, 0.35, 0.05);

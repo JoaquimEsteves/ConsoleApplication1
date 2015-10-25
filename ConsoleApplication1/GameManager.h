@@ -22,6 +22,10 @@
 #include <stdio.h>
 #include <time.h> 
 #include <stdlib.h>
+#include <list>
+#include <iostream>
+#include <vector>
+#include <map>
 
 class GameManager {
 
@@ -44,8 +48,15 @@ class GameManager {
 	int lostOrange;
 	Vector3 positionBeforeCollision;
 	int forward;
+	
+
 
 public:
+	//DANGEROUS HACK, COULD NOT FOR SOME REASON CALL EXTERN GAMEMANAGER
+	std::list<DynamicObject *> _interactable_game_objects;
+	void setInteractableObject(DynamicObject* aux) { _interactable_game_objects.push_back(aux); }
+	std::list<DynamicObject *> getInteractableObjects(void) { return _interactable_game_objects; }
+	//END OF DANGEROUS HACK
 	inline GameManager() {
 		myCar = new Car();
 		int currentCheerio = 0;
@@ -97,16 +108,16 @@ public:
 	inline ~GameManager() {}
 
 	void HelloOrange(int i) {
-		if (i % 2 == 0) {
-			Oranges[i] = new Orange(rand() % 10, 9, 0);
+		//if (i % 2 == 0) {
+			Oranges[i] = new Orange(rand() % (10) - (5), 7.5, 1);
 			Oranges[i]->setSpeed(0, (rand() % 5 + 1)*0.0005, 0);
 			Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
-		}
-		else {
-			Oranges[i] = new Orange(9, rand() % 10, 0);
-			Oranges[i]->setSpeed((rand() % 5 + 1)*0.0005, 0, 0);
+		//}
+		/*else {
+			Oranges[i] = new Orange(rand() % (10) - (5), rand() % (10) - (5), 1);
+			Oranges[i]->setSpeed((rand() % 10 + 5)*0.0005, 0, 0);
 			Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
-		}
+		}*/
 	}
 	void randOranges() {
 		srand(time(NULL));
@@ -160,9 +171,9 @@ public:
 	void keyUp(unsigned char key) {
 		switch (key) {
 		case GLUT_KEY_UP:
-			_keys[GLUT_KEY_UP] = false; break;
+			myCar->setForceStart(false);  _keys[GLUT_KEY_UP] = false; break;
 		case GLUT_KEY_DOWN:
-			_keys[GLUT_KEY_DOWN] = false; break;
+			myCar->setForceStart(false); _keys[GLUT_KEY_DOWN] = false; break;
 		case GLUT_KEY_LEFT:
 			_keys[GLUT_KEY_LEFT] = false; break;
 		case GLUT_KEY_RIGHT:
@@ -175,9 +186,12 @@ public:
 
 		case GLUT_KEY_UP:
 			_keys[GLUT_KEY_UP] = true;
+
 			break;
 		case GLUT_KEY_DOWN:
+
 			_keys[GLUT_KEY_DOWN] = true;
+	
 			break;
 		case GLUT_KEY_LEFT:
 			_keys[GLUT_KEY_LEFT] = true;
@@ -233,7 +247,8 @@ public:
 		//draw stuff
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			Cheerios[i]->draw();
+			if(Cheerios[i] != NULL)
+				Cheerios[i]->draw();
 		}
 
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
@@ -279,7 +294,7 @@ public:
 	}
 	void idle();
 	inline void update(double delta_t) {
-		if (_keys[GLUT_KEY_UP]) {
+		if (_keys[GLUT_KEY_UP] && !myCar->getForceStart()) {
 			forward = 1;
 			if (myCar->getSpecialSpeed() <= 0)
 				myCar->setSpecialSpeed(myCar->getAcceleration());
@@ -287,7 +302,7 @@ public:
 				myCar->setSpecialSpeed(myCar->getSpecialSpeed() + myCar->getAcceleration());
 			}
 		}
-		if (_keys[GLUT_KEY_DOWN]) {
+		if (_keys[GLUT_KEY_DOWN] && !myCar->getForceStart()) {
 			forward = -1;
 			if (myCar->getSpecialSpeed() >= 0)
 				myCar->setSpecialSpeed(-myCar->getAcceleration());
@@ -301,8 +316,8 @@ public:
 			myCar->turnRight();
 
 		
-		if (myCar->getPosition().getX() >= 10 || myCar->getPosition().getX() <= -10 ||
-			myCar->getPosition().getY() >= 10 || myCar->getPosition().getY() <= -10) {
+		if (myCar->getPosition().getX() >= 9.5 || myCar->getPosition().getX() <= -10 ||
+			myCar->getPosition().getY() >= 9.5 || myCar->getPosition().getY() <= -9.5) {
 			myCar = new Car();
 		}
 		myCar->update(delta_t);
@@ -312,7 +327,7 @@ public:
 			if (myCar->HasColision(Oranges[i])) {
 				myCar= new Car();
 			}
-			if (Oranges[i]->getPosition().getX() >= 9.5|| Oranges[i]->getPosition().getX() <= -9.5 ||
+			if (Oranges[i]->getPosition().getX() >= 9.5|| Oranges[i]->getPosition().getX() <= -10 ||
 				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
 				Oranges[i]->setPosition(0, 0, 100);
 				Oranges[i]->setSpeed(0, 0, 0);
@@ -333,13 +348,14 @@ public:
 
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			if (myCar->HasColision(Butters[i])) {
-				myCar->setSpeed(0, 0, 0);
+				myCar->setForceStart(true);
+				myCar->setSpecialSpeed(0);
 				myCar->setPosition(positionBeforeCollision);
-				Butters[i]->setSpeed(myCar->getDirection()*0.01*forward);
+				Butters[i]->setSpeed(myCar->getDirection()*0.005*forward);
 				
 			}
-			if (Butters[i]->getPosition().getX() >= 10 || Butters[i]->getPosition().getX() <= -10 ||
-				Butters[i]->getPosition().getY() >= 10 || Butters[i]->getPosition().getY() <= -10) {
+			if (Butters[i]->getPosition().getX() >= 9.5 || Butters[i]->getPosition().getX() <= -10 ||
+				Butters[i]->getPosition().getY() >= 9.5 || Butters[i]->getPosition().getY() <= -9.5) {
 				Butters[i]->setPosition(0, 0, 100);
 				Butters[i]->setSpeed(0, 0, 0);
 			}
@@ -356,26 +372,36 @@ public:
 		}
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			if (myCar->HasColision(Cheerios[i])) {
-				myCar->setPosition(positionBeforeCollision);
-				Cheerios[i]->setSpeed(myCar->getDirection()*0.01*forward);
+			if (Cheerios[i] != NULL) {
+				if (myCar->HasColision(Cheerios[i])) {
+					myCar->setPosition(positionBeforeCollision);
+					myCar->setForceStart(true);
+					myCar->setSpecialSpeed(0);
+					Cheerios[i]->setSpeed(myCar->getDirection()*0.005*forward);
+				}
+				if (Cheerios[i]->getPosition().getX() >= 9.5 || Cheerios[i]->getPosition().getX() <= -10 ||
+					Cheerios[i]->getPosition().getY() >= 9.5 || Cheerios[i]->getPosition().getY() <= -9.5) {
+					Cheerio * aux;
+					aux = new Cheerio(Cheerios[i]->getInitialPosition());
+					delete Cheerios[i];
+					Cheerios[i] = aux;
+					//Cheerios[i]->setPosition(0, 0, 100);
+					//Cheerios[i]->setSpeed(0, 0, 0);
+				}
+				Cheerios[i]->update(delta_t);
+				positionBeforeCollision = myCar->getPosition();
 			}
-			if (Cheerios[i]->getPosition().getX() >= 10 || Cheerios[i]->getPosition().getX() <= -10 ||
-				Cheerios[i]->getPosition().getY() >= 10 || Cheerios[i]->getPosition().getY() <= -10) {
-				Cheerios[i]->setPosition(0, 0, 100);
-				Cheerios[i]->setSpeed(0, 0, 0);
-			}
-			Cheerios[i]->update(delta_t);
-			positionBeforeCollision = myCar->getPosition();
 		}
 
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			if (Cheerios[i]->getSpeed().getX() != 0 || Cheerios[i]->getSpeed().getX() != 0) {
-				Cheerios[i]->setSpeed(Cheerios[i]->getSpeed()*0.9);
+			if (Cheerios[i] != NULL) {
+				if (Cheerios[i]->getSpeed().getX() != 0 || Cheerios[i]->getSpeed().getX() != 0) {
+					Cheerios[i]->setSpeed(Cheerios[i]->getSpeed()*0.9);
 
+				}
+				Cheerios[i]->update(delta_t);
 			}
-			Cheerios[i]->update(delta_t);
 		}
 
 		if (_currentCamera == Cameras[2]) {
