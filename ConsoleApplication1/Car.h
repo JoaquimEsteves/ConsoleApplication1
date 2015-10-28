@@ -17,7 +17,8 @@
 #include <vector>
 #include <map>
 
-
+//extern GameManager *gm;
+extern Camera * _currentCamera;
 extern std::list<DynamicObject *> _interactable_game_objects;
 class Car : public DynamicObject {
 	double _maxSpeed = 50;
@@ -83,57 +84,39 @@ public:
 			_specialSpeed += _frictionVal;
 	}
 
+	void drawWheel(double x, double y, double z,double Angle) {
+		glPushMatrix();
+			glTranslated(x, y, z);
+			glRotated(Angle * 180 / PI, 1, 0, 0);
+			glutSolidTorus(0.075, 0.15, 10, 10);
+			//glutSolidSphere(0.2, 50, 50);
+		glPopMatrix();
+	}
+
+	void drawStructure(double x, double y, double z) {
+		glPushMatrix();
+		glTranslated(x, y, z);
+		glScaled(2, 1.5, 0.75);
+		glutSolidCube(0.5);
+		glPopMatrix();
+	}
+
 	inline void draw() {
 		glColor3d(0, 0, 0); //wheels could be torus
 							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 
 		glPushMatrix();
-		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 
-
-
-		glRotated(_turnAngle * 180 / PI, 0, 0, 1);
-
-
-		glPushMatrix();
-		glTranslated(0.25, 0.4, 0);
-		glRotated(80 * 180 / PI, 1, 0, 0);
-		glutSolidTorus(0.075, 0.15, 10, 10);
-		//glutSolidSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(0.25, -0.4, 0);
-
-		glRotated(96 * 180 / PI, 1, 0, 0);
-
-		glutSolidTorus(0.075, 0.15, 10, 10);
-
-		//glutSolidSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-0.25, 0.35, 0);
-		glRotated(80 * 180 / PI, 1, 0, 0);
-		glutSolidTorus(0.075, 0.15, 10, 10);
-		//glutSolidSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-0.25, -0.35, 0);
-		glRotated(80 * 180 / PI, 1, 0, 0);
-		glutSolidTorus(0.075, 0.15, 10, 10);
-		//glutSolidSphere(0.2, 50, 50);
-		glPopMatrix();
-
-		glColor3d(1, 0, 0);//car
-
-		glPushMatrix();
-		glTranslated(0, 0, .10);
-		glScaled(2, 1.5, 0.75);
-		glutSolidCube(0.5);
-		glPopMatrix();
-
+			drawWheel(0.25, 0.4, 0, 80);
+			drawWheel(0.25, -0.4, 0, 96);
+			drawWheel(-0.25, 0.35,0, 96);
+			drawWheel(-0.25, -0.35, 0, 96);
+			
+			glColor3d(1, 0, 0);//car
+			
+			drawStructure(0, 0, .1);
 		glPopMatrix();
 
 	}
