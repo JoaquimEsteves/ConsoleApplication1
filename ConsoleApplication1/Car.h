@@ -87,8 +87,10 @@ public:
 	void drawWheel(double x, double y, double z,double Angle) {
 		glPushMatrix();
 			glTranslated(x, y, z);
-			glRotated(Angle * 180 / PI, 1, 0, 0);
-			glutSolidTorus(0.075, 0.15, 10, 10);
+
+			glRotated(90, 1, 0, 0);
+			
+			glutSolidTorus(0.075, 0.15, 6, 6);
 			//glutSolidSphere(0.2, 50, 50);
 		glPopMatrix();
 	}
@@ -109,10 +111,10 @@ public:
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 
-			drawWheel(0.25, 0.4, 0, 80);
-			drawWheel(0.25, -0.4, 0, 96);
-			drawWheel(-0.25, 0.35,0, 96);
-			drawWheel(-0.25, -0.35, 0, 96);
+			drawWheel(0.25, 0.4, 0, 90);
+			drawWheel(0.25, -0.4, 0, 90);
+			drawWheel(-0.25, 0.35,0, 90);
+			drawWheel(-0.25, -0.35, 0, 90);
 			
 			glColor3d(1, 0, 0);//car
 			

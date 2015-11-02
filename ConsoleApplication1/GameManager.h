@@ -226,7 +226,8 @@ public:
 		myCar->draw();
 
 		glutSwapBuffers();
-		glFlush();
+
+		//glFlush();
 	}
 	void reshape(int w, int h) {
 		glutReshapeWindow(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
@@ -287,6 +288,8 @@ public:
 		
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			if (myCar->HasColision(Oranges[i])) {
+				//fazer update à posicao do carro APENAS
+				//NADA DE CRIAR DELETAR COISAS
 				myCar = new Car();
 			}
 			if (Oranges[i]->getPosition().getX() >= 9.5 || Oranges[i]->getPosition().getX() <= -10 ||
@@ -408,6 +411,7 @@ public:
 		// Butter Initial position set here.
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			Butters[i] = new Butter(rand() % 17 - 8, rand() % 17 - 8, .5);
+			//WHILE HAS COLLISION
 			while ( (Butters[i]->getPosition().getX() == myCar->getPosition().getX() ) && (Butters[i]->getPosition().getY() == myCar->getPosition().getY()))
 				Butters[i]->setPosition(rand() % 17 - 8, rand() % 17 - 8, .5);
 		}
@@ -422,7 +426,7 @@ public:
 		gluOrtho2D(xmin, xmax, ymin, ymax);
 		Cameras[0] = new OrthogonalCamera(xmin, xmax, ymin, ymax, -110, 110);
 		Cameras[1] = new PerspectiveCamera(90, 1, 5, -0.1);
-		Cameras[2] = new PerspectiveCamera(90, 1, 0, -0.2, myCar);
+		Cameras[2] = new PerspectiveCamera(120, 1, .1, -0.2, myCar);
 		_currentCamera = Cameras[0];
 	}
 };

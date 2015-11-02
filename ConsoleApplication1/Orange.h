@@ -12,6 +12,7 @@ class Orange : public Obstacle {
 	int _maxSpeed = 10;
 	double _turnAngle = 0;
 	double _counter = 0;
+	//ACTIVAR DEPTH BUFFER
 public:
 	
 	inline  Orange() {
@@ -27,7 +28,7 @@ public:
 	void setCounter(double c) { _counter = c; }
 	double getTurnAngle() { return _turnAngle; }
 	void setTurnAngle(double turnAngle) { _turnAngle = turnAngle; }
-
+	
 	inline void draw() {
 		//orange
 		glPushMatrix();

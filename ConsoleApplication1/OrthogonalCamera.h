@@ -29,11 +29,13 @@ public:
 		_aspect = (float) width / height;
 		if (_ratio < _aspect) {
 			float temp = ((_top - _bottom) * _aspect - (_right - _left)) / 2;
-			gluOrtho2D(_left - temp, _right + temp, _bottom, _top/*, getNear(), getFar()*/);
+			glOrtho(_left - temp, _right + temp, _bottom, _top, -2, 2);
+			//gluOrtho2D(_left - temp, _right + temp, _bottom, _top/*, getNear(), getFar()*/);
 			return;
 		}
 		float temp = ((_right - _left) / _aspect - (_top - _bottom)) / 2;
-		gluOrtho2D(_left, _right, _bottom - temp, _top + temp/*, getNear(), getFar()*/);
+		glOrtho(_left, _right, _bottom - temp, _top + temp, -2, 2);
+		//gluOrtho2D(_left, _right, _bottom - temp, _top + temp/*, getNear(), getFar()*/);
 
 	}
 	void computeProjectionMatrix() {

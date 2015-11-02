@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 	glutDisplayFunc(display);
 
 	glClearColor(0, 0, 0, 0);
+	glEnable(GL_DEPTH_TEST); //CAREFUL HERE
 
 	glutSpecialUpFunc(keyboardfunc_up);
 	glutSpecialFunc(keyboardfunc_down);
