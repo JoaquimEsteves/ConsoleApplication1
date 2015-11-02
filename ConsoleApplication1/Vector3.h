@@ -19,6 +19,12 @@ public:
 	Vector3 operator=(Vector3 *vec) {
 		_x = vec->getX();  _y = vec->getY(); _z = vec->getZ(); return *this;
 	}
+	/*bool operator==(Vector3 *vec) {
+		if (_x == vec->getX() && _y == vec->getY() && _z == vec->getZ())
+			return true;
+		else
+			return false;
+	}*/
 	Vector3 operator*(double num) { 
 		_x *= num; _y *= num; _z *= num; 
 		return *this;

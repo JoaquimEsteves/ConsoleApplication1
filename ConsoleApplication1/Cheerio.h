@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __CHEERIO__
 #define __CHEERIO__
-
+#define CHEERIOSPEED 10
 #include "Obstacle.h"
 #include "GL\glut.h"
 
@@ -34,7 +34,7 @@ public:
 
 	}
 	void update(double delta_t) {
-		setPosition(getPosition() + getSpeed() * delta_t);
+		setPosition(getPosition() + getSpeed() * CHEERIOSPEED);
 	}
 };
 #endif

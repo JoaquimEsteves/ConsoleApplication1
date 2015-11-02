@@ -2,7 +2,7 @@
 #define __CAR__
 
 #define PI 3.14159265
-#define CARSPEED 0.0001
+#define CARSPEED 0.0015
 
 #include "DynamicObject.h"
 #include "GameManager.h"
@@ -95,9 +95,9 @@ public:
 
 	void drawStructure(double x, double y, double z) {
 		glPushMatrix();
-		glTranslated(x, y, z);
-		glScaled(2, 1.5, 0.75);
-		glutSolidCube(0.5);
+			glTranslated(x, y, z);
+			glScaled(2, 1.5, 0.75);
+			glutSolidCube(0.5);
 		glPopMatrix();
 	}
 
@@ -121,16 +121,16 @@ public:
 
 	}
 
-	void update_trivial(double delta_t) {
+	/*void update_trivial(double delta_t) {
 		//In case of emergency
 		setPosition(getPosition() + getSpeed() * delta_t);
-	}
+	}*/
 
 	void update(double delta_t) {
 		//using printf because visual studios does not like cout
 		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
 		friction();
-		setPosition(getPosition() + getDirection() * _specialSpeed * CARSPEED * delta_t);
+		setPosition(getPosition() + getDirection() * _specialSpeed * CARSPEED);
 		//printf("car Y position %d \n", getPosition().getY());
 	}
 };

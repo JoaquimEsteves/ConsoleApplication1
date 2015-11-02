@@ -1,9 +1,9 @@
 #ifndef __BUTTER__
 #define __BUTTER__
-
+#define BUTTERSPEED 10
 #include "Obstacle.h"
 #include "GL\glut.h"
-
+#include <stdio.h>
 class Butter : public Obstacle {
 	Vector3 _scale;
 
@@ -26,7 +26,8 @@ public:
 
 	}
 	void update(double delta_t) {
-		setPosition(getPosition() + getSpeed() * delta_t);
+		//printf("%f ooh boi my delta t\n", delta_t);
+		setPosition(getPosition() + getSpeed() * BUTTERSPEED);
 	}
 };
 #endif

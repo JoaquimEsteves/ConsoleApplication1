@@ -213,13 +213,15 @@ public:
 				Cheerios[i]->draw();
 		}
 
+		for (int i = 0; i < BUTTER_NUMBERS; i++) {
+			Butters[i]->draw();
+		}
+
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			Oranges[i]->draw();
 		}
 
-		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			Butters[i]->draw();
-		}
+
 
 		myCar->draw();
 
@@ -406,6 +408,8 @@ public:
 		// Butter Initial position set here.
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			Butters[i] = new Butter(rand() % 17 - 8, rand() % 17 - 8, .5);
+			while ( (Butters[i]->getPosition().getX() == myCar->getPosition().getX() ) && (Butters[i]->getPosition().getY() == myCar->getPosition().getY()))
+				Butters[i]->setPosition(rand() % 17 - 8, rand() % 17 - 8, .5);
 		}
 
 		/*Initiala camera*/

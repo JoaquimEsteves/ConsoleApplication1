@@ -22,7 +22,7 @@ public:
 	LightSource(GLenum number) {}
 	~LightSource() {}
 	bool getState();
-	bool setState(bool state); //SETS RETURNING STUFF; WHAT?!
+	void setState(bool state); //SETS RETURNING STUFF; WHAT?!
 	GLenum getNum();
 	/* WAS IN THE XML. WHAT THE HELL IS A VECTOR 4?
 	Vector4* getPosition();	//NO SUCH ATTRIBTE

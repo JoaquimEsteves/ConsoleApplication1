@@ -1,6 +1,7 @@
 #ifndef __ORANGE__
 #define __ORANGE__
 
+
 #include "Obstacle.h"                             
 #include "GL\glut.h"
 #include <time.h>
@@ -34,6 +35,7 @@ public:
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 
 		glRotated(_turnAngle * 180 / PI, 1, 0, 0);
+		//if turnangle > 180...
 		glPushMatrix();
 			glColor3d(0, 1, 0);
 			glTranslated(rand() % 1 + 0, rand() % 1 + 0, .5);
