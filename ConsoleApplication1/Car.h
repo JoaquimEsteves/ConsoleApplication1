@@ -99,7 +99,49 @@ public:
 		glPushMatrix();
 			glTranslated(x, y, z);
 			glScaled(2, 1.5, 0.75);
-			glutSolidCube(0.5);
+			// glutSolidCube(0.5);
+			//Lower case
+			glBegin(GL_POLYGON);
+				glVertex3f(-.25,.25,0);
+				glVertex3f(.25, .25, 0);
+				glVertex3f(.25,- .25, 0);
+				glVertex3f(-.25, -.25, 0);
+			glEnd();
+			//Upper case
+			glBegin(GL_POLYGON);
+				glVertex3f(-.25, .25, .25);
+				glVertex3f(.25, .25, .25);
+				glVertex3f(.25, -.25, .25);
+				glVertex3f(-.25, -.25, .25);
+			glEnd();
+			//left side
+			glBegin(GL_POLYGON);
+				glVertex3f(-.25, -.25, .25);
+				glVertex3f(.25, -.25, .25);
+				glVertex3f(.25, -.25, 0);
+				glVertex3f(-.25, -.25, 0);
+			glEnd();
+			//right side
+			glBegin(GL_POLYGON);
+				glVertex3f(.25, .25, .25);
+				glVertex3f(-.25, .25, .25);
+				glVertex3f(-.25, .25, 0);
+				glVertex3f(.25, .25, 0);
+			glEnd();
+			//back
+			glBegin(GL_POLYGON);
+				glVertex3f(.25, .25, 0);
+				glVertex3f(.25, .25, .25);
+				glVertex3f(.25, -.25, .25);
+				glVertex3f(.25, -.25, 0);
+			glEnd();
+			//front
+			glBegin(GL_POLYGON);
+				glVertex3f(-.25, .25, 0);
+				glVertex3f(-.25, .25, .25);
+				glVertex3f(-.25, -.25, .25);
+				glVertex3f(-.25, -.25, 0);
+			glEnd();
 		glPopMatrix();
 	}
 
@@ -131,6 +173,10 @@ public:
 	void update(double delta_t) {
 		//using printf because visual studios does not like cout
 		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
+		if (getPosition().getX() >= 9.5 || getPosition().getX() <= -10 ||
+			getPosition().getY() >= 9.5 || getPosition().getY() <= -9.5) {
+			setPosition(0, -6.5, 0);
+		}
 		friction();
 		setPosition(getPosition() + getDirection() * _specialSpeed * CARSPEED);
 		//printf("car Y position %d \n", getPosition().getY());

@@ -3,6 +3,7 @@
 #define __CHEERIO__
 #define CHEERIOSPEED 10
 #include "Obstacle.h"
+#include "Car.h"
 #include "GL\glut.h"
 
 class Cheerio : public Obstacle {
@@ -33,7 +34,24 @@ public:
 		glPopMatrix();
 
 	}
-	void update(double delta_t) {
+	void update(double delta_t, Car *myCar,int forward) {
+
+		if (myCar->HasColision(this)) {
+			myCar->setForceStart(true);
+			setSpeed(myCar->getDirection()*forward*0.01);
+			myCar->setSpecialSpeed(0);
+		}
+		if (getPosition().getX() >= 9.5 || getPosition().getX() <= -10 ||
+			getPosition().getY() >= 9.5 || getPosition().getY() <= -9.5) {
+			setPosition(0, 0, 100);
+			setSpeed(0, 0, 0);
+		}
+		if (getSpeed().getX() != 0 || getSpeed().getY() != 0) {
+			setSpeed(getSpeed()*0.9);
+
+		}
+
+
 		setPosition(getPosition() + getSpeed() * CHEERIOSPEED);
 	}
 };

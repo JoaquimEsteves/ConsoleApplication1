@@ -46,7 +46,7 @@ class GameManager {
 	Cheerio * Cheerios[CHEERIOS_NUMBER];
 	double counter = 0;
 	int lostOrange;
-	Vector3 positionBeforeCollision;
+	//Vector3 positionBeforeCollision;
 	int forward;
 	double counter_delta_t=10;
 	double speeder = 1;
@@ -163,14 +163,31 @@ public:
 			break;
 		}
 	}
-	void display() {
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glViewport(0, 0, _width, _height);
-		_currentCamera->computeProjectionMatrix();
-		_currentCamera->update(_width, _height);
-		_currentCamera->computeVisualizationMatrix();
-		//background -> table
+	void handleKeyBuffer() {
+		if (_keys[GLUT_KEY_UP] && !myCar->getForceStart()) {
+			forward = 1;
+			if (myCar->getSpecialSpeed() <= 0)
+				myCar->setSpecialSpeed(myCar->getAcceleration());
+			else if (myCar->getSpecialSpeed() < myCar->getMaxSpeed()) {
+				myCar->setSpecialSpeed(myCar->getSpecialSpeed() + myCar->getAcceleration());
+			}
+		}
+		if (_keys[GLUT_KEY_DOWN] && !myCar->getForceStart()) {
+			forward = -1;
+			if (myCar->getSpecialSpeed() >= 0)
+				myCar->setSpecialSpeed(-myCar->getAcceleration());
+			else if (myCar->getSpecialSpeed() > (-myCar->getMaxSpeed())) {
+				myCar->setSpecialSpeed(myCar->getSpecialSpeed() - myCar->getAcceleration());
+			}
+		}
+		if (_keys[GLUT_KEY_LEFT])
+			myCar->turnLeft();
+		if (_keys[GLUT_KEY_RIGHT])
+			myCar->turnRight();
+	}
+
+	void draw_background() {
 		for (int i = -10; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (i % 2 == 0) {
@@ -206,27 +223,29 @@ public:
 			}
 
 		}
-		//draw stuff
+	}
 
+	void display() {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glViewport(0, 0, _width, _height); <----vestigial code
+		_currentCamera->computeProjectionMatrix();
+		_currentCamera->update(_width, _height);
+		_currentCamera->computeVisualizationMatrix();
+		//background -> table
+		draw_background();
+		//draw stuff
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
 			if (Cheerios[i] != NULL)
 				Cheerios[i]->draw();
 		}
-
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			Butters[i]->draw();
 		}
-
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			Oranges[i]->draw();
 		}
-
-
-
 		myCar->draw();
-
 		glutSwapBuffers();
-
 		//glFlush();
 	}
 	void reshape(int w, int h) {
@@ -257,32 +276,7 @@ public:
 	void idle();
 	inline void update(double delta_t) {
 		actual_delta_t = delta_t;
-		if (_keys[GLUT_KEY_UP] && !myCar->getForceStart()) {
-			forward = 1;
-			if (myCar->getSpecialSpeed() <= 0)
-				myCar->setSpecialSpeed(myCar->getAcceleration());
-			else if (myCar->getSpecialSpeed() < myCar->getMaxSpeed()) {
-				myCar->setSpecialSpeed(myCar->getSpecialSpeed() + myCar->getAcceleration());
-			}
-		}
-		if (_keys[GLUT_KEY_DOWN] && !myCar->getForceStart()) {
-			forward = -1;
-			if (myCar->getSpecialSpeed() >= 0)
-				myCar->setSpecialSpeed(-myCar->getAcceleration());
-			else if (myCar->getSpecialSpeed() > (-myCar->getMaxSpeed())) {
-				myCar->setSpecialSpeed(myCar->getSpecialSpeed() - myCar->getAcceleration());
-			}
-		}
-		if (_keys[GLUT_KEY_LEFT])
-			myCar->turnLeft();
-		if (_keys[GLUT_KEY_RIGHT])
-			myCar->turnRight();
-
-
-		if (myCar->getPosition().getX() >= 9.5 || myCar->getPosition().getX() <= -10 ||
-			myCar->getPosition().getY() >= 9.5 || myCar->getPosition().getY() <= -9.5) {
-			myCar = new Car();
-		}
+		handleKeyBuffer();
 		myCar->update(delta_t);
 
 		
@@ -290,7 +284,7 @@ public:
 			if (myCar->HasColision(Oranges[i])) {
 				//fazer update à posicao do carro APENAS
 				//NADA DE CRIAR DELETAR COISAS
-				myCar = new Car();
+				myCar->setPosition(0, -6.5, 0);
 			}
 			if (Oranges[i]->getPosition().getX() >= 9.5 || Oranges[i]->getPosition().getX() <= -10 ||
 				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
@@ -298,7 +292,6 @@ public:
 				Oranges[i]->setSpeed(0, 0, 0);
 				Oranges[i]->setCounter(delta_t + rand() % 20 + 2);
 				LostOranges[i] = -1;
-
 			}
 			if (Oranges[i]->getCounter() <= delta_t) {
 				
@@ -314,11 +307,9 @@ public:
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			if (myCar->HasColision(Butters[i])) {
 				myCar->setForceStart(true);
-				myCar->setPosition(positionBeforeCollision);
 				Butters[i]->setSpeed(myCar->getDirection()*forward*0.005);
 				
 				myCar->setSpecialSpeed(0);
-
 			}
 			if (Butters[i]->getPosition().getX() >= 9.5 || Butters[i]->getPosition().getX() <= -10 ||
 				Butters[i]->getPosition().getY() >= 9.5 || Butters[i]->getPosition().getY() <= -9.5) {
@@ -326,7 +317,6 @@ public:
 				Butters[i]->setSpeed(0, 0, 0);
 			}
 			Butters[i]->update(delta_t);
-			positionBeforeCollision = myCar->getPosition();
 		}
 
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
@@ -339,35 +329,7 @@ public:
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
 			if (Cheerios[i] != NULL) {
-				if (myCar->HasColision(Cheerios[i])) {
-					myCar->setPosition(positionBeforeCollision);
-					myCar->setForceStart(true);
-					Cheerios[i]->setSpeed(myCar->getDirection()*forward*0.005);
-					
-					myCar->setSpecialSpeed(0);
-				}
-				if (Cheerios[i]->getPosition().getX() >= 9.5 || Cheerios[i]->getPosition().getX() <= -10 ||
-					Cheerios[i]->getPosition().getY() >= 9.5 || Cheerios[i]->getPosition().getY() <= -9.5) {
-					Cheerio * aux;
-					aux = new Cheerio(Cheerios[i]->getInitialPosition());
-					delete Cheerios[i];
-					Cheerios[i] = aux;
-					//Cheerios[i]->setPosition(0, 0, 100);
-					//Cheerios[i]->setSpeed(0, 0, 0);
-				}
-				Cheerios[i]->update(delta_t);
-				positionBeforeCollision = myCar->getPosition();
-			}
-		}
-
-
-		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			if (Cheerios[i] != NULL) {
-				if (Cheerios[i]->getSpeed().getX() != 0 || Cheerios[i]->getSpeed().getY() != 0) {
-					Cheerios[i]->setSpeed(Cheerios[i]->getSpeed()*0.9);
-
-				}
-				Cheerios[i]->update(delta_t);
+				Cheerios[i]->update(delta_t,myCar,forward);
 			}
 		}
 
@@ -412,7 +374,7 @@ public:
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			Butters[i] = new Butter(rand() % 17 - 8, rand() % 17 - 8, .5);
 			//WHILE HAS COLLISION
-			while ( (Butters[i]->getPosition().getX() == myCar->getPosition().getX() ) && (Butters[i]->getPosition().getY() == myCar->getPosition().getY()))
+			while ( myCar->HasColision(Butters[i]) )
 				Butters[i]->setPosition(rand() % 17 - 8, rand() % 17 - 8, .5);
 		}
 
