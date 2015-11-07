@@ -2,6 +2,7 @@
 #define __BUTTER__
 #define BUTTERSPEED 10
 #include "Obstacle.h"
+#include "Car.h"
 #include "GL\glut.h"
 #include <stdio.h>
 class Butter : public Obstacle {
@@ -25,8 +26,28 @@ public:
 		glPopMatrix();
 
 	}
-	void update(double delta_t) {
+
+
+	//MONSTERS
+
+	//END MONSTERS
+
+	void update(double delta_t, Car * myCar, int forward) {
 		//printf("%f ooh boi my delta t\n", delta_t);
+		if (myCar->HasColision(this)) {
+			myCar->setForceStart(true);
+			setSpeed(myCar->getDirection()*forward*0.005);
+
+			myCar->setSpecialSpeed(0);
+		}
+		if (getPosition().getX() >= 9.5 || getPosition().getX() <= -10 ||
+			getPosition().getY() >= 9.5 || getPosition().getY() <= -9.5) {
+			setPosition(0, 0, 100);
+			setSpeed(0, 0, 0);
+		}
+		if (getSpeed().getX() != 0 || getSpeed().getY() != 0) {
+			setSpeed(getSpeed()*0.9);
+		}
 		setPosition(getPosition() + getSpeed() * BUTTERSPEED);
 	}
 };

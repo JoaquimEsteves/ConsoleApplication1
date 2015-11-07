@@ -71,15 +71,15 @@ public:
 			speeder *= 2;
 		}
 		//if (i % 2 == 0) {
-		Oranges[i] = new Orange(rand() % 18 - 18/2 , 9, .5);
+		if (Oranges[i] == NULL) {
+			Oranges[i] = new Orange(rand() % 18 - 18 / 2, 9, .5);
+		}
+		else {
+			Oranges[i]->setPosition(rand() % 18 - 18 / 2, 9, .5);
+			Oranges[i]->setCounter(rand() % 20 + 1);
+		}
 		Oranges[i]->setSpeed(0, (rand() % 5 + 5)*0.0003*speeder, 0);
 		Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
-		//}
-		/*else {
-		Oranges[i] = new Orange(9, rand() % 18 - 18 / 2, 1);
-		Oranges[i]->setSpeed((rand() % 5 + 5)*0.0003*speeder, 0, 0);
-		Oranges[i]->setTurnAngle(Oranges[i]->getSpeed().getX());
-		}*/
 	}
 	void randOranges() {
 		
@@ -281,56 +281,21 @@ public:
 
 		
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
-			if (myCar->HasColision(Oranges[i])) {
-				//fazer update à posicao do carro APENAS
-				//NADA DE CRIAR DELETAR COISAS
-				myCar->setPosition(0, -6.5, 0);
-			}
-			if (Oranges[i]->getPosition().getX() >= 9.5 || Oranges[i]->getPosition().getX() <= -10 ||
-				Oranges[i]->getPosition().getY() >= 9.5 || Oranges[i]->getPosition().getY() <= -9.5) {
-				Oranges[i]->setPosition(0, 0, 100);
-				Oranges[i]->setSpeed(0, 0, 0);
-				Oranges[i]->setCounter(delta_t + rand() % 20 + 2);
-				LostOranges[i] = -1;
-			}
 			if (Oranges[i]->getCounter() <= delta_t) {
-				
-					if (LostOranges[i] == -1) {
-						LostOranges[i] = 0;
-						HelloOrange(i);
-					}
-				
+				if (Oranges[i]->getLost() == -1) {
+					Oranges[i]->setLost(0);
+					HelloOrange(i);
+				}
 			}
-			Oranges[i]->update(delta_t);
+			Oranges[i]->update(delta_t,myCar);
 		}
 
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			if (myCar->HasColision(Butters[i])) {
-				myCar->setForceStart(true);
-				Butters[i]->setSpeed(myCar->getDirection()*forward*0.005);
-				
-				myCar->setSpecialSpeed(0);
-			}
-			if (Butters[i]->getPosition().getX() >= 9.5 || Butters[i]->getPosition().getX() <= -10 ||
-				Butters[i]->getPosition().getY() >= 9.5 || Butters[i]->getPosition().getY() <= -9.5) {
-				Butters[i]->setPosition(0, 0, 100);
-				Butters[i]->setSpeed(0, 0, 0);
-			}
-			Butters[i]->update(delta_t);
-		}
-
-		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			if (Butters[i]->getSpeed().getX() != 0 || Butters[i]->getSpeed().getY() != 0) {
-				Butters[i]->setSpeed(Butters[i]->getSpeed()*0.9);
-
-			}
-			Butters[i]->update(delta_t);
+			Butters[i]->update(delta_t,myCar,forward);
 		}
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			if (Cheerios[i] != NULL) {
-				Cheerios[i]->update(delta_t,myCar,forward);
-			}
+			Cheerios[i]->update(delta_t,myCar,forward);
 		}
 
 		if (_currentCamera == Cameras[2]) {
