@@ -44,11 +44,16 @@ class GameManager {
 	Butter * Butters[BUTTER_NUMBERS];
 	Camera * Cameras[CAMERA_NUMBER];
 	Cheerio * Cheerios[CHEERIOS_NUMBER];
+	LightSource * Lights[LIGHTS_NUMBER];
+	bool _day = true;
+	bool _lights_on = false;
+	bool _lights_active = true;
+
 	double counter = 0;
 	int lostOrange;
 	//Vector3 positionBeforeCollision;
 	int forward;
-	double counter_delta_t=10;
+	double counter_delta_t = 10;
 	double speeder = 1;
 	double actual_delta_t;
 
@@ -82,7 +87,7 @@ public:
 		Oranges[i]->setTurnAngle(-(Oranges[i]->getSpeed().getY()));
 	}
 	void randOranges() {
-		
+
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			HelloOrange(i);
 		}
@@ -127,7 +132,20 @@ public:
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			}
 			break;
+		case 'n':
+			Lights[0]->setState((_day = (!_day)));
+			break;
+		case 'l':
+			if ((_lights_active = (!_lights_active))) glEnable(GL_LIGHTING);
+			else glDisable(GL_LIGHTING);
+			break;
+		case 'c':
+			for (int i = 1; i < LIGHTS_NUMBER; i++) {
+				Lights[i]->setState(_lights_on = !_lights_on);
+			}
+			break;
 		}
+
 
 	}
 	void keyUp(unsigned char key) {
@@ -226,6 +244,8 @@ public:
 	}
 
 	void display() {
+		if (_day)	glClearColor(0.00, 0.64, 1.00, 1);
+		else			glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glViewport(0, 0, _width, _height); <----vestigial code
 		_currentCamera->computeProjectionMatrix();
@@ -245,6 +265,10 @@ public:
 			Oranges[i]->draw();
 		}
 		myCar->draw();
+		for (int i = 0; i < LIGHTS_NUMBER; i++) {
+			Lights[i]->draw();
+		}
+
 		glutSwapBuffers();
 		//glFlush();
 	}
@@ -279,7 +303,7 @@ public:
 		handleKeyBuffer();
 		myCar->update(delta_t);
 
-		
+
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			if (Oranges[i]->getCounter() <= delta_t) {
 				if (Oranges[i]->getLost() == -1) {
@@ -287,15 +311,15 @@ public:
 					HelloOrange(i);
 				}
 			}
-			Oranges[i]->update(delta_t,myCar);
+			Oranges[i]->update(delta_t, myCar);
 		}
 
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
-			Butters[i]->update(delta_t,myCar,forward);
+			Butters[i]->update(delta_t, myCar, forward);
 		}
 
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
-			Cheerios[i]->update(delta_t,myCar,forward);
+			Cheerios[i]->update(delta_t, myCar, forward);
 		}
 
 		if (_currentCamera == Cameras[2]) {
@@ -339,9 +363,40 @@ public:
 		for (int i = 0; i < BUTTER_NUMBERS; i++) {
 			Butters[i] = new Butter(rand() % 17 - 8, rand() % 17 - 8, .5);
 			//WHILE HAS COLLISION
-			while ( myCar->HasColision(Butters[i]) )
+			while (myCar->HasColision(Butters[i]))
 				Butters[i]->setPosition(rand() % 17 - 8, rand() % 17 - 8, .5);
 		}
+
+		/*Inicialize the lights*/
+		/*direccional light*/
+		for (int i = 0; i < LIGHTS_NUMBER; i++) {
+			Lights[i] = new LightSource(i);
+			Lights[i]->setSpecular(1.0, 1.0, 1.0, 1.0);
+			Lights[i]->setDiffuse(1.0, 1.0, 1.0, 1.0);
+			Lights[i]->setAmbient(0.2, 0.2, 0.2, 1.0);
+			Lights[i]->setState(_lights_on);
+			
+		}
+		
+		Lights[0]->setPosition(-1, -1, 1); 
+		Lights[0]->setDirection(0, 0, 0);
+		Lights[0]->setState(true);
+
+		Lights[1]->setPosition(-9, 9, 1);
+		Lights[1]->setDirection(1, -1, 0);
+		Lights[2]->setPosition(-9, 0, 1);
+		Lights[2]->setDirection(1, 0, 0);
+		Lights[3]->setPosition(-9, -9, 1);
+		Lights[3]->setDirection(1, 1, 0);
+		Lights[4]->setPosition(9, -9, 1);
+		Lights[4]->setDirection(-1, 1, 0);
+		Lights[5]->setPosition(9, 0, 1);
+		Lights[5]->setDirection(-1, 0, 0);
+		Lights[6]->setPosition(9, 9, 1);
+		Lights[6]->setDirection(-1, -1, 0);
+
+		if (_lights_active)	glEnable(GL_LIGHTING);
+		else glDisable(GL_LIGHTING);
 
 		/*Initiala camera*/
 		float c = (xmax + xmin);
