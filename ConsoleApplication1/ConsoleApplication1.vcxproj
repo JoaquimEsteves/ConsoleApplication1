@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Butter.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Car.h" />

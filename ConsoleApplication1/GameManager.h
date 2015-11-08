@@ -54,7 +54,7 @@ class GameManager {
 	bool _day = true;
 	bool _lights_on = false;
 	bool _lights_active = false;
-
+	int lights_on = 0;
 	double counter = 0;
 	int lostOrange;
 	//Vector3 positionBeforeCollision;
@@ -143,8 +143,9 @@ public:
 			break;
 		
 		case 'c':
-			for (int i = 1; i < LIGHTS_NUMBER; i++) {
-				Lights[i]->setState((_lights_on = (!_lights_on)));
+			if (lights_on < LIGHTS_NUMBER) {
+				Lights[lights_on]->setState((_lights_on = (!_lights_on)));
+				lights_on++;
 			}
 			break;
 		case 'l':
@@ -211,53 +212,6 @@ public:
 		if (_keys[GLUT_KEY_RIGHT])
 			myCar->turnRight();
 	}
-
-	/*void draw_background() {
-		for (int i = -10; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (i % 2 == 0) {
-					if (j % 2 == 0) {
-						//glColor3d(0.74902, 0.847059, 1.847059);
-						defineMaterial(0.074902, 0.0847059, 0.1847059, 1.00,	//Ambient
-							0.074902, 0.0847059, 0.1847059, , 1.00,	//Diffuse
-							0.074902, 0.0847059, 0.1847059, 1.00,	//Specular
-							0.00, 0.00, 0.00, 1.00,	//Emission
-							77);					//SHININESS
-						glColor3f(1.0, 0.5, 0);
-					} //0.74902 green 0.847059 blue 0.847059
-					else glColor3d(1, 1, 1);
-					glPushMatrix();
-					glTranslated(i, j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-
-					glPushMatrix();
-					glTranslated(-i - 2, -j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-				}
-				else {
-					if (j % 2 == 1)glColor3d(0.74902, 0.847059, 1.847059);
-					else glColor3d(1, 1, 1);
-					glPushMatrix();
-					glTranslated(i, j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-
-					glPushMatrix();
-					glTranslated(-i, -j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-				}
-			}
-
-		}
-	}*/
-
 	void display() {
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -424,8 +378,10 @@ public:
 		Candles[6] = new Candle(9, 9, 0);
 		Lights[6]->setDirection(-1, -1, 0);
 
-		if (_lights_active)	glEnable(GL_LIGHTING);
-		else glDisable(GL_LIGHTING);
+		if (_lights_active)	
+			glEnable(GL_LIGHTING);
+		else 
+			glDisable(GL_LIGHTING);
 
 		/*Initiala camera*/
 		float c = (xmax + xmin);
