@@ -5,7 +5,7 @@
 #define BUTTER_NUMBERS 6
 #define CAMERA_NUMBER 3
 #define CHEERIOS_NUMBER 100
-#define LIGHTS_NUMBER 10
+#define LIGHTS_NUMBER 7
 
 #include "Camera.h"
 #include "LightSource.h"
@@ -52,7 +52,7 @@ class GameManager {
 	LightSource * Lights[LIGHTS_NUMBER];
 	Candle * Candles[LIGHTS_NUMBER];
 	bool _day = true;
-	bool _lights_on = false;
+	bool _lights_on = true;
 	bool _lights_active = false;
 
 	double counter = 0;
@@ -141,19 +141,22 @@ public:
 		case 'n':
 			Lights[0]->setState((_day = (!_day)));
 			break;
-		
+
+		case 'l':
+			if ((_lights_active = (!_lights_active))) glEnable(GL_LIGHTING);
+			else glDisable(GL_LIGHTING);
+			break;
+
+		case 'g':
+			break;
+
 		case 'c':
 			for (int i = 1; i < LIGHTS_NUMBER; i++) {
 				Lights[i]->setState((_lights_on = (!_lights_on)));
 			}
 			break;
-		case 'l':
-			if ((_lights_active = (!_lights_active))) glEnable(GL_LIGHTING);
-			else glDisable(GL_LIGHTING);
-			break;
+		
 		}
-
-
 	}
 	void keyUp(unsigned char key) {
 		switch (key) {
@@ -212,51 +215,7 @@ public:
 			myCar->turnRight();
 	}
 
-	/*void draw_background() {
-		for (int i = -10; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (i % 2 == 0) {
-					if (j % 2 == 0) {
-						//glColor3d(0.74902, 0.847059, 1.847059);
-						defineMaterial(0.074902, 0.0847059, 0.1847059, 1.00,	//Ambient
-							0.074902, 0.0847059, 0.1847059, , 1.00,	//Diffuse
-							0.074902, 0.0847059, 0.1847059, 1.00,	//Specular
-							0.00, 0.00, 0.00, 1.00,	//Emission
-							77);					//SHININESS
-						glColor3f(1.0, 0.5, 0);
-					} //0.74902 green 0.847059 blue 0.847059
-					else glColor3d(1, 1, 1);
-					glPushMatrix();
-					glTranslated(i, j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-
-					glPushMatrix();
-					glTranslated(-i - 2, -j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-				}
-				else {
-					if (j % 2 == 1)glColor3d(0.74902, 0.847059, 1.847059);
-					else glColor3d(1, 1, 1);
-					glPushMatrix();
-					glTranslated(i, j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-
-					glPushMatrix();
-					glTranslated(-i, -j, 0);
-					glScaled(1, 1, 0);
-					glutSolidCube(1);
-					glPopMatrix();
-				}
-			}
-
-		}
-	}*/
+	
 
 	void display() {
 		glClearColor(0, 0, 0, 1);
@@ -391,38 +350,44 @@ public:
 
 		/*Inicialize the lights*/
 		/*direccional light*/
+		//falta alterar este (letra N)
+		Lights[0] = new LightSource(0);
+		Lights[0]->setPosition(1, 0, 10);
+		Lights[0]->setDirection(0, 0, -1);
+		Lights[0]->setSpecular(1.0, 1.0, 1.0, 1.0);
+		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
+		Lights[0]->setAmbient(1, 1, 1, 1.0);
+		Lights[0]->setState(true);
 		
-		for (int i = 0; i < LIGHTS_NUMBER; i++) {
+		for (int i = 1; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
 			Lights[i]->setSpecular(1.0, 1.0, 1.0, 1.0);
 			Lights[i]->setDiffuse(1.0, 1.0, 1.0, 1.0);
 			Lights[i]->setAmbient(0.2, 0.2, 0.2, 1.0);
+			Lights[i]->setDirection(0, 0, -1);
 			Lights[i]->setState(_lights_on);
 			
 		}
-		//falta alterar este (letra N)
-		Lights[0]->setPosition(0, 0, 1); 
-		Lights[0]->setDirection(1, 1, 1);
-		Lights[0]->setState(true);
+		
 
-		Lights[1]->setPosition(-10, 9, 1);
+		Lights[1]->setPosition(-10, 9, 1.5);
 		Candles[1]=new Candle(-10, 9, 0);
-		Lights[1]->setDirection(1, -1, 0);
-		Lights[2]->setPosition(-10, 0, 1);
+
+		Lights[2]->setPosition(-10, 0, 1.5);
 		Candles[2]=new Candle(-10, 0, 0);
-		Lights[2]->setDirection(1, 0, 0);
-		Lights[3]->setPosition(-10, -9, 1);
-		Candles[3] = new Candle(-10, -9, 0);
-		Lights[3]->setDirection(1, 1, 0);
-		Lights[4]->setPosition(9, -9, 1);
-		Candles[4] = new Candle(9, -9, 0);
-		Lights[4]->setDirection(-1, 1, 0);
-		Lights[5]->setPosition(9, 0, 1);
-		Candles[5] = new Candle(9, 0, 0);
-		Lights[5]->setDirection(-1, 0, 0);
-		Lights[6]->setPosition(9, 9, 1);
-		Candles[6] = new Candle(9, 9, 0);
-		Lights[6]->setDirection(-1, -1, 0);
+
+		Lights[3]->setPosition(-10, -9, 1.5);
+		Candles[3]=new Candle(-10, -9, 0);
+
+		Lights[4]->setPosition(9, -9, 1.5);
+		Candles[4]=new Candle(9, -9, 0);
+
+		Lights[5]->setPosition(9, 0, 1.5);
+		Candles[5]=new Candle(9, 0, 0);
+
+		Lights[6]->setPosition(9, 9, 1.5);
+		Candles[6]=new Candle(9, 9, 0);
+
 
 		if (_lights_active)	glEnable(GL_LIGHTING);
 		else glDisable(GL_LIGHTING);
