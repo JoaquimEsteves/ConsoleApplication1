@@ -15,7 +15,7 @@
 #include "Orange.h"
 #include "Road.h"
 #include "Cheerio.h"
-#include "Candle.h"
+//#include "Candle.h"
 #include "Background.h"
 #include "Camera.h"
 #include "OrthogonalCamera.h"
