@@ -52,9 +52,9 @@ class GameManager {
 	LightSource * Lights[LIGHTS_NUMBER];
 	Candle * Candles[LIGHTS_NUMBER];
 	bool _day = true;
-	bool _lights_on = true;
+	bool _lights_on = false;
 	bool _lights_active = false;
-	int n_light = 0;
+
 	double counter = 0;
 	int lostOrange;
 	//Vector3 positionBeforeCollision;
@@ -151,9 +151,8 @@ public:
 			break;
 
 		case 'c':
-			if(n_light < LIGHTS_NUMBER) {
-				Lights[n_light]->setState((_lights_on = (!_lights_on)));
-				n_light++;
+			for (int i = 1; i < LIGHTS_NUMBER; i++) {
+				Lights[i]->setState((_lights_on = (!_lights_on)));
 			}
 			break;
 		
@@ -353,7 +352,7 @@ public:
 		/*direccional light*/
 		//falta alterar este (letra N)
 		Lights[0] = new LightSource(0);
-		Lights[0]->setPosition(0, 0, 10);
+		Lights[0]->setPosition(1, 0, 10);
 		Lights[0]->setDirection(0, 0, -1);
 		Lights[0]->setSpecular(1.0, 1.0, 1.0, 1.0);
 		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
