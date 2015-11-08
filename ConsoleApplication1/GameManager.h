@@ -5,7 +5,7 @@
 #define BUTTER_NUMBERS 6
 #define CAMERA_NUMBER 3
 #define CHEERIOS_NUMBER 100
-#define LIGHTS_NUMBER 10
+#define LIGHTS_NUMBER 7
 
 #include "Camera.h"
 #include "LightSource.h"
@@ -52,9 +52,9 @@ class GameManager {
 	LightSource * Lights[LIGHTS_NUMBER];
 	Candle * Candles[LIGHTS_NUMBER];
 	bool _day = true;
-	bool _lights_on = false;
+	bool _lights_on = true;
 	bool _lights_active = false;
-	int lights_on = 0;
+
 	double counter = 0;
 	int lostOrange;
 	//Vector3 positionBeforeCollision;
@@ -141,20 +141,22 @@ public:
 		case 'n':
 			Lights[0]->setState((_day = (!_day)));
 			break;
-		
-		case 'c':
-			if (lights_on < LIGHTS_NUMBER) {
-				Lights[lights_on]->setState((_lights_on = (!_lights_on)));
-				lights_on++;
-			}
-			break;
+
 		case 'l':
 			if ((_lights_active = (!_lights_active))) glEnable(GL_LIGHTING);
 			else glDisable(GL_LIGHTING);
 			break;
+
+		case 'g':
+			break;
+
+		case 'c':
+			for (int i = 1; i < LIGHTS_NUMBER; i++) {
+				Lights[i]->setState((_lights_on = (!_lights_on)));
+			}
+			break;
+		
 		}
-
-
 	}
 	void keyUp(unsigned char key) {
 		switch (key) {
@@ -212,6 +214,9 @@ public:
 		if (_keys[GLUT_KEY_RIGHT])
 			myCar->turnRight();
 	}
+
+	
+
 	void display() {
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -345,43 +350,47 @@ public:
 
 		/*Inicialize the lights*/
 		/*direccional light*/
+		//falta alterar este (letra N)
+		Lights[0] = new LightSource(0);
+		Lights[0]->setPosition(1, 0, 10);
+		Lights[0]->setDirection(0, 0, -1);
+		Lights[0]->setSpecular(1.0, 1.0, 1.0, 1.0);
+		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
+		Lights[0]->setAmbient(1, 1, 1, 1.0);
+		Lights[0]->setState(true);
 		
-		for (int i = 0; i < LIGHTS_NUMBER; i++) {
+		for (int i = 1; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
 			Lights[i]->setSpecular(1.0, 1.0, 1.0, 1.0);
 			Lights[i]->setDiffuse(1.0, 1.0, 1.0, 1.0);
 			Lights[i]->setAmbient(0.2, 0.2, 0.2, 1.0);
+			Lights[i]->setDirection(0, 0, -1);
 			Lights[i]->setState(_lights_on);
 			
 		}
-		//falta alterar este (letra N)
-		Lights[0]->setPosition(0, 0, 1); 
-		Lights[0]->setDirection(1, 1, 1);
-		Lights[0]->setState(true);
+		
 
-		Lights[1]->setPosition(-10, 9, 1);
+		Lights[1]->setPosition(-10, 9, 1.5);
 		Candles[1]=new Candle(-10, 9, 0);
-		Lights[1]->setDirection(1, -1, 0);
-		Lights[2]->setPosition(-10, 0, 1);
-		Candles[2]=new Candle(-10, 0, 0);
-		Lights[2]->setDirection(1, 0, 0);
-		Lights[3]->setPosition(-10, -9, 1);
-		Candles[3] = new Candle(-10, -9, 0);
-		Lights[3]->setDirection(1, 1, 0);
-		Lights[4]->setPosition(9, -9, 1);
-		Candles[4] = new Candle(9, -9, 0);
-		Lights[4]->setDirection(-1, 1, 0);
-		Lights[5]->setPosition(9, 0, 1);
-		Candles[5] = new Candle(9, 0, 0);
-		Lights[5]->setDirection(-1, 0, 0);
-		Lights[6]->setPosition(9, 9, 1);
-		Candles[6] = new Candle(9, 9, 0);
-		Lights[6]->setDirection(-1, -1, 0);
 
-		if (_lights_active)	
-			glEnable(GL_LIGHTING);
-		else 
-			glDisable(GL_LIGHTING);
+		Lights[2]->setPosition(-10, 0, 1.5);
+		Candles[2]=new Candle(-10, 0, 0);
+
+		Lights[3]->setPosition(-10, -9, 1.5);
+		Candles[3]=new Candle(-10, -9, 0);
+
+		Lights[4]->setPosition(9, -9, 1.5);
+		Candles[4]=new Candle(9, -9, 0);
+
+		Lights[5]->setPosition(9, 0, 1.5);
+		Candles[5]=new Candle(9, 0, 0);
+
+		Lights[6]->setPosition(9, 9, 1.5);
+		Candles[6]=new Candle(9, 9, 0);
+
+
+		if (_lights_active)	glEnable(GL_LIGHTING);
+		else glDisable(GL_LIGHTING);
 
 		/*Initiala camera*/
 		float c = (xmax + xmin);
