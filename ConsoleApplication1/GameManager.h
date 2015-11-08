@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include "OrthogonalCamera.h"
 #include "PerspectiveCamera.h"
+#include "Background.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
@@ -26,6 +27,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+
 
 class GameManager {
 
@@ -47,7 +49,7 @@ class GameManager {
 	LightSource * Lights[LIGHTS_NUMBER];
 	bool _day = true;
 	bool _lights_on = false;
-	bool _lights_active = true;
+	bool _lights_active = false;
 
 	double counter = 0;
 	int lostOrange;
@@ -135,14 +137,15 @@ public:
 		case 'n':
 			Lights[0]->setState((_day = (!_day)));
 			break;
+		
+		case 'c':
+			for (int i = 1; i < LIGHTS_NUMBER; i++) {
+				Lights[i]->setState((_lights_on = (!_lights_on)));
+			}
+			break;
 		case 'l':
 			if ((_lights_active = (!_lights_active))) glEnable(GL_LIGHTING);
 			else glDisable(GL_LIGHTING);
-			break;
-		case 'c':
-			for (int i = 1; i < LIGHTS_NUMBER; i++) {
-				Lights[i]->setState(_lights_on = !_lights_on);
-			}
 			break;
 		}
 
@@ -205,11 +208,19 @@ public:
 			myCar->turnRight();
 	}
 
-	void draw_background() {
+	/*void draw_background() {
 		for (int i = -10; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (i % 2 == 0) {
-					if (j % 2 == 0)glColor3d(0.74902, 0.847059, 1.847059); //0.74902 green 0.847059 blue 0.847059
+					if (j % 2 == 0) {
+						//glColor3d(0.74902, 0.847059, 1.847059);
+						defineMaterial(0.074902, 0.0847059, 0.1847059, 1.00,	//Ambient
+							0.074902, 0.0847059, 0.1847059, , 1.00,	//Diffuse
+							0.074902, 0.0847059, 0.1847059, 1.00,	//Specular
+							0.00, 0.00, 0.00, 1.00,	//Emission
+							77);					//SHININESS
+						glColor3f(1.0, 0.5, 0);
+					} //0.74902 green 0.847059 blue 0.847059
 					else glColor3d(1, 1, 1);
 					glPushMatrix();
 					glTranslated(i, j, 0);
@@ -241,18 +252,19 @@ public:
 			}
 
 		}
-	}
+	}*/
 
 	void display() {
-		if (_day)	glClearColor(0.00, 0.64, 1.00, 1);
-		else			glClearColor(0, 0, 0, 1);
+		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glViewport(0, 0, _width, _height); <----vestigial code
 		_currentCamera->computeProjectionMatrix();
 		_currentCamera->update(_width, _height);
 		_currentCamera->computeVisualizationMatrix();
 		//background -> table
-		draw_background();
+		//draw_background();
+		Background * background = new Background();
+		background->draw();
 		//draw stuff
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
 			if (Cheerios[i] != NULL)
@@ -268,6 +280,7 @@ public:
 		for (int i = 0; i < LIGHTS_NUMBER; i++) {
 			Lights[i]->draw();
 		}
+		//if (_lights_active)	glEnable(GL_LIGHTING);
 
 		glutSwapBuffers();
 		//glFlush();
