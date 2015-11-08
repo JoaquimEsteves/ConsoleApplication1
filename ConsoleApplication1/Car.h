@@ -29,7 +29,6 @@ class Car : public DynamicObject {
 	//double _rotation = 0;
 	Vector3 _direction;
 	bool _forceStart = false;
-
 public:
 
 	inline Car() {
@@ -104,6 +103,14 @@ public:
 					cos(i / 6.0 * 2 * PI), 1);
 			}
 			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 0; i < 6; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
 		}
 		else {
 			glBegin(GL_POLYGON);
@@ -112,7 +119,16 @@ public:
 					cos(i / 6.0 * 2 * PI), -1);
 			}
 			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 0; i < 6; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
 		}
+
 
 		//glutSolidSphere(0.2, 50, 50);
 		glPopMatrix();
@@ -181,11 +197,11 @@ public:
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 		glRotated(_turnAngle * 180 / PI, 0, 0, 1);
-		glColor3f(1,1, 1); //CAREFUL HERE
-		drawWheel(0.25, 0.4, -1, 90);
-		drawWheel(0.25, -0.4, 1, 90);
-		drawWheel(-0.25, 0.35, -1, 90);
-		drawWheel(-0.25, -0.35, 1, 90);
+		//glColor3f(1,1, 1); //CAREFUL HERE
+		drawWheel(0.25, 0.3, -1, 90);
+		drawWheel(0.25, -0.3, 1, 90);
+		drawWheel(-0.25, 0.27, -1, 90);
+		drawWheel(-0.25, -0.27, 1, 90);
 
 		
 		//glColor3d(1, 0, 0);//car
