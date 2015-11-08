@@ -104,7 +104,47 @@ public:
 			}
 			glEnd();
 			glBegin(GL_POLYGON);
-			for (int i = 0; i < 6; ++i) {
+			for (int i = 0; i < 2; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 1; i < 3; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 2; i < 4; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 3;i < 5; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 4; i < 6; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 5; i < 7; ++i) {
 				glVertex3f(sin(i / 6.0 * 2 * PI),
 					cos(i / 6.0 * 2 * PI), 1);
 				glVertex3f(sin(i / 6.0 * 2 * PI),
@@ -120,7 +160,47 @@ public:
 			}
 			glEnd();
 			glBegin(GL_POLYGON);
-			for (int i = 0; i < 6; ++i) {
+			for (int i = 0; i < 2; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 1; i < 3; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 2; i < 4; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 3; i < 5; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 4; i < 6; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 0);
+			}
+			glEnd();
+			glBegin(GL_POLYGON);
+			for (int i = 5; i < 7; ++i) {
 				glVertex3f(sin(i / 6.0 * 2 * PI),
 					cos(i / 6.0 * 2 * PI), -1);
 				glVertex3f(sin(i / 6.0 * 2 * PI),
