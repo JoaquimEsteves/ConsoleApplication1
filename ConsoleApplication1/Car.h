@@ -86,17 +86,33 @@ public:
 
 	void drawWheel(double x, double y, double z, double Angle) {
 		glPushMatrix();
-		glTranslated(x, y, z);
+		glTranslated(x, y, .13);
 
 		glRotated(90, 1, 0, 0);
-		glScaled(.15,.15, 0);
+		glScaled(.15,.15, .15);
 		//glutSolidTorus(0.075, 0.15, 6, 6);
 		glBegin(GL_POLYGON);
 		for (int i = 0; i < 6; ++i) {
-			glVertex2d(sin(i / 6.0 * 2 * PI),
-				cos(i / 6.0 * 2 * PI));
+			glVertex3f(sin(i / 6.0 * 2 * PI),
+				cos(i / 6.0 * 2 * PI),0);
 		}
 		glEnd();
+		if (z > 0) {
+			glBegin(GL_POLYGON);
+			for (int i = 0; i < 6; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), 1);
+			}
+			glEnd();
+		}
+		else {
+			glBegin(GL_POLYGON);
+			for (int i = 0; i < 6; ++i) {
+				glVertex3f(sin(i / 6.0 * 2 * PI),
+					cos(i / 6.0 * 2 * PI), -1);
+			}
+			glEnd();
+		}
 
 		//glutSolidSphere(0.2, 50, 50);
 		glPopMatrix();
@@ -166,10 +182,10 @@ public:
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 		glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 		glColor3f(1,1, 1); //CAREFUL HERE
-		drawWheel(0.25, 0.4, .13, 90);
-		drawWheel(0.25, -0.4, .13, 90);
-		drawWheel(-0.25, 0.35, .13, 90);
-		drawWheel(-0.25, -0.35, .13, 90);
+		drawWheel(0.25, 0.4, -1, 90);
+		drawWheel(0.25, -0.4, 1, 90);
+		drawWheel(-0.25, 0.35, -1, 90);
+		drawWheel(-0.25, -0.35, 1, 90);
 
 		
 		//glColor3d(1, 0, 0);//car
