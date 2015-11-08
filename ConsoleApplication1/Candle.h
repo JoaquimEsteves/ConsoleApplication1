@@ -1,4 +1,3 @@
-
 #ifndef __CANDLE__
 #define __CANDLE__
 
@@ -32,48 +31,8 @@ public:
 				77);					//SHININESS
 
 			glPushMatrix(),
-			//glutSolidCube(1);
-				glBegin(GL_POLYGON);
-			glVertex3f(-0.5, 0.5, 0);
-			glVertex3f(0.5, 0.5, 0);
-			glVertex3f(0.5, -0.5, 0);
-			glVertex3f(-0.5, -0.5, 0);
-			glEnd();
-			//Upper case
-			glBegin(GL_POLYGON);
-			glVertex3f(-0.5, 0.5, 0.5);
-			glVertex3f(0.5, 0.5, 0.5);
-			glVertex3f(0.5, -0.5, 0.5);
-			glVertex3f(-0.5, -0.5, 0.5);
-			glEnd();
-			//left side
-			glBegin(GL_POLYGON);
-			glVertex3f(-0.5, -0.5, 0.5);
-			glVertex3f(0.5, -0.5, 0.5);
-			glVertex3f(0.5, -0.5, 0);
-			glVertex3f(-0.5, -0.5, 0);
-			glEnd();
-			//right side
-			glBegin(GL_POLYGON);
-			glVertex3f(0.5, 0.5, 0.5);
-			glVertex3f(-0.5, 0.5, 0.5);
-			glVertex3f(-0.5, 0.5, 0);
-			glVertex3f(0.5, 0.5, 0);
-			glEnd();
-			//back
-			glBegin(GL_POLYGON);
-			glVertex3f(0.5, 0.5, 0);
-			glVertex3f(0.5, 0.5, 0.5);
-			glVertex3f(0.5, -0.5, 0.5);
-			glVertex3f(0.5, -0.5, 0);
-			glEnd();
-			//front
-			glBegin(GL_POLYGON);
-			glVertex3f(-0.5, 0.5, 0);
-			glVertex3f(-0.5, 0.5, 0.5);
-			glVertex3f(-0.5, -0.5, 0.5);
-			glVertex3f(-0.5, -0.5, 0);
-			glEnd();
+			glutSolidCube(1);
+			
 			glPopMatrix();
 
 			glPushMatrix();
