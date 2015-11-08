@@ -1,7 +1,8 @@
 #ifndef _GAMEMANAGER_H_
 #define _GAMEMANAGER_H_
+
 #define ORANGE_NUMBERS 3
-#define BUTTER_NUMBERS 5
+#define BUTTER_NUMBERS 6
 #define CAMERA_NUMBER 3
 #define CHEERIOS_NUMBER 100
 #define LIGHTS_NUMBER 10
@@ -16,7 +17,7 @@
 #include "Orange.h"
 #include "Road.h"
 #include "Cheerio.h"
-//#include "Candle.h"
+#include "Candle.h"
 #include "Background.h"
 #include "Camera.h"
 #include "OrthogonalCamera.h"
@@ -30,7 +31,6 @@
 #include <iostream>
 #include <vector>
 #include <map>
-
 
 class GameManager {
 
@@ -50,6 +50,7 @@ class GameManager {
 	Camera * Cameras[CAMERA_NUMBER];
 	Cheerio * Cheerios[CHEERIOS_NUMBER];
 	LightSource * Lights[LIGHTS_NUMBER];
+	Candle * Candles[LIGHTS_NUMBER];
 	bool _day = true;
 	bool _lights_on = false;
 	bool _lights_active = false;
@@ -269,6 +270,10 @@ public:
 		Background * background = new Background();
 		background->draw();
 		//draw stuff
+		for (int i = 1; i < 7; i++) {
+			Candles[i]->draw(_lights_on);
+		}
+
 		for (int i = 0; i < CHEERIOS_NUMBER; i++) {
 			if (Cheerios[i] != NULL)
 				Cheerios[i]->draw();
@@ -283,6 +288,7 @@ public:
 		for (int i = 0; i < LIGHTS_NUMBER; i++) {
 			Lights[i]->draw();
 		}
+		
 		//if (_lights_active)	glEnable(GL_LIGHTING);
 
 		glutSwapBuffers();
@@ -385,6 +391,7 @@ public:
 
 		/*Inicialize the lights*/
 		/*direccional light*/
+		
 		for (int i = 0; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
 			Lights[i]->setSpecular(1.0, 1.0, 1.0, 1.0);
@@ -393,22 +400,28 @@ public:
 			Lights[i]->setState(_lights_on);
 			
 		}
-		
-		Lights[0]->setPosition(-1, -1, 1); 
+		//falta alterar este (letra N)
+		Lights[0]->setPosition(0, 0, 1); 
 		Lights[0]->setDirection(0, 0, 0);
 		Lights[0]->setState(true);
 
-		Lights[1]->setPosition(-9, 9, 1);
+		Lights[1]->setPosition(-10, 9, 1);
+		Candles[1]=new Candle(-10, 9, 0);
 		Lights[1]->setDirection(1, -1, 0);
-		Lights[2]->setPosition(-9, 0, 1);
+		Lights[2]->setPosition(-10, 0, 1);
+		Candles[2]=new Candle(-10, 0, 0);
 		Lights[2]->setDirection(1, 0, 0);
-		Lights[3]->setPosition(-9, -9, 1);
+		Lights[3]->setPosition(-10, -9, 1);
+		Candles[3] = new Candle(-10, -9, 0);
 		Lights[3]->setDirection(1, 1, 0);
 		Lights[4]->setPosition(9, -9, 1);
+		Candles[4] = new Candle(9, -9, 0);
 		Lights[4]->setDirection(-1, 1, 0);
 		Lights[5]->setPosition(9, 0, 1);
+		Candles[5] = new Candle(9, 0, 0);
 		Lights[5]->setDirection(-1, 0, 0);
 		Lights[6]->setPosition(9, 9, 1);
+		Candles[6] = new Candle(9, 9, 0);
 		Lights[6]->setDirection(-1, -1, 0);
 
 		if (_lights_active)	glEnable(GL_LIGHTING);
