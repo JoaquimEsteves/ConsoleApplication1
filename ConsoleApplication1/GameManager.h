@@ -6,6 +6,7 @@
 #define CHEERIOS_NUMBER 100
 
 #include "Camera.h"
+#include "LightSource.h"
 #include "Vector3.h"
 #include "GameObject.h"
 #include "DynamicObject.h"
@@ -14,10 +15,11 @@
 #include "Orange.h"
 #include "Road.h"
 #include "Cheerio.h"
+#include "Candle.h"
+#include "Background.h"
 #include "Camera.h"
 #include "OrthogonalCamera.h"
 #include "PerspectiveCamera.h"
-#include "Background.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
