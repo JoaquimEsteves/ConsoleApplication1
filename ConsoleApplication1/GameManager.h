@@ -151,8 +151,9 @@ public:
 			break;
 
 		case 'c':
+			_lights_on = (!_lights_on);
 			for (int i = 1; i < LIGHTS_NUMBER; i++) {
-				Lights[i]->setState((_lights_on = (!_lights_on)));
+				Lights[i]->setState(_lights_on);
 			}
 			break;
 		
@@ -249,6 +250,8 @@ public:
 		}
 		
 		if (_lights_active)	glEnable(GL_LIGHTING);
+		else glDisable(GL_LIGHTING);
+		
 
 		glutSwapBuffers();
 		//glFlush();
