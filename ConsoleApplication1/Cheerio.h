@@ -11,7 +11,7 @@ class Cheerio : public Obstacle {
 	Vector3 _initialPosition;
 
 public:
-	
+
 	inline Cheerio(double x, double y, double z) {
 		setPosition(x, y, z);
 		_initialPosition.set(x, y, z);
@@ -26,7 +26,13 @@ public:
 	Vector3 getInitialPosition() { return _initialPosition; }
 	inline void draw() {
 		//butter
-		glColor3d(0.5, 0.35, 0.05);
+		//glColor3d(0.5, 0.35, 0.05);
+		defineMaterial(0.05, 0.035, 0.005, 1.00,	//Ambient
+			0.05, 0.035, 0.005, 1.00,	//Diffuse
+			0.05, 0.035, 0.005, 1.00,	//Specular
+			0.05, 0.035, 0.005, 1.00,	//Emission
+			77);					//SHININESS
+		glColor3f(0.5, 0.35, 0.05);
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
@@ -34,7 +40,7 @@ public:
 		glPopMatrix();
 
 	}
-	void update(double delta_t, Car *myCar,int forward) {
+	void update(double delta_t, Car *myCar, int forward) {
 
 		if (myCar->HasColision(this)) {
 			myCar->setForceStart(true);
