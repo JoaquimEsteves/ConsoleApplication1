@@ -54,7 +54,7 @@ class GameManager {
 	bool _day = true;
 	bool _lights_on = true;
 	bool _lights_active = false;
-
+	int n_light = 0;
 	double counter = 0;
 	int lostOrange;
 	//Vector3 positionBeforeCollision;
@@ -151,8 +151,9 @@ public:
 			break;
 
 		case 'c':
-			for (int i = 1; i < LIGHTS_NUMBER; i++) {
-				Lights[i]->setState((_lights_on = (!_lights_on)));
+			if(n_light < LIGHTS_NUMBER) {
+				Lights[n_light]->setState((_lights_on = (!_lights_on)));
+				n_light++;
 			}
 			break;
 		
