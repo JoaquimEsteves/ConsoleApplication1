@@ -4,6 +4,7 @@
 #define BUTTER_NUMBERS 5
 #define CAMERA_NUMBER 3
 #define CHEERIOS_NUMBER 100
+#define LIGHTS_NUMBER 10
 
 #include "Camera.h"
 #include "LightSource.h"
