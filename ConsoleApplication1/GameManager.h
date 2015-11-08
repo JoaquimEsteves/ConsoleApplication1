@@ -369,6 +369,7 @@ public:
 			Lights[i]->setAmbient(0.2, 0.2, 0.2, 1.0);
 			Lights[i]->setDirection(0, 0, -1);
 			Lights[i]->setState(_lights_on);
+			Lights[i]->setCutOff(60);
 			
 		}
 		

@@ -269,10 +269,10 @@ public:
 							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 		defineMaterial(0.00, 0.00, 0.00, 1.00,	//Ambient
 			0, 0, 0, 1.00,	//Diffuse
-			1, 1,1, 1.00,	//Specular
+			0, 0,0, 1.00,	//Specular
 			0.00, 0.00, 0.00, 1.00,	//Emission
-			92);					//SHININESS
-		glColor3f(0, 0, 0);
+			50);					//SHININESS
+		glColor3f(0.01, 0.01, 0.01);
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
