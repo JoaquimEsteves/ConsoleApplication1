@@ -17,7 +17,13 @@ public:
 	inline virtual ~Butter() {}
 	inline void draw() {
 		//butter
-		glColor3d(1.0, 1.5, 0);
+		//glColor3d(1.0, 1.5, 0);
+		defineMaterial(0.1, 0.15, 0, 1.00,	//Ambient
+			0.1, 0.15, 0, 1.00,	//Diffuse
+			0.1, 0.15, 0, 1.00,	//Specular
+			0.1, 0.15, 0, 1.00,	//Emission
+			77);					//SHININESS
+		glColor3f(1.0, 1.5, 0);
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
