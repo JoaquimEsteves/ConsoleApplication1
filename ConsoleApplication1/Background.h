@@ -20,8 +20,7 @@ public:
 				glPushMatrix();
 				glTranslated(i, j, 0);
 				glScaled(1, 1, 0);
-				//glutSolidCube(1);
-				drawCube();
+				glutSolidCube(1);
 				glPopMatrix();
 
 			}
@@ -44,49 +43,7 @@ public:
 			77);					//SHININESS
 		glColor3f(1,1,1);
 	}
-	void drawCube() {
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(1, 1, 0);
-		glVertex3f(1, -1, 0);
-		glVertex3f(-1, -1, 0);
-		glEnd();
-		//Upper case
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(1, 1, 1);
-		glVertex3f(1, -1, 1);
-		glVertex3f(-1, -1, 1);
-		glEnd();
-		//left side
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, -1, 1);
-		glVertex3f(1, -1, 1);
-		glVertex3f(1, -1, 0);
-		glVertex3f(-1, -1, 0);
-		glEnd();
-		//right side
-		glBegin(GL_POLYGON);
-		glVertex3f(1, 1, 1);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(1, 1, 0);
-		glEnd();
-		//back
-		glBegin(GL_POLYGON);
-		glVertex3f(1, 1, 0);
-		glVertex3f(1, 1, 1);
-		glVertex3f(1, -1, 1);
-		glVertex3f(1, -1, 0);
-		glEnd();
-		//front
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(-1, -1, 1);
-		glVertex3f(-1, -1, 0);
-		glEnd();
-	}
+	
 };
 
 #endif
