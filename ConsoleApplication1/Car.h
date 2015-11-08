@@ -268,11 +268,11 @@ public:
 		//glColor3d(0, 0, 0); //wheels could be torus
 							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 		defineMaterial(0.00, 0.00, 0.00, 1.00,	//Ambient
-			0.01, 0.01, 0.01, 1.00,	//Diffuse
-			0.50, 0.50, 0.50, 1.00,	//Specular
+			0, 0, 0, 1.00,	//Diffuse
+			1, 1,1, 1.00,	//Specular
 			0.00, 0.00, 0.00, 1.00,	//Emission
-			32);					//SHININESS
-		glColor3f(0.01, 0.01, 0.01);
+			92);					//SHININESS
+		glColor3f(0, 0, 0);
 
 		glPushMatrix();
 		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
