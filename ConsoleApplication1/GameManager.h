@@ -289,7 +289,7 @@ public:
 			Lights[i]->draw();
 		}
 		
-		//if (_lights_active)	glEnable(GL_LIGHTING);
+		if (_lights_active)	glEnable(GL_LIGHTING);
 
 		glutSwapBuffers();
 		//glFlush();
@@ -402,7 +402,7 @@ public:
 		}
 		//falta alterar este (letra N)
 		Lights[0]->setPosition(0, 0, 1); 
-		Lights[0]->setDirection(0, 0, 0);
+		Lights[0]->setDirection(1, 1, 1);
 		Lights[0]->setState(true);
 
 		Lights[1]->setPosition(-10, 9, 1);
