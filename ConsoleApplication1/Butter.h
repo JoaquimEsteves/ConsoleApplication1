@@ -12,7 +12,7 @@ public:
 
 	inline Butter(double x, double y, double z) {
 		setPosition(x, y, z);
-		setSize(1, 0.75, 1);
+		setSize(0.75, 0.875, 1);
 	}
 	inline virtual ~Butter() {}
 	inline void draw() {
@@ -26,51 +26,10 @@ public:
 		glColor3f(1.0, 1.5, 0);
 
 		glPushMatrix();
-		glTranslated(getPosition().getX(), getPosition().getY(), 0);
-		glScaled(1, 0.75, 1);
-		//glutSolidCube(1.5);
-		//glPopMatrix();
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(1, 1, 0);
-		glVertex3f(1, -1, 0);
-		glVertex3f(-1, -1, 0);
-		glEnd();
-		//Upper case
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(1, 1, 1);
-		glVertex3f(1, -1, 1);
-		glVertex3f(-1, -1, 1);
-		glEnd();
-		//left side
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, -1, 1);
-		glVertex3f(1, -1, 1);
-		glVertex3f(1, -1, 0);
-		glVertex3f(-1, -1, 0);
-		glEnd();
-		//right side
-		glBegin(GL_POLYGON);
-		glVertex3f(1, 1, 1);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(1, 1, 0);
-		glEnd();
-		//back
-		glBegin(GL_POLYGON);
-		glVertex3f(1, 1, 0);
-		glVertex3f(1, 1, 1);
-		glVertex3f(1, -1, 1);
-		glVertex3f(1, -1, 0);
-		glEnd();
-		//front
-		glBegin(GL_POLYGON);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(-1, -1, 1);
-		glVertex3f(-1, -1, 0);
-		glEnd();
+		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		glScaled(1.5, 1.75, 1);
+		glutSolidCube(1);
+		
 		glPopMatrix();
 	}
 
