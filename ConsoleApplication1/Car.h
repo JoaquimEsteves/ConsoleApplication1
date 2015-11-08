@@ -39,15 +39,15 @@ public:
 
 	}
 	inline virtual ~Car() {}
-	double getMaxSpeed()					{return _maxSpeed; }
-	double getAcceleration()				{ return _acceleration; }
-	double getTurnAngle()					{ return _turnAngle; }
-	void setSpecialSpeed(double d)			{ _specialSpeed = d; }
-	double getSpecialSpeed()				{ return _specialSpeed; }
-	bool getForceStart()					{ return _forceStart; }
-	void setForceStart(bool b)				{ _forceStart = b; }
-	Vector3 getDirection()					{ return _direction; }
-	void setDirection(Vector3 direction)	{ _direction=direction; }
+	double getMaxSpeed() { return _maxSpeed; }
+	double getAcceleration() { return _acceleration; }
+	double getTurnAngle() { return _turnAngle; }
+	void setSpecialSpeed(double d) { _specialSpeed = d; }
+	double getSpecialSpeed() { return _specialSpeed; }
+	bool getForceStart() { return _forceStart; }
+	void setForceStart(bool b) { _forceStart = b; }
+	Vector3 getDirection() { return _direction; }
+	void setDirection(Vector3 direction) { _direction = direction; }
 
 	void turnLeft() {
 		_turnAngle = _turnAngle + 0.030;
@@ -84,90 +84,103 @@ public:
 			_specialSpeed += _frictionVal;
 	}
 
-	void drawWheel(double x, double y, double z,double Angle) {
+	void drawWheel(double x, double y, double z, double Angle) {
 		glPushMatrix();
-			glTranslated(x, y, z);
+		glTranslated(x, y, z);
 
-			glRotated(90, 1, 0, 0);
-			
-			glutSolidTorus(0.075, 0.15, 6, 6);
-			//glutSolidSphere(0.2, 50, 50);
+		glRotated(90, 1, 0, 0);
+
+		glutSolidTorus(0.075, 0.15, 6, 6);
+		//glutSolidSphere(0.2, 50, 50);
 		glPopMatrix();
 	}
 
 	void drawStructure(double x, double y, double z) {
 		glPushMatrix();
-			glTranslated(x, y, z);
-			glScaled(2, 1.5, 0.75);
-			// glutSolidCube(0.5);
-			//Lower case
-			glBegin(GL_POLYGON);
-				glVertex3f(-.25,.25,0);
-				glVertex3f(.25, .25, 0);
-				glVertex3f(.25,- .25, 0);
-				glVertex3f(-.25, -.25, 0);
-			glEnd();
-			//Upper case
-			glBegin(GL_POLYGON);
-				glVertex3f(-.25, .25, .25);
-				glVertex3f(.25, .25, .25);
-				glVertex3f(.25, -.25, .25);
-				glVertex3f(-.25, -.25, .25);
-			glEnd();
-			//left side
-			glBegin(GL_POLYGON);
-				glVertex3f(-.25, -.25, .25);
-				glVertex3f(.25, -.25, .25);
-				glVertex3f(.25, -.25, 0);
-				glVertex3f(-.25, -.25, 0);
-			glEnd();
-			//right side
-			glBegin(GL_POLYGON);
-				glVertex3f(.25, .25, .25);
-				glVertex3f(-.25, .25, .25);
-				glVertex3f(-.25, .25, 0);
-				glVertex3f(.25, .25, 0);
-			glEnd();
-			//back
-			glBegin(GL_POLYGON);
-				glVertex3f(.25, .25, 0);
-				glVertex3f(.25, .25, .25);
-				glVertex3f(.25, -.25, .25);
-				glVertex3f(.25, -.25, 0);
-			glEnd();
-			//front
-			glBegin(GL_POLYGON);
-				glVertex3f(-.25, .25, 0);
-				glVertex3f(-.25, .25, .25);
-				glVertex3f(-.25, -.25, .25);
-				glVertex3f(-.25, -.25, 0);
-			glEnd();
+		glTranslated(x, y, z);
+		glScaled(2, 1.5, 0.75);
+		// glutSolidCube(0.5);
+		//Lower case
+		glBegin(GL_POLYGON);
+		glVertex3f(-.25, .25, 0);
+		glVertex3f(.25, .25, 0);
+		glVertex3f(.25, -.25, 0);
+		glVertex3f(-.25, -.25, 0);
+		glEnd();
+		//Upper case
+		glBegin(GL_POLYGON);
+		glVertex3f(-.25, .25, .25);
+		glVertex3f(.25, .25, .25);
+		glVertex3f(.25, -.25, .25);
+		glVertex3f(-.25, -.25, .25);
+		glEnd();
+		//left side
+		glBegin(GL_POLYGON);
+		glVertex3f(-.25, -.25, .25);
+		glVertex3f(.25, -.25, .25);
+		glVertex3f(.25, -.25, 0);
+		glVertex3f(-.25, -.25, 0);
+		glEnd();
+		//right side
+		glBegin(GL_POLYGON);
+		glVertex3f(.25, .25, .25);
+		glVertex3f(-.25, .25, .25);
+		glVertex3f(-.25, .25, 0);
+		glVertex3f(.25, .25, 0);
+		glEnd();
+		//back
+		glBegin(GL_POLYGON);
+		glVertex3f(.25, .25, 0);
+		glVertex3f(.25, .25, .25);
+		glVertex3f(.25, -.25, .25);
+		glVertex3f(.25, -.25, 0);
+		glEnd();
+		//front
+		glBegin(GL_POLYGON);
+		glVertex3f(-.25, .25, 0);
+		glVertex3f(-.25, .25, .25);
+		glVertex3f(-.25, -.25, .25);
+		glVertex3f(-.25, -.25, 0);
+		glEnd();
 		glPopMatrix();
 	}
 
 	inline void draw() {
-		glColor3d(0, 0, 0); //wheels could be torus
+		//glColor3d(0, 0, 0); //wheels could be torus
 							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
+		defineMaterial(0.00, 0.00, 0.00, 1.00,	//Ambient
+			0.01, 0.01, 0.01, 1.00,	//Diffuse
+			0.50, 0.50, 0.50, 1.00,	//Specular
+			0.00, 0.00, 0.00, 1.00,	//Emission
+			32);					//SHININESS
+		glColor3f(0.01, 0.01, 0.01);
 
 		glPushMatrix();
-			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
+		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+		glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 
-			drawWheel(0.25, 0.4, 0, 90);
-			drawWheel(0.25, -0.4, 0, 90);
-			drawWheel(-0.25, 0.35,0, 90);
-			drawWheel(-0.25, -0.35, 0, 90);
-			
-			glColor3d(1, 0, 0);//car
-			
-			drawStructure(0, 0, .1);
+		drawWheel(0.25, 0.4, 0, 90);
+		drawWheel(0.25, -0.4, 0, 90);
+		drawWheel(-0.25, 0.35, 0, 90);
+		drawWheel(-0.25, -0.35, 0, 90);
+
+		
+		//glColor3d(1, 0, 0);//car
+		defineMaterial(0.1, 0, 0, 1.00,	//Ambient
+			0.1, 0, 0, 1.00,	//Diffuse
+			0.1, 0, 0, 1.00,	//Specular
+			0.00, 0.00, 0.00, 1.00,	//Emission
+			77);					//SHININESS
+		glColor3f(1, 0, 0);
+
+		drawStructure(0, 0, .1);
 		glPopMatrix();
 
 	}
 
 	/*void update_trivial(double delta_t) {
-		//In case of emergency
-		setPosition(getPosition() + getSpeed() * delta_t);
+	//In case of emergency
+	setPosition(getPosition() + getSpeed() * delta_t);
 	}*/
 
 	void update(double delta_t) {
