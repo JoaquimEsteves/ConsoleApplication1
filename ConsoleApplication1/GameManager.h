@@ -353,7 +353,7 @@ public:
 		/*direccional light*/
 		//falta alterar este (letra N)
 		Lights[0] = new LightSource(0);
-		Lights[0]->setPosition(1, 0, 10);
+		Lights[0]->setPosition(0, 0, 10);
 		Lights[0]->setDirection(0, 0, -1);
 		Lights[0]->setSpecular(1.0, 1.0, 1.0, 1.0);
 		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
