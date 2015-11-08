@@ -1,3 +1,4 @@
+
 #ifndef __CANDLE__
 #define __CANDLE__
 
@@ -6,7 +7,6 @@
 #include "GL/glut.h"
 #include <iostream>
 #include <cmath>
-//extern GameManager *gm;
 
 
 class Candle : public StaticObject
@@ -15,7 +15,7 @@ public:
 	inline Candle(double x, double y, double z) {
 		setPosition(x, y, z);
 	}
-	//inline virtual ~StreetLight();
+	inline virtual ~Candle() {}
 	void draw(bool light_on) {
 			glPushMatrix();
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
@@ -32,7 +32,48 @@ public:
 				77);					//SHININESS
 
 			glPushMatrix(),
-			glutSolidCube(1);
+			//glutSolidCube(1);
+				glBegin(GL_POLYGON);
+			glVertex3f(-0.5, 0.5, 0);
+			glVertex3f(0.5, 0.5, 0);
+			glVertex3f(0.5, -0.5, 0);
+			glVertex3f(-0.5, -0.5, 0);
+			glEnd();
+			//Upper case
+			glBegin(GL_POLYGON);
+			glVertex3f(-0.5, 0.5, 0.5);
+			glVertex3f(0.5, 0.5, 0.5);
+			glVertex3f(0.5, -0.5, 0.5);
+			glVertex3f(-0.5, -0.5, 0.5);
+			glEnd();
+			//left side
+			glBegin(GL_POLYGON);
+			glVertex3f(-0.5, -0.5, 0.5);
+			glVertex3f(0.5, -0.5, 0.5);
+			glVertex3f(0.5, -0.5, 0);
+			glVertex3f(-0.5, -0.5, 0);
+			glEnd();
+			//right side
+			glBegin(GL_POLYGON);
+			glVertex3f(0.5, 0.5, 0.5);
+			glVertex3f(-0.5, 0.5, 0.5);
+			glVertex3f(-0.5, 0.5, 0);
+			glVertex3f(0.5, 0.5, 0);
+			glEnd();
+			//back
+			glBegin(GL_POLYGON);
+			glVertex3f(0.5, 0.5, 0);
+			glVertex3f(0.5, 0.5, 0.5);
+			glVertex3f(0.5, -0.5, 0.5);
+			glVertex3f(0.5, -0.5, 0);
+			glEnd();
+			//front
+			glBegin(GL_POLYGON);
+			glVertex3f(-0.5, 0.5, 0);
+			glVertex3f(-0.5, 0.5, 0.5);
+			glVertex3f(-0.5, -0.5, 0.5);
+			glVertex3f(-0.5, -0.5, 0);
+			glEnd();
 			glPopMatrix();
 
 			glPushMatrix();
@@ -51,7 +92,7 @@ public:
 					77);					//SHININESS
 				
 			glTranslated(0, 0, 1);
-			glutSolidSphere(0.5, 8, 8);
+			glutSolidSphere(0.5, 10, 10);
 			glPopMatrix();
 			glPopMatrix();
 		}
