@@ -355,13 +355,13 @@ public:
 		/*direccional light*/
 		//falta alterar este (letra N)
 		Lights[0] = new LightSource(0);
-		Lights[0]->setPosition(1, 0, 10);
+		Lights[0]->setPosition(-.5, 0, 10);
 		Lights[0]->setDirection(0, 0, -1);
 		Lights[0]->setSpecular(1.0, 1.0, 1.0, 1.0);
 		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
 		Lights[0]->setAmbient(1, 1, 1, 1.0);
 		Lights[0]->setState(true);
-		//Lights[0]->setAttenuation(true);
+		Lights[0]->setCutOff(180);
 		
 		for (int i = 1; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
@@ -378,7 +378,7 @@ public:
 		
 
 		Lights[1]->setPosition(-10, 9, 1.5);
-		Lights[1]->setDirection(-10, 9, 1.5);
+		//Lights[1]->setDirection(-10, 9, 1.5);
 		Candles[1]=new Candle(-10, 9, 0);
 
 		Lights[2]->setPosition(-10, 0, 1.5);
@@ -397,9 +397,12 @@ public:
 		Candles[6]=new Candle(9, 9, 0);
 
 
-		if (_lights_active)	glEnable(GL_LIGHTING);
-		else glDisable(GL_LIGHTING);
-
+		if (_lights_active) {
+			glEnable(GL_LIGHTING);
+		}
+		else {
+			glDisable(GL_LIGHTING);
+		}
 		/*Initiala camera*/
 		float c = (xmax + xmin);
 		xmax = c + xscale * _width;

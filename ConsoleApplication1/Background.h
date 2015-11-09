@@ -31,7 +31,7 @@ public:
 			0.074902, 0.0847059, 0.1847059, 1.00,	//Diffuse
 			0.074902, 0.0847059, 0.1847059, 1.00,	//Specular
 			0,0,0, 1.00,	//Emission
-			1);					//SHININESS
+			77);					//SHININESS
 		glColor3f(0.74902, 0.847059, 1.847059);
 	}
 
@@ -40,7 +40,7 @@ public:
 			0.1, 0.1, 0.1, 1.00,	//Diffuse
 			0.1, 0.1, 0.1, 1.00,	//Specular
 			0,0,0, 1.00,	//Emission
-			1);					//SHININESS
+			77);					//SHININESS
 		glColor3f(1,1,1);
 	}
 	

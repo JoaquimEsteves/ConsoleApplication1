@@ -337,13 +337,11 @@ public:
 				0.00, 0.00, 0.00, 1.00,	//Emission
 				1);					//SHININESS
 			glColor3f(0.01, 0.01, 0.01);
-
+			
 		
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
-
 			drawWheel(0.25, 0.3, -1, 90);
-
 			drawWheel(0.25, -0.3, 1, 90);
 
 			drawWheel(-0.25, 0.27, -1, 90);
