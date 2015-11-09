@@ -267,6 +267,63 @@ public:
 		glVertex3f(-.25, -.25, .25);
 		glVertex3f(-.25, -.25, 0);
 		glEnd();
+		//MONSTERS
+		//metade de cima do carro
+		//CIMA_Lower_case
+
+		glBegin(GL_POLYGON);
+
+		glVertex3f(.15, -.25, .25);
+		glVertex3f(.15, .25, .25);
+		glVertex3f(-.25, .25, .25);
+		glVertex3f(-.25, -.25, .25);
+		glEnd();
+
+		//tejadilho
+		glBegin(GL_POLYGON);
+
+		glVertex3f(.10, -.20, .50);
+		glVertex3f(.10, .20, .50);
+		glVertex3f(-.20, .20, .50);
+		glVertex3f(-.20, -.20, .50);
+		glEnd();
+
+		//trap_left
+		glBegin(GL_POLYGON);
+		
+		glVertex3f(.15, .25, .25);
+		glVertex3f(-.25, .25, .25);
+		glVertex3f(.10, .20, .50);
+		glVertex3f(-.20, -.20, .50);
+		glEnd();
+
+		//trap_right
+		glBegin(GL_POLYGON);
+		
+		glVertex3f(.15, -.25, .25);
+		glVertex3f(-.25, -.25, .25);
+		glVertex3f(.10, -.20, .50);
+		glVertex3f(-.20, -.20, .50);
+		glEnd();
+
+		//trap_front
+		glBegin(GL_POLYGON);
+		
+		glVertex3f(.15, -.25, .25);
+		glVertex3f(.15, .25, .25);
+		glVertex3f(.10, -.20, .50);
+		glVertex3f(.10, .20, .50);
+		glEnd();
+
+		//trap_back
+		glBegin(GL_POLYGON);
+		
+		glVertex3f(-.25, -.25, .25);
+		glVertex3f(-.25, .25, .25);
+		glVertex3f(-.20, -.20, .50);
+		glVertex3f(-.20, .20, .50);
+		glEnd();
+		//MONSTERS BEGONE
 		glPopMatrix();
 	}
 
