@@ -18,9 +18,9 @@ public:
 				else defineMaterialWhite();
 
 				glPushMatrix();
-				glTranslated(i, j, 0);
-				glScaled(1, 1, 0);
-				glutSolidCube(1);
+					glTranslated(i, j, 0);
+					glScaled(1, 1, 0);
+					glutSolidCube(1);
 				glPopMatrix();
 
 			}
@@ -30,8 +30,8 @@ public:
 		defineMaterial(0.074902, 0.0847059, 0.1847059, 1.00,	//Ambient
 			0.074902, 0.0847059, 0.1847059, 1.00,	//Diffuse
 			0.074902, 0.0847059, 0.1847059, 1.00,	//Specular
-			0, 0, 0, 1.00,	//Emission
-			77);					//SHININESS
+			0,0,0, 1.00,	//Emission
+			1);					//SHININESS
 		glColor3f(0.74902, 0.847059, 1.847059);
 	}
 
@@ -39,11 +39,11 @@ public:
 		defineMaterial(0.1, 0.1, 0.1, 1.00,	//Ambient
 			0.1, 0.1, 0.1, 1.00,	//Diffuse
 			0.1, 0.1, 0.1, 1.00,	//Specular
-			0, 0, 0, 1.00,	//Emission
-			77);					//SHININESS
-		glColor3f(1, 1, 1);
+			0,0,0, 1.00,	//Emission
+			1);					//SHININESS
+		glColor3f(1,1,1);
 	}
-
+	
 };
 
 #endif

@@ -16,6 +16,7 @@ class LightSource
 	double	_exponent;
 	GLenum _num;
 	bool	_state;
+	bool _attenuation = false;
 public:
 	LightSource(GLenum number) {
 		_num = number; _state = false; 
@@ -23,6 +24,7 @@ public:
 		_direction.set(0, 0, 0);
 	}
 	~LightSource() {}
+	void setAttenuation(bool b) { _attenuation = b; }
 	bool getState() {
 		return _state;
 	}
@@ -74,15 +76,23 @@ public:
 		_specular[3] = w;
 	}
 	void draw() {
-		GLfloat light_position[] = { (GLfloat)_position.getX(), (GLfloat)_position.getY(), (GLfloat)_position.getZ()};
-		glLightfv(GL_LIGHT0 + _num, GL_POSITION, light_position);
-		glLightfv(GL_LIGHT0 + _num, GL_AMBIENT, _ambient);
-		glLightfv(GL_LIGHT0 + _num, GL_DIFFUSE, _diffuse);
-		glLightfv(GL_LIGHT0 + _num, GL_SPECULAR, _specular);
-		glLightf(GL_LIGHT0 + _num, GL_SPOT_CUTOFF, _cut_off);
-		GLfloat direction[] = { (GLfloat)_direction.getX(), (GLfloat)_direction.getY(), (GLfloat)_direction.getZ() };
-		glLightfv(GL_LIGHT0 + _num, GL_SPOT_DIRECTION, direction);
-		glLightf(GL_LIGHT0 + _num, GL_SPOT_EXPONENT, _exponent);
+		glPushMatrix();
+			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+			GLfloat light_position[] = { (GLfloat)_position.getX(), (GLfloat)_position.getY(), (GLfloat)_position.getZ()};
+			glLightfv(GL_LIGHT0 + _num, GL_POSITION, light_position);
+			glLightfv(GL_LIGHT0 + _num, GL_AMBIENT, _ambient);
+			glLightfv(GL_LIGHT0 + _num, GL_DIFFUSE, _diffuse);
+			glLightfv(GL_LIGHT0 + _num, GL_SPECULAR, _specular);
+			glLightf(GL_LIGHT0 + _num, GL_SPOT_CUTOFF, _cut_off);
+			GLfloat direction[] = { (GLfloat)_direction.getX(), (GLfloat)_direction.getY(), (GLfloat)_direction.getZ() };
+			glLightfv(GL_LIGHT0 + _num, GL_SPOT_DIRECTION, direction);
+			glLightf(GL_LIGHT0 + _num, GL_SPOT_EXPONENT, _exponent);
+			if (_attenuation) {
+				//glLightf(GL_LIGHT0 + _num, GL_CONSTANT_ATTENUATION, 1);
+				//glLightf(GL_LIGHT0 + _num, GL_LINEAR_ATTENUATION, .5);
+				glLightf(GL_LIGHT0 + _num, GL_QUADRATIC_ATTENUATION, .1);
+			}
+		glPopMatrix();
 		return;
 	}
 };

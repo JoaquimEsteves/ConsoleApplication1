@@ -361,20 +361,24 @@ public:
 		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
 		Lights[0]->setAmbient(1, 1, 1, 1.0);
 		Lights[0]->setState(true);
+		//Lights[0]->setAttenuation(true);
 		
 		for (int i = 1; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
 			Lights[i]->setSpecular(1.0, 1.0, 1.0, 1.0);
 			Lights[i]->setDiffuse(1.0, 1.0, 1.0, 1.0);
-			Lights[i]->setAmbient(0.2, 0.2, 0.2, 1.0);
+			Lights[i]->setAmbient(1, 1, 1, 1.0);
 			Lights[i]->setDirection(0, 0, -1);
 			Lights[i]->setState(_lights_on);
-			Lights[i]->setCutOff(60);
+			//Lights[i]->setCutOff(180);
+			//Lights[i]->setExponent(0);
+			Lights[i]->setAttenuation(true);
 			
 		}
 		
 
 		Lights[1]->setPosition(-10, 9, 1.5);
+		Lights[1]->setDirection(-10, 9, 1.5);
 		Candles[1]=new Candle(-10, 9, 0);
 
 		Lights[2]->setPosition(-10, 0, 1.5);

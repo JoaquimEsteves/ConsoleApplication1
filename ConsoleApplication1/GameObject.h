@@ -22,10 +22,10 @@ public:
 		GLfloat Ks_r, GLfloat Ks_g, GLfloat Ks_b, GLfloat Ks_w,
 		GLfloat Ke_r, GLfloat Ke_g, GLfloat Ke_b, GLfloat Ke_w,
 		GLfloat Se) {
-		GLfloat Ka[] = { Ka_r, Ka_g, Ka_b, Ka_w };
-		GLfloat Kd[] = { Kd_r, Kd_g, Kd_b, Kd_w };
-		GLfloat Ks[] = { Ks_r, Ks_g, Ks_b, Ks_w };
-		GLfloat Ke[] = { Ke_r, Ke_g, Ke_b, Ke_w };
+		GLfloat Ka[4] = { Ka_r, Ka_g, Ka_b, Ka_w };
+		GLfloat Kd[4] = { Kd_r, Kd_g, Kd_b, Kd_w };
+		GLfloat Ks[4] = { Ks_r, Ks_g, Ks_b, Ks_w };
+		GLfloat Ke[4] = { Ke_r, Ke_g, Ke_b, Ke_w };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Ka);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Kd);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Ks);

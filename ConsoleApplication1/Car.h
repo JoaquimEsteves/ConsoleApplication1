@@ -85,132 +85,133 @@ public:
 
 	void drawWheel(double x, double y, double z, double Angle) {
 		glPushMatrix();
-		glTranslated(x, y, .13);
+			glTranslated(x, y, .13);
 
-		glRotated(90, 1, 0, 0);
-		glScaled(.15,.15, .15);
-		//glutSolidTorus(0.075, 0.15, 6, 6);
-		glBegin(GL_POLYGON);
-		for (int i = 0; i < 6; ++i) {
-			glVertex3f(sin(i / 6.0 * 2 * PI),
-				cos(i / 6.0 * 2 * PI),0);
-		}
-		glEnd();
-		if (z > 0) {
+			glRotated(90, 1, 0, 0);
+			glScaled(.15,.15, .15);
+			//glutSolidTorus(0.075, 0.15, 6, 6);
 			glBegin(GL_POLYGON);
+			glNormal3f(0, 0, 1);
 			for (int i = 0; i < 6; ++i) {
 				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
+					cos(i / 6.0 * 2 * PI),0);
 			}
 			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 0; i < 2; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
+			if (z > 0) {
+				glBegin(GL_POLYGON);
+				for (int i = 0; i < 6; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 0; i < 2; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 1; i < 3; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 2; i < 4; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 3;i < 5; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 4; i < 6; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 5; i < 7; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
 			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 1; i < 3; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
+			else {
+				glBegin(GL_POLYGON);
+				for (int i = 0; i < 6; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 0; i < 2; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 1; i < 3; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 2; i < 4; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 3; i < 5; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 4; i < 6; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
+				glBegin(GL_POLYGON);
+				for (int i = 5; i < 7; ++i) {
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), -1);
+					glVertex3f(sin(i / 6.0 * 2 * PI),
+						cos(i / 6.0 * 2 * PI), 0);
+				}
+				glEnd();
 			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 2; i < 4; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 3;i < 5; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 4; i < 6; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 5; i < 7; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-		}
-		else {
-			glBegin(GL_POLYGON);
-			for (int i = 0; i < 6; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 0; i < 2; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 1; i < 3; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 2; i < 4; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 3; i < 5; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 4; i < 6; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-			glBegin(GL_POLYGON);
-			for (int i = 5; i < 7; ++i) {
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), -1);
-				glVertex3f(sin(i / 6.0 * 2 * PI),
-					cos(i / 6.0 * 2 * PI), 0);
-			}
-			glEnd();
-		}
 
 
-		//glutSolidSphere(0.2, 50, 50);
+			//glutSolidSphere(0.2, 50, 50);
 		glPopMatrix();
 	}
 
@@ -228,6 +229,7 @@ public:
 		glEnd();
 		//Upper case
 		glBegin(GL_POLYGON);
+		glNormal3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(-.25, .25, .25);
 		glVertex3f(.25, .25, .25);
 		glVertex3f(.25, -.25, .25);
@@ -235,6 +237,7 @@ public:
 		glEnd();
 		//left side
 		glBegin(GL_POLYGON);
+		glNormal3f(0, -1, 0);
 		glVertex3f(-.25, -.25, .25);
 		glVertex3f(.25, -.25, .25);
 		glVertex3f(.25, -.25, 0);
@@ -242,6 +245,7 @@ public:
 		glEnd();
 		//right side
 		glBegin(GL_POLYGON);
+		glNormal3f(0, 1, 0);
 		glVertex3f(.25, .25, .25);
 		glVertex3f(-.25, .25, .25);
 		glVertex3f(-.25, .25, 0);
@@ -249,6 +253,7 @@ public:
 		glEnd();
 		//back
 		glBegin(GL_POLYGON);
+		glNormal3f(1, 0, 0);
 		glVertex3f(.25, .25, 0);
 		glVertex3f(.25, .25, .25);
 		glVertex3f(.25, -.25, .25);
@@ -256,6 +261,7 @@ public:
 		glEnd();
 		//front
 		glBegin(GL_POLYGON);
+		glNormal3f(-1, 0, 0);
 		glVertex3f(-.25, .25, 0);
 		glVertex3f(-.25, .25, .25);
 		glVertex3f(-.25, -.25, .25);
@@ -267,40 +273,37 @@ public:
 	inline void draw() {
 		//glColor3d(0, 0, 0); //wheels could be torus
 							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
-		defineMaterial(0.00, 0.00, 0.00, 1.00,	//Ambient
-			0, 0, 0, 1.00,	//Diffuse
-			0, 0,0, 1.00,	//Specular
-			0.00, 0.00, 0.00, 1.00,	//Emission
-			50);					//SHININESS
-		glColor3f(0.01, 0.01, 0.01);
-
 		glPushMatrix();
-		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-		glRotated(_turnAngle * 180 / PI, 0, 0, 1);
-		//glColor3f(1,1, 1); //CAREFUL HERE
-		drawWheel(0.25, 0.3, -1, 90);
-		drawWheel(0.25, -0.3, 1, 90);
-		drawWheel(-0.25, 0.27, -1, 90);
-		drawWheel(-0.25, -0.27, 1, 90);
+			defineMaterial(0.00, 0.00, 0.00, 1.00,	//Ambient
+				0.06f, 0.06f, 0.06f, 1.0f,	//Diffuse
+				0.0f, 0.0f, 0.0f, 1.0f,	//Specular
+				0.00, 0.00, 0.00, 1.00,	//Emission
+				1);					//SHININESS
+			glColor3f(0.01, 0.01, 0.01);
 
 		
-		//glColor3d(1, 0, 0);//car
-		defineMaterial(0.1, 0, 0, 1.00,	//Ambient
-			0.1, 0, 0, 1.00,	//Diffuse
-			0.1, 0, 0, 1.00,	//Specular
-			0.00, 0.00, 0.00, 1.00,	//Emission
-			77);					//SHININESS
-		glColor3f(1, 0, 0);
+			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
 
-		drawStructure(0, 0, .1);
+			drawWheel(0.25, 0.3, -1, 90);
+
+			drawWheel(0.25, -0.3, 1, 90);
+
+			drawWheel(-0.25, 0.27, -1, 90);
+
+			drawWheel(-0.25, -0.27, 1, 90);
+
+			defineMaterial(1.0f, 0.0f, 0.0f, 1.0f,	//Ambient
+				1.0f, 0.0f, 0.0f, 1.0f,	//Diffuse
+				1.0f, 0.0f, 0.0f, 1.0f,	//Specular
+				0.00, 0.00, 0.00, 1.00,	//Emission
+				128);					//SHININESS
+			glColor3f(1.0, 0, 0);
+
+			drawStructure(0, 0, .1);
 		glPopMatrix();
 
 	}
-
-	/*void update_trivial(double delta_t) {
-	//In case of emergency
-	setPosition(getPosition() + getSpeed() * delta_t);
-	}*/
 
 	void update(double delta_t) {
 		//using printf because visual studios does not like cout
