@@ -362,15 +362,18 @@ public:
 	}
 
 	void update(double delta_t) {
-		//using printf because visual studios does not like cout
-		//printf("%d %d %d \n",(_direction * specialSpeed * CARSPEED * delta_t).getX() , (_direction * specialSpeed * CARSPEED * delta_t).getY() , (_direction * specialSpeed * CARSPEED * delta_t).getZ());
+		//A maneira OO de fazer isto seria por esta verificacao no GameObject e depois chama o update com
+		// DynamicObject::update(delta_t), ver o resultado ou fazer ate' um try catch.
+		//O problema é que o retorno de nested functions e' manhoso, o return da funcao update pai
+		//em pouco altera a funcao filho.
+		//Como tal, ha' repeticao de codigo, mas e mais eficiente, e menos obtuso.
+		if (delta_t == 0) return;
 		if (getPosition().getX() >= 9.5 || getPosition().getX() <= -10 ||
 			getPosition().getY() >= 9.5 || getPosition().getY() <= -9.5) {
 			setPosition(0, -6.5, 0);
 		}
 		friction();
 		setPosition(getPosition() + getDirection() * _specialSpeed * CARSPEED);
-		//printf("car Y position %d \n", getPosition().getY());
 	}
 };
 #endif

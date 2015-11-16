@@ -18,9 +18,7 @@ public:
 	void setSpeed(double x, double y, double z) { _speed.set(x, y, z); }
 	Vector3  getSpeed() { return _speed; }
 	void update(double delta_t) {
-		/*setPosition(getPosition().getX() + getSpeed().getX() * delta_t,
-			getPosition().getY() + getSpeed().getY() * delta_t,
-			getPosition().getZ());*/
+		if (delta_t == 0) return;
 	}
 
 	bool HasColision(GameObject *a) {

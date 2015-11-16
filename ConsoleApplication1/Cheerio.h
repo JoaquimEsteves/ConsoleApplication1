@@ -40,7 +40,7 @@ public:
 		glPopMatrix();
 	}
 	void update(double delta_t, Car *myCar, int forward) {
-
+		if (delta_t == 0) return;
 		if (myCar->HasColision(this)) {
 			myCar->setForceStart(true);
 			setSpeed(myCar->getDirection()*forward*0.01);

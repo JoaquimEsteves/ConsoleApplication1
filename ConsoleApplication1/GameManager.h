@@ -54,6 +54,7 @@ class GameManager {
 	bool _day = true;
 	bool _lights_on = false;
 	bool _lights_active = false;
+	bool _paused = false;
 
 	double counter = 0;
 	int lostOrange;
@@ -75,7 +76,22 @@ public:
 		init();
 	}
 	inline ~GameManager() {}
-
+	bool getPaused() { return _paused; }
+	void setPaused(bool b) { _paused = b; }
+	void drawPausedScreen() {
+			glPushMatrix();
+				if (_currentCamera == Cameras[2]) {
+					glTranslated(myCar->getPosition().getX() - myCar->getDirection().getX(), myCar->getPosition().getY() - myCar->getDirection().getY(), 1.5);
+					glScaled(2, 2, 2);
+					glutSolidCube(1); //APLICAR TEXTURA A ESTE GAJO COM A IMAGEM PAUSA
+					glPopMatrix();
+					return;
+				}
+				if (_currentCamera == Cameras[1]) glRotated(30, 1, 0, 0);
+				glScaled(10, 4, 4);
+				glutSolidCube(1); //APLICAR TEXTURA A ESTE GAJO COM A IMAGEM PAUSA
+			glPopMatrix();
+	}
 	void HelloOrange(int i) {
 		if (counter_delta_t <= actual_delta_t) {
 			counter_delta_t = actual_delta_t + 10;
@@ -156,7 +172,9 @@ public:
 				Lights[i]->setState(_lights_on);
 			}
 			break;
-		
+		case 's':
+			/*if (!_dead)*/ _paused = !_paused; 
+			break;
 		}
 	}
 	void keyUp(unsigned char key) {
@@ -194,6 +212,7 @@ public:
 	}
 
 	void handleKeyBuffer() {
+		if (_paused) return;
 		if (_keys[GLUT_KEY_UP] && !myCar->getForceStart()) {
 			forward = 1;
 			if (myCar->getSpecialSpeed() <= 0)
@@ -227,6 +246,7 @@ public:
 		_currentCamera->computeVisualizationMatrix();
 		//background -> table
 		//draw_background();
+		myCar->draw();
 		Background * background = new Background();
 		background->draw();
 		//draw stuff
@@ -244,14 +264,18 @@ public:
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			Oranges[i]->draw();
 		}
-		myCar->draw();
+		
 		for (int i = 0; i < LIGHTS_NUMBER; i++) {
 			Lights[i]->draw();
 		}
 		
+		if (_paused) {
+			drawPausedScreen();
+		}
+
 		if (_lights_active)	glEnable(GL_LIGHTING);
 		else glDisable(GL_LIGHTING);
-		
+
 
 		glutSwapBuffers();
 		//glFlush();
@@ -277,7 +301,10 @@ public:
 
 	void onTimer() {
 		_currentTime = glutGet(GLUT_ELAPSED_TIME);
-		update((_currentTime - _lastTime));
+		if (!_paused) {
+			update((_currentTime - _lastTime));
+		}
+		else update(0);
 		_lastTime = _currentTime;
 		glutPostRedisplay();
 	}

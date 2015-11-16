@@ -86,7 +86,9 @@ public:
 			setCounter(delta_t + rand() % 20 + 2);
 			setLost(-1);
 		}
-		setTurnAngle(getTurnAngle() + 0.05);
+		if (delta_t != 0) {
+			setTurnAngle(getTurnAngle() + 0.05);
+		}
 		setPosition(getPosition() + getSpeed() * delta_t);
 	}
 };

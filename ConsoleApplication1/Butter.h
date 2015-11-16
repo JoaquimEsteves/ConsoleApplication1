@@ -40,6 +40,7 @@ public:
 
 	void update(double delta_t, Car * myCar, int forward) {
 		//printf("%f ooh boi my delta t\n", delta_t);
+		if (delta_t == 0) return;
 		if (myCar->HasColision(this)) {
 			myCar->setForceStart(true);
 			setSpeed(myCar->getDirection()*forward*0.005);
