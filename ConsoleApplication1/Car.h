@@ -328,6 +328,7 @@ public:
 	}
 
 	inline void draw() {
+		//METER AQUI AS LUZES
 		//glColor3d(0, 0, 0); //wheels could be torus
 							//WHEELS ARE NOW TORUS BUT ROTATION IS NOT CORRECT HELP
 		glPushMatrix();

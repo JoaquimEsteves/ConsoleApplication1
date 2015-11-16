@@ -359,9 +359,9 @@ public:
 		Lights[0]->setDirection(0, 0, -1);
 		Lights[0]->setSpecular(1.0, 1.0, 1.0, 1.0);
 		Lights[0]->setDiffuse(1.0, 1.0, 1.0, 1.0);
-		Lights[0]->setAmbient(1, 1, 1, 1.0);
+		Lights[0]->setAmbient(5, 5, 5, 1.0);
 		Lights[0]->setState(true);
-		Lights[0]->setCutOff(180);
+		Lights[0]->setCutOff(360);
 		
 		for (int i = 1; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
@@ -370,8 +370,6 @@ public:
 			Lights[i]->setAmbient(1, 1, 1, 1.0);
 			Lights[i]->setDirection(0, 0, -1);
 			Lights[i]->setState(_lights_on);
-			//Lights[i]->setCutOff(180);
-			//Lights[i]->setExponent(0);
 			Lights[i]->setAttenuation(true);
 			
 		}

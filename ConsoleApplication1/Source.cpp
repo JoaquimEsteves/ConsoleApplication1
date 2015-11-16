@@ -12,7 +12,7 @@
 
  
 
-#define UPDATE_TIMER 1
+#define UPDATE_TIMER 10
 
 GameManager *gm;
 void display() { gm->display(); }

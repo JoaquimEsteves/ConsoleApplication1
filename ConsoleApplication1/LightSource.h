@@ -20,7 +20,7 @@ class LightSource
 public:
 	LightSource(GLenum number) {
 		_num = number; _state = false; 
-		_cut_off = 360;
+		_cut_off = 180;
 		_direction.set(0, 0, 0);
 	}
 	~LightSource() {}

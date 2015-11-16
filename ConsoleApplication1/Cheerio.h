@@ -35,10 +35,9 @@ public:
 		glColor3f(0.5, 0.35, 0.05);
 
 		glPushMatrix();
-		glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-		glutSolidTorus(_torusScale[0], _torusScale[1], _torusScale[2], _torusScale[3]);
+			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+			glutSolidTorus(_torusScale[0], _torusScale[1], _torusScale[2], _torusScale[3]);
 		glPopMatrix();
-
 	}
 	void update(double delta_t, Car *myCar, int forward) {
 
