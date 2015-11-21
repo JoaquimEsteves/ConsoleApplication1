@@ -13,9 +13,9 @@ public:
 	}
 	inline virtual ~Background() {}
 	inline void draw() {
-		for (int i = -10; i < 11; i = i + 2) {
-			for (int j = -9; j < 10; j = j + 2) {
-				if (blue_or_white = 1 - blue_or_white) { defineMaterialBlue(); }
+		for (int i = -10; i < 11; i++) {
+			for (int j = -9; j < 10; j++) {
+				if ((i + j) % 2) { defineMaterialBlue(); }
 				else defineMaterialWhite();
 
 				glPushMatrix();
@@ -30,9 +30,9 @@ public:
 		}
 	}
 	void defineMaterialBlue() {
-		defineMaterial(0.074902, 0.0847059, 0.1847059, 1.00,	//Ambient
-			0.074902, 0.0847059, 0.1847059, 1.00,	//Diffuse
-			0.074902, 0.0847059, 0.1847059, 1.00,	//Specular
+		defineMaterial(0.0f, 0.0f, 1.0f, 1.0f,	//Ambient
+			0.2f, 0.45f, 0.33f, 1.0f,	//Diffuse
+			0.0f, 0.0f, 0.0f, 1.0f,	//Specular
 			0,0,0, 1.00,	//Emission
 			77);					//SHININESS
 		glColor3f(0.74902, 0.847059, 1.847059);
@@ -49,10 +49,10 @@ public:
 	
 	void drawCube() {
 		glBegin(GL_POLYGON);
-		glVertex3f(1, -1, 0);
-		glVertex3f(1, 1, 0);
-		glVertex3f(-1, 1, 0);
-		glVertex3f(-1, -1, 0);
+		glVertex3f(.5, -.5, 0);
+		glVertex3f(.5, .5, 0);
+		glVertex3f(-.5, .5, 0);
+		glVertex3f(-.5, -.5, 0);
 		glEnd();
 		/*		//Upper case
 		glBegin(GL_POLYGON);

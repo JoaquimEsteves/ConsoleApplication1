@@ -23,6 +23,11 @@ public:
 		_cut_off = 180;
 		_direction.set(0, 0, 0);
 	}
+	LightSource() {
+		_state = false;
+		_cut_off = 180;
+		_direction.set(0, 0, 0);
+	}
 	~LightSource() {}
 	void setAttenuation(bool b) { _attenuation = b; }
 	bool getState() {
@@ -41,6 +46,8 @@ public:
 	GLenum getNum() {
 		return _num;
 	}
+
+	void setNum(GLenum n) { _num = n; }
 
 	Vector3 getPosition() {
 		return _position;

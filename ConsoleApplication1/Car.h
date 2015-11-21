@@ -9,6 +9,7 @@
 #include "Vector3.h"
 #include "Entity.h"
 #include "GameObject.h"
+#include "LightSource.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
@@ -29,15 +30,25 @@ class Car : public DynamicObject {
 	//double _rotation = 0;
 	Vector3 _direction;
 	bool _forceStart = false;
+	LightSource _headlight;
 public:
 
 	inline Car() {
 		setPosition(0, -6.5, 0);
 		_direction.set(1, 0, 0);
 		setSize(.5, .375, 0.1875);
-
+		_headlight.setNum(7);
+		_headlight.setDirection(-1, 0, 0);
+		_headlight.setPosition(-.25, 0, 0);
+		_headlight.setSpecular(1.0, 1.0, 1.0, 1.0);
+		_headlight.setDiffuse(1.0, 1.0, 1.0, 1.0);
+		_headlight.setAmbient(.8, .8, .8, 1.0);
+		_headlight.setCutOff(20);
+		_headlight.setAttenuation(true);
 	}
 	inline virtual ~Car() {}
+	LightSource getHeadlight() { return _headlight; }
+	void setHeadlight(LightSource l) { _headlight = l; }
 	double getMaxSpeed() { return _maxSpeed; }
 	double getAcceleration() { return _acceleration; }
 	double getTurnAngle() { return _turnAngle; }
@@ -342,6 +353,9 @@ public:
 		
 			glTranslated(getPosition().getX(), getPosition().getY(), getPosition().getZ());
 			glRotated(_turnAngle * 180 / PI, 0, 0, 1);
+
+			_headlight.draw();
+
 			drawWheel(0.25, 0.3, -1, 90);
 			drawWheel(0.25, -0.3, 1, 90);
 

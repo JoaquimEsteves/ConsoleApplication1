@@ -156,6 +156,7 @@ public:
 			break;
 		case 'n':
 			Lights[0]->setState((_day = (!_day)));
+			myCar->getHeadlight().setState(!_day);
 			break;
 
 		case 'l':
