@@ -58,7 +58,7 @@ public:
 	void setForceStart(bool b) { _forceStart = b; }
 	Vector3 getDirection() { return _direction; }
 	void setDirection(Vector3 direction) { _direction = direction; }
-
+	/*changes*/
 	void turnLeft() {
 		_turnAngle = _turnAngle + 0.030;
 		setDirectionSpeed();
