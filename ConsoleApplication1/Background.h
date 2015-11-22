@@ -10,6 +10,8 @@ class Background : public StaticObject
 public:
 	int blue_or_white = 0;
 	inline Background() {
+		//setTexture(Texture::loadBMP_custom("kitchentowel.bmp"), 58);
+
 	}
 	inline virtual ~Background() {}
 	inline void draw() {
