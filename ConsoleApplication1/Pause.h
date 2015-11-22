@@ -9,7 +9,10 @@
 class Pause : public StaticObject {
 
 public:
-	inline Pause() {}
+	inline Pause() {
+		//setTexture(Texture::loadBMP_custom("paused.bmp"), 147);
+
+	}
 	inline ~Pause() {}
 	void draw(int camera, double x, double y, double z) {
 		defineMaterial(0.1, 0.1, 0.1, 1.00,	//Ambient
