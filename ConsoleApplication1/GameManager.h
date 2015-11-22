@@ -22,6 +22,7 @@
 #include "Camera.h"
 #include "OrthogonalCamera.h"
 #include "PerspectiveCamera.h"
+#include "Pause.h"
 #include "GL\glut.h"
 #include <math.h>
 #include <stdio.h>
@@ -31,6 +32,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+
 
 class GameManager {
 
@@ -55,6 +57,8 @@ class GameManager {
 	bool _lights_on = false;
 	bool _lights_active = false;
 	bool _paused = false;
+	Pause *pause;
+	int cam;
 
 	double counter = 0;
 	int lostOrange;
@@ -79,18 +83,10 @@ public:
 	bool getPaused() { return _paused; }
 	void setPaused(bool b) { _paused = b; }
 	void drawPausedScreen() {
-			glPushMatrix();
-				if (_currentCamera == Cameras[2]) {
-					glTranslated(myCar->getPosition().getX() - myCar->getDirection().getX(), myCar->getPosition().getY() - myCar->getDirection().getY(), 1.5);
-					glScaled(2, 2, 2);
-					glutSolidCube(1); //APLICAR TEXTURA A ESTE GAJO COM A IMAGEM PAUSA
-					glPopMatrix();
-					return;
-				}
-				if (_currentCamera == Cameras[1]) glRotated(30, 1, 0, 0);
-				glScaled(10, 4, 4);
-				glutSolidCube(1); //APLICAR TEXTURA A ESTE GAJO COM A IMAGEM PAUSA
-			glPopMatrix();
+
+		if (_currentCamera == Cameras[2]) cam = 2;
+		if (_currentCamera == Cameras[1]) cam = 1;
+		pause->draw(cam, myCar->getPosition().getX() - myCar->getDirection().getX(), myCar->getPosition().getY() - myCar->getDirection().getY(), 2);
 	}
 	void HelloOrange(int i) {
 		if (counter_delta_t <= actual_delta_t) {
@@ -174,7 +170,7 @@ public:
 			}
 			break;
 		case 's':
-			/*if (!_dead)*/ _paused = !_paused; 
+			/*if (!_dead)*/ _paused = !_paused;
 			break;
 		}
 	}
@@ -236,7 +232,7 @@ public:
 			myCar->turnRight();
 	}
 
-	
+
 
 	void display() {
 		glClearColor(0, 0, 0, 1);
@@ -265,11 +261,11 @@ public:
 		for (int i = 0; i < ORANGE_NUMBERS; i++) {
 			Oranges[i]->draw();
 		}
-		
+
 		for (int i = 0; i < LIGHTS_NUMBER; i++) {
 			Lights[i]->draw();
 		}
-		
+
 		if (_paused) {
 			drawPausedScreen();
 		}
@@ -390,7 +386,7 @@ public:
 		Lights[0]->setAmbient(5, 5, 5, 1.0);
 		Lights[0]->setState(true);
 		Lights[0]->setCutOff(360);
-		
+
 		for (int i = 1; i < LIGHTS_NUMBER; i++) {
 			Lights[i] = new LightSource(i);
 			Lights[i]->setSpecular(1.0, 1.0, 1.0, 1.0);
@@ -399,28 +395,30 @@ public:
 			Lights[i]->setDirection(0, 0, -1);
 			Lights[i]->setState(_lights_on);
 			Lights[i]->setAttenuation(true);
-			
+
 		}
-		
+
 
 		Lights[1]->setPosition(-10, 9, 1.5);
 		//Lights[1]->setDirection(-10, 9, 1.5);
-		Candles[1]=new Candle(-10, 9, 0);
+		Candles[1] = new Candle(-10, 9, 0);
 
 		Lights[2]->setPosition(-10, 0, 1.5);
-		Candles[2]=new Candle(-10, 0, 0);
+		Candles[2] = new Candle(-10, 0, 0);
 
 		Lights[3]->setPosition(-10, -9, 1.5);
-		Candles[3]=new Candle(-10, -9, 0);
+		Candles[3] = new Candle(-10, -9, 0);
 
 		Lights[4]->setPosition(9, -9, 1.5);
-		Candles[4]=new Candle(9, -9, 0);
+		Candles[4] = new Candle(9, -9, 0);
 
 		Lights[5]->setPosition(9, 0, 1.5);
-		Candles[5]=new Candle(9, 0, 0);
+		Candles[5] = new Candle(9, 0, 0);
 
 		Lights[6]->setPosition(9, 9, 1.5);
-		Candles[6]=new Candle(9, 9, 0);
+		Candles[6] = new Candle(9, 9, 0);
+
+		pause = new Pause();
 
 
 		if (_lights_active) {
