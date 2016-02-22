@@ -7,7 +7,7 @@
 #include <stdio.h>
 class Butter : public Obstacle {
 	Vector3 _scale;
-
+//a jessica cheira mal
 public:
 
 	inline Butter(double x, double y, double z) {
